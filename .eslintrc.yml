@@ -1,0 +1,20 @@
+parser: '@typescript-eslint/parser'
+
+extends:
+  - plugin:jsx-a11y/recommended
+  - react-app
+  - prettier # should come last
+
+globals:
+  __dirname: false
+  graphql: false
+  process: false
+
+plugins:
+  - '@typescript-eslint'
+  - react-hooks
+
+rules:
+  react-hooks/exhaustive-deps: warn
+  react-hooks/rules-of-hooks: error
+  import/no-anonymous-default-export: off
