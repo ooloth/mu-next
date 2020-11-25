@@ -8,9 +8,15 @@
     "not op_mini all"
   ],
   "scripts": {
-    "dev": "next dev",
     "build": "next build",
-    "start": "next start"
+    "check-format": "npm run prettier -- --list-different",
+    "check-types": "tsc",
+    "dev": "next dev",
+    "format": "yarn prettier -- --write",
+    "lint": "eslint '**/*.{js,jsx,ts,tsx}' --ignore-path .gitignore",
+    "prettier": "prettier \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|css|html|md|mdx|graphql)\" --ignore-path .gitignore",
+    "start": "next start",
+    "validate": "npm-run-all --parallel check-types check-format lint"
   },
   "dependencies": {
     "next": "10.0.2",
@@ -18,10 +24,28 @@
     "react-dom": "17.0.1"
   },
   "devDependencies": {
+    "@types/node": "^14.14.9",
+    "@types/react": "^17.0.0",
+    "@typescript-eslint/eslint-plugin": "^4.8.2",
+    "@typescript-eslint/parser": "^4.8.2",
+    "eslint": "^7.14.0",
+    "eslint-config-prettier": "^6.15.0",
+    "eslint-config-react-app": "^6.0.0",
+    "eslint-plugin-flowtype": "^5.2.0",
+    "eslint-plugin-import": "^2.22.1",
+    "eslint-plugin-jsx-a11y": "^6.4.1",
+    "eslint-plugin-react": "^7.21.5",
+    "eslint-plugin-react-hooks": "^4.2.0",
+    "husky": "^4.3.0",
+    "lint-staged": "^10.5.2",
+    "npm-run-all": "^4.1.5",
     "postcss": "^8.1.10",
     "postcss-flexbugs-fixes": "^5.0.2",
     "postcss-import": "^13.0.0",
     "postcss-preset-env": "^6.7.0",
-    "tailwindcss": "^2.0.1"
+    "prettier": "^2.2.0",
+    "stylelint-config-recommended": "^3.0.0",
+    "tailwindcss": "^2.0.1",
+    "typescript": "^4.1.2"
   }
 }
