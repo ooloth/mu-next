@@ -1,0 +1,9 @@
+.page-summary {
+  @apply mt-3 w-full max-w-sm leading-snug text-2xl;
+}
+
+@screen iPhoneX {
+  .page-summary {
+    @apply text-3xl;
+  }
+}

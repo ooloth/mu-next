@@ -1,0 +1,136 @@
+.blog-post {
+  & h2,
+  & h3 {
+    @apply mt-10 mb-4 font-black;
+  }
+
+  & h2 {
+    @apply text-3xl;
+  }
+
+  @screen iPhoneX {
+    & h2 {
+      @apply text-4xl;
+    }
+  }
+
+  & h3 {
+    @apply text-2xl;
+  }
+
+  @screen iPhoneX {
+    & h3 {
+      @apply text-3xl;
+    }
+  }
+
+  & p {
+    @apply my-4 leading-normal text-lg;
+  }
+
+  @screen iPhoneX {
+    & p {
+      @apply text-xl;
+    }
+  }
+
+  & a {
+    @apply font-bold;
+
+    /* .purple-gradient */
+    background-image: linear-gradient(
+      to right,
+      theme('colors.purple.default'),
+      theme('colors.purple.light')
+    );
+
+    /* .purple-underline */
+    @apply bg-left-bottom no-underline;
+    background-size: 100% 0.25em;
+    padding-top: 0.12em;
+
+    &:hover {
+      @apply text-white;
+      background-size: 100% 150%;
+    }
+  }
+
+  & ul,
+  & ol {
+    @apply my-4;
+    padding-left: 1.1rem;
+  }
+
+  & ul {
+    @apply list-disc;
+  }
+
+  & ol {
+    @apply list-decimal;
+  }
+
+  & li {
+    @apply mt-2 max-w-2xl leading-normal text-lg;
+
+    /* Prevent unwanted line breaks caused by automatic tag insertion */
+    p {
+      @apply inline;
+    }
+  }
+
+  @screen iPhoneX {
+    & li {
+      @apply text-xl;
+    }
+  }
+
+  & img {
+    @apply block my-10 shadow-lg rounded w-full;
+  }
+
+  @screen iPhoneX {
+    & img {
+      @apply my-12;
+    }
+  }
+
+  & figure {
+    @apply my-8;
+
+    & .gatsby-resp-image-wrapper {
+      @apply shadow-lg rounded;
+    }
+
+    & img {
+      @apply mb-0;
+    }
+  }
+
+  & figcaption {
+    @apply mt-1 max-w-2xl text-center leading-snug text-sm text-gray-600;
+  }
+
+  & pre {
+    @apply my-2 overflow-auto rounded p-3 px-4 font-mono text-base;
+  }
+
+  & code {
+    @apply inline-block rounded py-1 px-2 leading-snug font-mono text-base;
+
+    /* Suppress inline link styling inside code blocks */
+    a {
+      @apply font-normal;
+      background: none;
+    }
+  }
+
+  & ::selection {
+    @apply bg-purple-light text-white;
+  }
+
+  /* gatsby-plugin-twitter */
+  & .twitter-tweet {
+    @apply my-6 !important;
+    @apply shadow-lg rounded;
+  }
+}

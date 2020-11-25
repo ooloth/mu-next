@@ -1,0 +1,5 @@
+/* For SVGs styled as 1x1 icons (e.g. social icons) */
+
+.icon {
+  @apply inline-block w-1em h-1em leading-0 pointer-events-none;
+}

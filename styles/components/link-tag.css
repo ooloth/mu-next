@@ -1,0 +1,14 @@
+.link-tag {
+  @apply rounded border border-solid border-gray-900 text-sm no-underline;
+  padding: 0.05rem 0.3rem;
+}
+
+.link-tag:hover {
+  @apply bg-gray-900 text-white;
+}
+
+/* @screen iPhoneX {
+  .link-tag {
+    @apply text-base;
+  }
+} */

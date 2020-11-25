@@ -1,0 +1,58 @@
+/**
+ * Remove default focus outline ONLY if user is not navigating by keyboard.
+ */
+
+[data-whatintent='mouse'] *:focus,
+[data-whatintent='touch'] *:focus,
+html:not([data-whatinput='keyboard']) *:focus {
+  @apply outline-none;
+}
+
+/**
+ * Change the cursor on busy elements in all browsers.
+ */
+
+[aria-busy='true'] {
+  cursor: progress;
+}
+
+/**
+ * Change the cursor on control elements in all browsers.
+ */
+
+[aria-controls] {
+  @apply cursor-pointer;
+}
+
+/**
+ * Change the cursor on disabled, not-editable, or otherwise
+ * inoperable elements in all browsers
+ */
+
+[aria-disabled='true'],
+[disabled] {
+  @apply cursor-not-allowed;
+}
+
+/**
+ * Change the display on visually hidden accessible elements
+ * in all browsers.
+ */
+
+[aria-hidden='false'][hidden]:not(:focus) {
+  clip: rect(0, 0, 0, 0);
+  display: inherit;
+  @apply absolute;
+}
+
+/**
+ * Turn off all animations if the user prefers reduced motion.
+ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}

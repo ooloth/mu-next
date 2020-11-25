@@ -1,0 +1,36 @@
+/* See: https://tailwindcss.com/docs/using-with-preprocessors#build-time-imports */
+/* See: https://tailwindcss.com/docs/controlling-file-size/#removing-all-unused-styles */
+
+/** 
+ * Base (never purged)
+ */
+
+@import 'tailwindcss/base';
+@import './base/a11y.css';
+@import './base/font-face.css';
+@import './base/form.css';
+@import './base/html.css';
+@import './base/interaction.css';
+@import './base/svg.css';
+
+/** 
+ * Components (never purged)
+ */
+
+@import './components/aspect-ratios.css';
+@import './components/blog-post.css';
+@import './components/copy.css';
+@import './components/hide-scrollbar.css';
+@import './components/icon.css';
+@import './components/link-tag.css';
+@import './components/page-headline.css';
+@import './components/page-summary.css';
+@import './components/project-title.css';
+@import './components/purple-gradient.css';
+@import './components/purple-underline.css';
+
+/** 
+ * Utilities (purged in production)
+ */
+
+@import 'tailwindcss/utilities';
