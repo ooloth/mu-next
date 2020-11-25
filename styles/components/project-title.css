@@ -1,0 +1,9 @@
+.project-title {
+  @apply leading-snug text-3xl font-black;
+}
+
+@screen iPhoneX {
+  .project-title {
+    @apply text-4xl;
+  }
+}

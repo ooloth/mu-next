@@ -1,0 +1,117 @@
+/* Apply to the parent wrapping the child that needs the aspect ratio */
+.ratio-2x1 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (2 / 1));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-16x9 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (16 / 9));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-8x5 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (8 / 5));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-6x4 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (6 / 4));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-7x5 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (7 / 5));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-4x3 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (4 / 3));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-1x1 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (1 / 1));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-3x4 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (3 / 4));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-5x7 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (5 / 7));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-5x8 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (5 / 8));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-4x6 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (4 / 6));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-9x16 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (9 / 16));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}
+
+.ratio-1x2 {
+  @apply relative w-full h-0;
+  padding-bottom: calc(100% / (1 / 2));
+
+  & > * {
+    @apply absolute inset-0 z-100 h-full w-full !important;
+  }
+}

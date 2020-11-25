@@ -1,0 +1,9 @@
+@variants hover {
+  .purple-gradient {
+    background-image: linear-gradient(
+      to right,
+      theme('colors.purple.default'),
+      theme('colors.purple.light')
+    );
+  }
+}

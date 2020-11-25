@@ -1,0 +1,60 @@
+/**
+ * Remove the premature highlighting of invalid inputs and textareas in Firefox.
+ * 
+ * See: https://stackoverflow.com/questions/5939341/firefox-4-is-there-a-way-to-remove-the-red-border-in-a-required-form-input 
+ * 
+ * See: https://stackoverflow.com/questions/3809146/firefox-4-required-input-form-red-border-outline
+ */
+
+input:-moz-placeholder,
+input:focus,
+input:invalid,
+textarea:-moz-placeholder,
+textarea:focus,
+textarea:invalid {
+  @apply shadow-none !important;
+}
+
+/**
+ * 1. Remove the border in all browsers.
+ * 2. Correct min-width in Chrome and Firefox.
+ */
+
+fieldset {
+  @apply border-none; /* 1 */
+  @apply min-w-0; /* 2 */
+}
+
+/**
+ * Inherit styling in all browsers
+ */
+
+button,
+input,
+select,
+textarea {
+  line-height: inherit;
+  /* line-height: normal; */ /* May fix vertical alignment issues in iOS */
+  letter-spacing: inherit;
+  font-family: inherit;
+  font-size: inherit;
+  color: inherit;
+}
+
+/**
+ * Since clicking a radio button label triggers the input, 
+ * match the default UX in all browsers. 
+ */
+
+input[type='radio'] + label {
+  @apply cursor-pointer;
+}
+
+/**
+ * Remove default styling in all browsers 
+ */
+
+input,
+textarea {
+  @apply border-none rounded-none bg-transparent appearance-none;
+}

@@ -1,0 +1,19 @@
+html {
+  /* Mobile viewport bug fix */
+  /* See: https://allthingssmitty.com/2020/05/11/css-fix-for-100vh-in-mobile-webkit */
+  height: -webkit-fill-available;
+}
+
+body {
+  @apply min-h-screen overflow-x-hidden font-sans;
+  line-height: 1.15;
+
+  /* Mobile viewport bug fix */
+  min-height: -webkit-fill-available;
+}
+
+*,
+::before,
+::after {
+  @apply bg-no-repeat;
+}
