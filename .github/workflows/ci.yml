@@ -1,0 +1,13 @@
+name: CI
+on: [push]
+
+jobs:
+  lint:
+    name: Lint, format and check types
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Install dependencies
+        run: yarn install
+      - name: Validate files
+        run: yarn validate
