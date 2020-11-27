@@ -18,6 +18,11 @@ const testQuery = groq`*`
 //   }
 // `
 
+export async function getAllPostSlugs(preview) {
+  const pageSlugs = await getClient(preview).fetch(testQuery)
+  return pageSlugs
+}
+
 export async function getAllPostsForHome(preview) {
   const results = await getClient(preview).fetch(testQuery)
   return results
