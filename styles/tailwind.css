@@ -17,7 +17,7 @@
  * Components (never purged)
  */
 
-@import './components/aspect-ratios.css';
+/* @import './components/aspect-ratios.css';
 @import './components/blog-post.css';
 @import './components/copy.css';
 @import './components/hide-scrollbar.css';
@@ -27,7 +27,7 @@
 @import './components/page-summary.css';
 @import './components/project-title.css';
 @import './components/purple-gradient.css';
-@import './components/purple-underline.css';
+@import './components/purple-underline.css'; */
 
 /** 
  * Utilities (purged in production)
