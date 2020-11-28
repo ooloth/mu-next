@@ -13,11 +13,13 @@ export async function getStaticProps({ preview = false }) {
   }
 }
 
-// export async function getStaticPaths() {
-//   const slugs = await getAllPageSlugs(preview)
+export async function getStaticPaths() {
+  // const slugs = await getAllPageSlugs(preview)
+  const slugs = ['/placeholder']
 
-//   return {
-//     paths: pages.map(({ slug }) => ({ params: { slug } })),
-//     fallback: false,
-//   }
-// }
+  return {
+    paths: slugs,
+    // paths: pages.map(({ slug }) => ({ params: { slug } })),
+    fallback: false,
+  }
+}
