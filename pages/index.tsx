@@ -1,15 +1,19 @@
-import Head from 'next/head'
+import Layout from 'components/layout'
+import Header from 'components/header'
 
 import { getAllPostsForHome } from '../lib/sanity/posts'
 
 export default function Home({ data, preview }) {
   return (
-    <>
-      <Head>
-        <title>Michael Uloth</title>
-      </Head>
-      <pre>{JSON.stringify(data, null, 2)}</pre>
-    </>
+    <Layout>
+      <Header
+        title="Hi, I'm Michael."
+        emoji={{ picture: '👋', label: 'A hand waving "hello"' }}
+        summary="I'm a web developer and opera singer working for ecobee in Toronto."
+      />
+
+      <main>{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}</main>
+    </Layout>
   )
 }
 
