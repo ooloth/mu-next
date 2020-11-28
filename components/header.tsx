@@ -14,9 +14,7 @@ export default function Header({ title, emoji, summary }: HeaderProps) {
         <Emoji picture={emoji.picture} label={emoji.label} className="ml-4" />
       </h1>
 
-      <p className="mt-3 leading-relaxed text-xl tracking-tight text-gray-500 dark:text-gray-400">
-        {summary}
-      </p>
+      <p className="mt-3 leading-relaxed text-xl tracking-tight">{summary}</p>
     </header>
   )
 }

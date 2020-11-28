@@ -60,7 +60,7 @@ function SocialLink({ platform, href, text }: SocialNavItem) {
   return (
     <li className="mx-3">
       <Link href={href}>
-        <a className="text-2xl text-gray-500 dark:text-gray-400">
+        <a className="text-2xl">
           <span className="sr-only">{text}</span>
           {getIcon(platform)}{' '}
         </a>
