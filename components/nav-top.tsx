@@ -3,6 +3,35 @@ import { useRouter } from 'next/router'
 
 import Emoji from './emoji'
 import notCurrentPage from '../utils/not-current-page'
+import { useColorMode } from './color-mode'
+
+function ToggleDarkMode() {
+  const { colorMode, setColorMode } = useColorMode()
+
+  const emoji =
+    colorMode === 'light'
+      ? {
+          picture: '🌙',
+          label: 'A crescent moon.',
+        }
+      : {
+          picture: '☀️️',
+          label: 'A yellow sun.',
+        }
+
+  function handleClick() {
+    setColorMode(colorMode === 'dark' ? 'light' : 'dark')
+  }
+
+  return (
+    <button
+      onClick={handleClick}
+      className="rounded bg-gray-700 dark:bg-gray-700 p-1 w-8 h-8 leading-none text-xl"
+    >
+      {colorMode && <Emoji picture={emoji.picture} label={emoji.label} />}
+    </button>
+  )
+}
 
 export interface NavItem {
   href: string
@@ -21,7 +50,7 @@ function TopNavItem({ href, text }: NavItem) {
   return (
     <li className="leading-none">
       <Link href={href}>
-        <a className="ml-5 text-lg text-gray-500 dark:text-gray-400">{text}</a>
+        <a className="ml-5 text-lg">{text}</a>
       </Link>
     </li>
   )
@@ -32,9 +61,7 @@ export default function TopNav() {
 
   return (
     <nav className="flex justify-between sticky mt-16">
-      <button className="rounded bg-gray-700 p-1 w-8 h-8 leading-none text-xl">
-        <Emoji picture="☀️" label="A yellow sun" />
-      </button>
+      <ToggleDarkMode />
 
       <ul className="flex">
         {topNavItems
