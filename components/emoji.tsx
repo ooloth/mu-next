@@ -9,7 +9,7 @@ export default function Emoji({ picture, label, className, ...props }: EmojiProp
     <span
       role="img"
       aria-label={label}
-      className={`flex-none ${className}`}
+      className={`flex-none ${className || ''}`}
       {...props}
     >
       {picture}
