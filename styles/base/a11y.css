@@ -9,6 +9,19 @@ html:not([data-whatinput='keyboard']) *:focus {
 }
 
 /**
+ * Turn off all animations if the user prefers reduced motion.
+ */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0s !important;
+    transition-duration: 0s !important;
+  }
+}
+
+/**
  * Change the cursor on busy elements in all browsers.
  */
 
@@ -43,16 +56,4 @@ html:not([data-whatinput='keyboard']) *:focus {
   clip: rect(0, 0, 0, 0);
   display: inherit;
   @apply absolute;
-}
-
-/**
- * Turn off all animations if the user prefers reduced motion.
- */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0s !important;
-    transition-duration: 0s !important;
-  }
 }
