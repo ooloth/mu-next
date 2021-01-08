@@ -4,8 +4,8 @@ const defaultTheme = require('tailwindcss/defaultTheme')
 const allColors = require('tailwindcss/colors')
 
 module.exports = {
-  purge: ['./components/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}'],
   darkMode: 'class',
+  purge: ['./components/**/*.{js,ts,jsx,tsx}', './pages/**/*.{js,ts,jsx,tsx}'],
   theme: {
     colors: {
       ...defaultTheme.colors,
@@ -30,6 +30,11 @@ module.exports = {
       zIndex: {
         '-1': '-1',
       },
+    },
+  },
+  variants: {
+    extend: {
+      backgroundOpacity: ['dark'],
     },
   },
 }

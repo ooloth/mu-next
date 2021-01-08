@@ -1,14 +1,10 @@
 import {
   createClient,
   createImageUrlBuilder,
-  createPortableTextComponent,
+  createPreviewSubscriptionHook,
 } from 'next-sanity'
 
-const config = {
-  dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-  projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-  useCdn: process.env.NODE_ENV === 'production',
-}
+import * as config from './constants'
 
 // Set up the client for fetching data in the getProps page functions
 export const sanityClient = createClient(config)
@@ -30,10 +26,5 @@ export const getClient = (usePreview: boolean) =>
  **/
 export const urlFor = source => createImageUrlBuilder(config).image(source)
 
-// Set up Portable Text serialization
-export const PortableText = createPortableTextComponent({
-  ...config,
-  // Serializers passed to @sanity/block-content-to-react
-  // (https://github.com/sanity-io/block-content-to-react)
-  serializers: {},
-})
+// Set up the live preview subsscription hook
+export const usePreviewSubscription = createPreviewSubscriptionHook(config)
