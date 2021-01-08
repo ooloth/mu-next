@@ -1,7 +1,7 @@
 import Layout from 'components/layout'
 import Header from 'components/header'
 
-import { getAllPostsForHome } from '../lib/sanity/posts'
+// import { getAllPostExcerpts } from '../lib/sanity/posts'
 
 export default function Home({ data, preview }) {
   return (
@@ -17,9 +17,9 @@ export default function Home({ data, preview }) {
   )
 }
 
-export async function getStaticProps({ preview = false }) {
-  const data = await getAllPostsForHome(preview)
-  return {
-    props: { data, preview },
-  }
-}
+// export async function getStaticProps({ preview = false }) {
+//   const data = await getAllPostExcerpts(preview)
+//   return {
+//     props: { data, preview },
+//   }
+// }

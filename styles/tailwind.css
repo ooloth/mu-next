@@ -14,6 +14,8 @@
  * Components
  */
 
+@import 'tailwindcss/components';
+
 /* @import './components/aspect-ratios.css';
 @import './components/blog-post.css';
 @import './components/copy.css';
