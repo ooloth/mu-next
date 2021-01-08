@@ -3,7 +3,7 @@ import BlockContent from '@sanity/block-content-to-react'
 import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import synthwave84 from 'react-syntax-highlighter/dist/cjs/styles/prism/synthwave84'
 
-import Layout from '../components/layout'
+import Layout from '../layouts/outer'
 import { Figure, Heading, List, ListItem, P, Quote } from './elements'
 import { dataset, projectId } from '../lib/sanity/constants'
 

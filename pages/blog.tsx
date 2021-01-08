@@ -1,6 +1,6 @@
 import Link from 'next/link'
 
-import Layout from 'components/layout'
+import Outer from 'layouts/outer'
 import Header from 'components/header'
 import { Heading } from 'components/elements'
 
@@ -8,7 +8,7 @@ import { getAllFilesFrontMatter } from 'lib/mdx'
 
 export default function Blog({ articles }) {
   return (
-    <Layout>
+    <Outer>
       <Header
         title="Blog"
         emoji={{
@@ -53,7 +53,7 @@ export default function Blog({ articles }) {
           </Heading>
         </section> */}
       </main>
-    </Layout>
+    </Outer>
   )
 }
 

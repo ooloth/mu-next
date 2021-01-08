@@ -1,9 +1,9 @@
-import Layout from 'components/layout'
+import Outer from 'layouts/outer'
 import Header from 'components/header'
 
 export default function Plays({ data, preview }) {
   return (
-    <Layout>
+    <Outer>
       <Header
         title="Lab"
         emoji={{
@@ -14,7 +14,7 @@ export default function Plays({ data, preview }) {
       />
 
       <main>{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}</main>
-    </Layout>
+    </Outer>
   )
 }
 
