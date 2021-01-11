@@ -30,10 +30,10 @@ const CustomLink = ({ children, href, ...rest }) => {
   )
 }
 
-const Figure = ({ caption, className, ...rest }) => {
+const Figure = ({ caption, alt, src, width, height, className, ...rest }) => {
   return (
     <figure className={className}>
-      <Image {...rest} />
+      <Image alt={alt} src={src} width={width} height={height} {...rest} />
       <figcaption className="mt-1 text-center text-sm">{caption}</figcaption>
     </figure>
   )
