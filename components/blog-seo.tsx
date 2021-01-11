@@ -25,13 +25,13 @@ const BlogSeo = ({ title, summary, datePublished, url, image }) => {
         }}
       />
       <ArticleJsonLd
-        authorName="Lee Robinson"
+        authorName="Michael Uloth"
         dateModified={date}
         datePublished={date}
         description={summary}
         images={[featuredImage.url]}
         publisherLogo="/static/favicons/android-chrome-192x192.png"
-        publisherName="Lee Robinson"
+        publisherName="Michael Uloth"
         title={title}
         url={url}
       />
