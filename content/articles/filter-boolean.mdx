@@ -1,21 +1,24 @@
 ---
 title: The filter(Boolean) trick
 slug: filter-boolean
-description: Remove falsy values from an array.
-featuredImage: ./assets/filter-boolean-be-careful-austin-distel-2400.jpg
-topics:
-  - javascript
-  - array
-  - filter
-  - tip
-devLink: https://dev.to/ooloth/the-filter-boolean-trick-2o55
+description: How to remove empty values from an array.
+featuredImage: '/images/filter-boolean/be-careful-austin-distel.jpg'
 linkSharedOnTwitter: https://www.michaeluloth.com/filter-boolean
+devLink: https://dev.to/ooloth/the-filter-boolean-trick-2o55
 published: true
 datePublished: '2020-06-01'
 dateUpdated: '2020-06-02'
 ---
 
-![A sign in the woods reading "Be Careful".](./assets/filter-boolean-be-careful-austin-distel-2400.jpg 'Photo by Austin Distel')
+<!-- Add visible photo credit: "Photo by Austin Distel" -->
+
+<Image
+  alt={`A sign in the woods reading "Be Careful"`}
+  src={`/images/filter-boolean/be-careful-austin-distel.jpg`}
+  width={2400}
+  height={1500}
+  priority
+/>
 
 Here's a trick I often find helpful.
 
@@ -27,7 +30,7 @@ You have an array of whatever:
 const array = [{ stuff }, { moreStuff }, ...]
 ```
 
-But hiding in that array are some unusable `js•null` or `js•undefined` values:
+But hiding in that array are some unusable `null` or `undefined` values:
 
 ```js
 const array = [{ good }, null, { great }, undefined]
@@ -37,7 +40,7 @@ Those empty values might be a sneaky little gift from an API. Or you may have le
 
 ## Looping over null data
 
-If you try to perform actions on every item in the array, you'll run into errors when you hit those `js•null` and `js•undefined` items:
+If you try to perform actions on every item in the array, you'll run into errors when you hit those `null` and `undefined` items:
 
 ```js
 const newArray = array.map(item => {
@@ -54,7 +57,7 @@ Illegal! Now you're a criminal. Before you interact with an item, you need to ma
 
 ## Null checks?
 
-You could confirm each item exists by performing a `js•null` check before you use it:
+You could confirm each item exists by performing a `null` check before you use it:
 
 ```js
 const newArray = array.map(item => {
@@ -68,7 +71,7 @@ const newArray = array.map(item => {
 })
 ```
 
-Buuut, now your code is getting cluttered. And worse, those dangerous empty values will be passed along to `js•newArray`. So when `js•newArray` is used, another round of suspicious `js•null` checks will be needed.
+Buuut, now your code is getting cluttered. And worse, those dangerous empty values will be passed along to `newArray`. So when `newArray` is used, another round of suspicious `null` checks will be needed.
 
 ## The truth and only the truth
 
@@ -83,15 +86,15 @@ const truthyArray = array.filter(Boolean)
 // truthyArray = [{ good }, { great }]
 ```
 
-The `js•filter(Boolean)` step does the following:
+The `filter(Boolean)` step does the following:
 
-1. Passes each item in the array to the `js•Boolean()` object
-2. The `js•Boolean()` object [coerces](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion) each item to `js•true` or `js•false` depending on whether it's [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) or [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)
+1. Passes each item in the array to the `Boolean()` object
+2. The `Boolean()` object [coerces](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion) each item to `true` or `false` depending on whether it's [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) or [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)
 3. If the item is truthy, we keep it
 
 ## Where did item go?
 
-I love how concise `js•filter(Boolean)` is, but it might look strange that we aren't explicitly passing `js•item` to `js•Boolean`.
+I love how concise `filter(Boolean)` is, but it might look strange that we aren't explicitly passing `item` to `Boolean`.
 
 The main thing to know is that, in JavaScript, this:
 
@@ -105,13 +108,13 @@ is exactly the same as this:
 array.filter(Boolean)
 ```
 
-The second version is just written in a ["tacit" or "point-free" style](https://en.wikipedia.org/wiki/Tacit_programming). We don't name each item and pass it into `js•Boolean`, but JavaScript understands that `js•Boolean` takes one argument, so it takes the argument `js•filter()` exposes and [passes it to Boolean for you](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/ch02.html).
+The second version is just written in a ["tacit" or "point-free" style](https://en.wikipedia.org/wiki/Tacit_programming). We don't name each item and pass it into `Boolean`, but JavaScript understands that `Boolean` takes one argument, so it takes the argument `filter()` exposes and [passes it to Boolean for you](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/ch02.html).
 
 If you find the first version easier to understand, use it! Readable code is more important than fancy tricks.
 
 ## Safer mapping
 
-With our new tool, we can remove the `js•null` checks from above and chain a filtering step instead:
+With our new tool, we can remove the `null` checks from above and chain a filtering step instead:
 
 ```js
 const newArray = array.filter(Boolean).map(item => {
@@ -120,13 +123,13 @@ const newArray = array.filter(Boolean).map(item => {
 })
 ```
 
-Now, our `js•map` can focus on what it's trying to do, and we've removed the empty values from our pipeline forever.
+Now, our `map` can focus on what it's trying to do, and we've removed the empty values from our pipeline forever.
 
 Hope that helps!
 
 ## Glossary
 
-- **Falsy values:** `js•false`, `js•0`, `js•-0`, `js•0n`, `js•""`, `js•null`, `js•undefined`, `js•NaN`
+- **Falsy values:** `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`
 - **Truthy values:** anything not in the falsy list
 
 ## Links
