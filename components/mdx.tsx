@@ -2,6 +2,8 @@ import Link from 'next/link'
 import Image from 'next/image'
 import Tweet from 'react-tweet-embed'
 
+// import { Figure, Heading, List, ListItem, P, Quote } from './elements'
+
 // import ProsCard from '@/components/ProsCard'
 // import ConsCard from '@/components/ConsCard'
 // import Gumroad from '@/components/metrics/Gumroad'
@@ -10,23 +12,36 @@ import Tweet from 'react-tweet-embed'
 // import YouTube from '@/components/metrics/Youtube'
 // import Step from '@/components/Step'
 
-const CustomLink = props => {
-  const href = props.href
+const CustomLink = ({ children, href, ...rest }) => {
   const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'))
 
   if (isInternalLink) {
     return (
       <Link href={href}>
-        <a {...props} />
+        <a {...rest}>{children}</a>
       </Link>
     )
   }
 
-  return <a target="_blank" rel="noopener noreferrer" {...props} />
+  return (
+    <a target="_blank" rel="noopener noreferrer" {...rest}>
+      {children}
+    </a>
+  )
+}
+
+const Figure = ({ caption, className, ...rest }) => {
+  return (
+    <figure className={className}>
+      <Image {...rest} />
+      <figcaption className="mt-1 text-center text-sm">{caption}</figcaption>
+    </figure>
+  )
 }
 
 const MDXComponents = {
   a: CustomLink,
+  Figure,
   Image,
   Tweet,
 }

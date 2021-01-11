@@ -26,7 +26,7 @@ function ToggleDarkMode() {
   return (
     <button
       onClick={handleClick}
-      className="rounded bg-gray-800 dark:bg-gray-700 p-1 w-8 h-8 leading-none text-xl"
+      className="rounded bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 p-1 w-8 h-8 leading-none text-xl"
     >
       {colorMode && <Emoji picture={emoji.picture} label={emoji.label} />}
     </button>
@@ -50,7 +50,7 @@ function TopNavItem({ href, text }: NavItem) {
   return (
     <li className="leading-none">
       <Link href={href}>
-        <a className="ml-3 sm:ml-5 text-lg">{text}</a>
+        <a className="ml-3 sm:ml-5 text-gray-400 hover:text-gray-100">{text}</a>
       </Link>
     </li>
   )
@@ -60,7 +60,7 @@ export default function TopNav() {
   const { pathname } = useRouter()
 
   return (
-    <nav className="flex justify-between sticky top-0 bg-white dark:bg-gray-900 dark:bg-opacity-95 py-8">
+    <nav className="flex justify-between items-center sticky z-50 top-0 bg-white dark:bg-black dark:bg-opacity-95 py-6">
       <ToggleDarkMode />
 
       <ul className="flex">

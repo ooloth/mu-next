@@ -45,7 +45,11 @@ module.exports = {
               },
               code: { color: theme('colors.blue.400') },
             },
-            code: { color: theme('colors.pink.500') },
+            code: {
+              color: theme('colors.pink.500'),
+              '&::before': { content: '""' },
+              '&::after': { content: '""' },
+            },
             'blockquote p:first-of-type::before': false,
             'blockquote p:last-of-type::after': false,
           },
@@ -60,13 +64,20 @@ module.exports = {
               },
               code: { color: theme('colors.blue.400') },
             },
-            code: { color: theme('colors.pink.400') },
+            pre: {
+              backgroundColor: theme('colors.gray.900'),
+            },
+            code: {
+              color: theme('colors.pink.400'),
+              '&::before': { content: '""' },
+              '&::after': { content: '""' },
+            },
             blockquote: {
               borderLeftColor: theme('colors.gray.700'),
               color: theme('colors.gray.300'),
             },
             'h2,h3,h4': {
-              color: theme('colors.gray.100'),
+              color: theme('colors.gray.200'),
             },
             hr: { borderColor: theme('colors.gray.700') },
             ol: {
@@ -79,7 +90,7 @@ module.exports = {
                 '&:before': { backgroundColor: theme('colors.gray.500') },
               },
             },
-            strong: { color: theme('colors.gray.300') },
+            strong: { color: theme('colors.gray.200') },
             thead: {
               color: theme('colors.gray.100'),
             },

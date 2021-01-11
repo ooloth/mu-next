@@ -15,7 +15,7 @@ function BottomNavItem({ href, text }: NavItem) {
   return (
     <li className="mx-2">
       <Link href={href}>
-        <a className="">{text}</a>
+        <a>{text}</a>
       </Link>
     </li>
   )
