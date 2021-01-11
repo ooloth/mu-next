@@ -1,19 +1,15 @@
-import Link from 'next/link'
-import Image from 'next/image'
+import NextLink from 'next/link'
+import NextImage from 'next/image'
 import Tweet from 'react-tweet-embed'
 
-// import { Figure, Heading, List, ListItem, P, Quote } from './elements'
-
-// import Step from '@/components/Step'
-
-const CustomLink = ({ children, href, ...rest }) => {
+const Link = ({ children, href, ...rest }) => {
   const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'))
 
   if (isInternalLink) {
     return (
-      <Link href={href}>
+      <NextLink href={href}>
         <a {...rest}>{children}</a>
-      </Link>
+      </NextLink>
     )
   }
 
@@ -24,7 +20,21 @@ const CustomLink = ({ children, href, ...rest }) => {
   )
 }
 
-const Figure = ({ caption, alt, src, width, height, className, ...rest }) => {
+const Image = ({ alt, src, width, height, priority = false }) => {
+  return (
+    <NextImage
+      alt={alt}
+      src={src}
+      width={width}
+      height={height}
+      priority={priority}
+      layout="responsive"
+      className="rounded"
+    />
+  )
+}
+
+const Figure = ({ caption, alt, src, width, height, priority }) => {
   return (
     <figure>
       <Image
@@ -32,9 +42,7 @@ const Figure = ({ caption, alt, src, width, height, className, ...rest }) => {
         src={src}
         width={width}
         height={height}
-        className="rounded"
-        layout="responsive"
-        {...rest}
+        priority={priority}
       />
       <figcaption className="mt-1 text-center text-sm">{caption}</figcaption>
     </figure>
@@ -42,7 +50,7 @@ const Figure = ({ caption, alt, src, width, height, className, ...rest }) => {
 }
 
 const MDXComponents = {
-  a: CustomLink,
+  a: Link,
   Figure,
   Image,
   Tweet,
