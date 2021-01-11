@@ -39,10 +39,10 @@ export interface NavItem {
 }
 
 const topNavItems: NavItem[] = [
-  { href: '/writes', text: 'Blog' },
-  { href: '/experiments', text: 'Lab' },
-  { href: '/learns', text: 'Notes' },
-  { href: '/is', text: 'About' },
+  { href: '/blog', text: 'Blog' },
+  // { href: '/lab', text: 'Lab' },
+  // { href: '/notes', text: 'Notes' },
+  // { href: '/about', text: 'About' },
   { href: '/', text: 'Home' },
 ]
 

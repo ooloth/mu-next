@@ -6,7 +6,7 @@ import notCurrentPage from '../utils/not-current-page'
 
 const bottomNavItems: NavItem[] = [
   { href: '/uses', text: '/uses' },
-  { href: '/tracks', text: '/tracks' },
+  { href: '/metrics', text: '/metrics' },
   { href: '/likes', text: '/likes' },
   { href: 'https://buttondown.email/ooloth', text: '/newsletter' },
 ]
