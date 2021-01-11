@@ -60,6 +60,7 @@ module.exports = {
               },
               code: { color: theme('colors.blue.400') },
             },
+            code: { color: theme('colors.pink.400') },
             blockquote: {
               borderLeftColor: theme('colors.gray.700'),
               color: theme('colors.gray.300'),

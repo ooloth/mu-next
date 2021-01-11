@@ -1,4 +1,7 @@
-.token.comment,
+.token.comment {
+  @apply italic text-gray-700 dark:text-gray-500;
+}
+
 .token.prolog,
 .token.doctype,
 .token.cdata {
@@ -6,7 +9,7 @@
 }
 
 .token.punctuation {
-  @apply text-gray-700 dark:text-gray-300;
+  @apply text-gray-700 dark:text-yellow-500;
 }
 
 .token.property,
@@ -24,8 +27,9 @@
 .token.string,
 .token.char,
 .token.builtin,
+.token.property-access,
 .token.inserted {
-  @apply text-purple-500;
+  @apply text-purple-500 dark:text-purple-400;
 }
 
 .token.operator,
@@ -39,12 +43,12 @@
 .token.atrule,
 .token.attr-value,
 .token.keyword {
-  @apply text-blue-500;
+  @apply text-blue-500 dark:text-blue-400;
 }
 
 .token.function,
 .token.class-name {
-  @apply text-pink-500;
+  @apply text-pink-500 dark:text-pink-400;
 }
 
 .token.regex,
