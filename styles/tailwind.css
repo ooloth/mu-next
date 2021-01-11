@@ -16,10 +16,11 @@
 
 @import 'tailwindcss/components';
 
-/* @import './components/aspect-ratios.css';
-@import './components/blog-post.css';
-@import './components/hide-scrollbar.css';
-@import './components/icon.css';
+@import './components/syntax-highlighting.css';
+
+/* @import './components/aspect-ratios.css'; */
+/* @import './components/hide-scrollbar.css'; */
+/* @import './components/icon.css'; */
 
 /** 
  * Utilities 
