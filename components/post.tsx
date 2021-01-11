@@ -104,11 +104,10 @@ const serializers = {
 }
 
 export default function Post({ post, preview }) {
-  console.log('post', post)
   return (
     <Layout>
       <main className="mt-8">
-        <article className="">
+        <article>
           <Heading level={1} className="text-5xl font-extrabold">
             {post.title}
           </Heading>
@@ -119,8 +118,6 @@ export default function Post({ post, preview }) {
             blocks={post.body}
             serializers={serializers}
           />
-
-          <aside></aside>
         </article>
       </main>
     </Layout>
