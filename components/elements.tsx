@@ -54,7 +54,6 @@ export function Img({ image, className, ...rest }: ImgProps) {
         width={width}
         height={height}
         priority={image.eager}
-        loading={image.eager ? 'eager' : 'lazy'}
         className="rounded"
         {...rest}
       />
