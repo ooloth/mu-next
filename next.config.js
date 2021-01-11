@@ -3,7 +3,7 @@ module.exports = {
     optimizeFonts: true,
   },
   images: {
-    domains: ['cdn.sanity.io'],
+    domains: ['media.giphy.com'],
   },
   reactStrictMode: true,
 }
