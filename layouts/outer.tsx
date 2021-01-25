@@ -4,11 +4,13 @@ import Footer from '../components/footer'
 
 export default function Outer({ children }) {
   return (
-    <div className="flex flex-col mx-auto px-6 max-w-2xl min-h-screen">
+    <>
       <Head />
       <TopNav />
-      <div className="flex-auto">{children}</div>
-      <Footer />
-    </div>
+      <div className="flex flex-col mx-auto pt-28 px-6 max-w-2xl min-h-screen">
+        <div className="flex-auto">{children}</div>
+        <Footer />
+      </div>
+    </>
   )
 }
