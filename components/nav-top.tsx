@@ -70,8 +70,11 @@ export default function TopNav() {
 
   return (
     <nav
-      className="flex justify-center items-center fixed z-50 top-0 bg-gray-900 bg-opacity-50 py-1 w-full"
-      style={{ backdropFilter: 'saturate(180%) blur(20px)' }}
+      className="flex justify-center items-center fixed z-50 top-0 bg-gray-900 bg-opacity-60 py-1 w-full"
+      style={{
+        WebkitBackdropFilter: 'saturate(180%) blur(20px)',
+        backdropFilter: 'saturate(180%) blur(20px)',
+      }}
     >
       {/*<ToggleDarkMode />*/}
 
