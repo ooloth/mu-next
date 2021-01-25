@@ -1,10 +1,65 @@
 import hydrate from 'next-mdx-remote/hydrate'
+import { NextSeo, ArticleJsonLd } from 'next-seo'
 import { format } from 'timeago.js'
 
 import { getFiles, getFileBySlug } from 'lib/mdx'
 import Outer from 'layouts/outer'
-import BlogSeo from 'components/blog-seo'
 import MDXComponents from 'components/mdx'
+
+const ArticleSeo = ({
+  title,
+  slug,
+  description,
+  featuredImage,
+  dateUpdated,
+  datePublished,
+}) => {
+  const url = `https://michaeluloth.com/${slug}`
+  const date = new Date(dateUpdated || datePublished).toISOString()
+  const image = featuredImage
+    ? {
+        url: featuredImage,
+        alt: title,
+      }
+    : {
+        alt: 'Michael Uloth smiling into the camera',
+        url: 'https://michaeluloth.com/images/michael-landscape.jpg',
+        width: 2883,
+        height: 2058,
+      }
+
+  return (
+    <>
+      <NextSeo
+        title={title}
+        description={description}
+        canonical={url}
+        openGraph={{
+          type: 'article',
+          article: {
+            publishedTime: date,
+          },
+          url,
+          title,
+          description,
+          images: [image],
+        }}
+      />
+
+      <ArticleJsonLd
+        authorName="Michael Uloth"
+        dateModified={date}
+        datePublished={date}
+        description={description}
+        images={image.url}
+        publisherLogo="/static/favicons/android-chrome-192x192.png"
+        publisherName="Michael Uloth"
+        title={title}
+        url={url}
+      />
+    </>
+  )
+}
 
 const discussUrl = slug =>
   `https://mobile.twitter.com/search?q=${encodeURIComponent(
@@ -39,10 +94,7 @@ export default function Blog({ mdxSource, frontMatter }) {
 
   return (
     <Outer>
-      <BlogSeo
-        url={`https://michaeluloth.com/${frontMatter.slug}`}
-        {...frontMatter}
-      />
+      <ArticleSeo {...frontMatter} />
 
       <article>
         <header>
