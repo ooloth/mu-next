@@ -34,9 +34,11 @@ function Timeline({ items }) {
   return (
     <section className="mt-24 divide-y divide-gray-300 divide-opacity-20">
       <h2 className="sr-only">Timeline</h2>
-      <TimelineYear year="2021" items={items['2021']} />
-      <TimelineYear year="2020" items={items['2020']} />
-      <TimelineYear year="2019" items={items['2019']} />
+      {Object.keys(items)
+        .reverse()
+        .map(year => (
+          <TimelineYear year={year} items={items[year]} />
+        ))}
     </section>
   )
 }
