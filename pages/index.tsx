@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { NextSeo } from 'next-seo'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
@@ -43,9 +44,23 @@ function Timeline({ items }) {
   )
 }
 
+const seo = {
+  url: 'https://michaeluloth.com',
+  title: 'Hey 👋',
+  description:
+    "Hi! 👋 I'm Michael. I'm a web developer and opera singer living in Toronto.",
+}
+
 export default function Home({ timelineItems }) {
   return (
     <Outer>
+      <NextSeo
+        canonical={seo.url}
+        title={seo.title}
+        description={seo.description}
+        openGraph={{ ...seo }}
+      />
+
       <header>
         <Header
           title="Hey, I'm Michael"

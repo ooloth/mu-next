@@ -1,14 +1,29 @@
 import Image from 'next/image'
 import Link from 'next/link'
+import { NextSeo } from 'next-seo'
 import { format } from 'timeago.js'
 
 import { getAllFilesFrontMatter } from 'lib/mdx'
 import Outer from 'layouts/outer'
 import Emoji from 'components/emoji'
 
+const seo = {
+  url: 'https://michaeluloth.com/about',
+  title: 'About 👶',
+  description:
+    'A summary of my career plus links to my recent videos, blog posts and side projects.',
+}
+
 export default function About({ projects, articles }) {
   return (
     <Outer>
+      <NextSeo
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.url}
+        openGraph={{ ...seo }}
+      />
+
       <header>
         <h1 className="sr-only">About | Michael Uloth</h1>
         <Image

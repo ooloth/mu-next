@@ -1,4 +1,5 @@
 import Link from 'next/link'
+import { NextSeo } from 'next-seo'
 import { format } from 'timeago.js'
 
 import Outer from 'layouts/outer'
@@ -6,9 +7,21 @@ import Header from 'components/header'
 
 import { getAllFilesFrontMatter } from 'lib/mdx'
 
+const seo = {
+  url: 'https://michaeluloth.com/blog',
+  title: 'Blog ✍',
+  description: 'Thoughts about coding and web development.',
+}
+
 export default function Blog({ articles }) {
   return (
     <Outer>
+      <NextSeo
+        canonical={seo.url}
+        title={seo.title}
+        description={seo.description}
+        openGraph={{ ...seo }}
+      />
       <Header title="Blog" summary="Thoughts about coding and web development." />
 
       <main>
