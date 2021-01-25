@@ -141,7 +141,8 @@ export async function getStaticProps() {
         icon: '🚀',
         heading: 'Launched egofilmarts.com',
         date: 'July 15, 2019',
-        blurb: 'After a decade of learning web development as a hobby, this was the first project I was paid to build for a client. Pretty awesome first client!',
+        blurb:
+          'After a decade of learning web development as a hobby, this was the first project I was paid to build for a client. Pretty awesome first client!',
       },
       {
         icon: '☕',
