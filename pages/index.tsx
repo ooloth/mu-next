@@ -109,13 +109,19 @@ export async function getStaticProps() {
         date: 'August 15, 2019',
         blurb: '',
       },
+      {
+        icon: '📺',
+        heading: 'Published "Up and Running with Gatsby"',
+        date: 'January - June 2019',
+        blurb: 'A series of ten beginner-friendly YouTube videos.',
+      },
     ],
     2018: [
       {
         icon: '✍️',
-        heading: 'Published "Up and Running with Gatsby"',
-        date: 'January - June 2019',
-        blurb: 'Ten beginner-friendly YouTube videos.',
+        heading: 'Published "Introducing Gatsby Tutorials"',
+        date: 'November 15, 2018',
+        blurb: '',
       },
       {
         icon: '🚀',
@@ -144,7 +150,7 @@ export async function getStaticProps() {
         heading: 'Launched egofilmarts.com',
         date: 'July 15, 2019',
         blurb:
-          'After a decade of learning web development as a hobby, this was the first project I was paid to build for a client. Pretty awesome first client!',
+          'After a decade of learning web development and building side projects as a hobby, it was pretty sweet that the first client to pay me to design and build their website was Atom Egoyan.',
       },
       {
         icon: '☕',
