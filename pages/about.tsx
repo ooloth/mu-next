@@ -126,6 +126,13 @@ export async function getStaticProps() {
       blurb:
         'A searchable and filterable community-updated list of 200+ Gatsby.js tutorials, including video, audio and written learning resources.',
     },
+    {
+      name: 'Up and Running with Gatsby',
+      url:
+        'https://www.youtube.com/watch?v=jAa1wh5ATm0&list=PLHBEcHVSROXQQhXpNhmiVKKcw72Cc0V-U',
+      blurb:
+        'Ten beginner-friendly YouTube videos that cover the basics of React and how to get a Gatsby project up and running.',
+    },
   ]
 
   const unsortedArticles = await getAllFilesFrontMatter('articles')
