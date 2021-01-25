@@ -6,12 +6,12 @@ import Header from 'components/header'
 function TimelineItem({ item }) {
   return (
     <li className="flex mt-6">
-      <p className="flex-none w-5">{item.icon}</p>
+      <p className="flex-none w-5 text-lg">{item.icon}</p>
 
       <div className="ml-2">
-        <p className="font-semibold">{item.heading}</p>
-        <p className="mt-2 text-sm text-gray-500">{item.date}</p>
-        <p className="mt-3 leading-relaxed text-gray-400">{item.blurb}</p>
+        <p className="text-lg leading-normal font-semibold">{item.heading}</p>
+        <p className="mt-2 text-gray-500">{item.date}</p>
+        <p className="mt-4 leading-relaxed text-gray-400">{item.blurb}</p>
       </div>
     </li>
   )
@@ -52,7 +52,7 @@ export default function Home({ timelineItems }) {
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-center space-y-2 md:space-y-0 md:space-x-4 mt-8">
           <Link href="/about">
-            <a className="shadow-md rounded bg-blue-700 py-3 px-6 text-center text-sm font-semibold">
+            <a className="shadow-md rounded bg-blue-600 py-3 px-6 text-center text-sm font-semibold">
               More about me
             </a>
           </Link>
