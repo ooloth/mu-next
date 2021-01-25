@@ -102,6 +102,48 @@ export async function getStaticProps() {
         blurb: '',
       },
       {
+        icon: '📺',
+        heading: 'Published "How to Set Up a Mac for Web Development"',
+        date: 'October 15, 2018',
+        blurb: '',
+      },
+    ],
+    2018: [
+      {
+        icon: '✍️',
+        heading: 'Published "Up and Running with Gatsby"',
+        date: 'January - June 2019',
+        blurb: 'Ten beginner-friendly YouTube videos.',
+      },
+      {
+        icon: '🚀',
+        heading: 'Launched Gatsby Tutorials',
+        date: 'November 15, 2018',
+        blurb: '',
+      },
+      {
+        icon: '✍️',
+        heading: 'Published "How to Set Up a Mac for Web Development"',
+        date: 'October 15, 2018',
+        blurb: '',
+      },
+    ],
+    2017: [
+      {
+        icon: '💼',
+        heading: 'Joined Coffeeshop Creative',
+        date: 'January 15, 2018',
+        blurb: '',
+      },
+    ],
+    2015: [
+      {
+        icon: '🚀',
+        heading: 'Launched egofilmarts.com',
+        date: 'July 15, 2019',
+        blurb: '',
+      },
+      {
         icon: '☕',
         heading: 'Work in progress...',
         date: '',
