@@ -48,7 +48,7 @@ const seo = {
   url: 'https://michaeluloth.com',
   title: 'Hey 👋',
   description:
-    "Hi! 👋 I'm Michael. I'm a web developer and opera singer living in Toronto.",
+    "Hi! I'm Michael. I'm a web developer and opera singer living in Toronto.",
 }
 
 export default function Home({ timelineItems }) {
