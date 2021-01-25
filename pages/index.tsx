@@ -6,7 +6,7 @@ import Header from 'components/header'
 function TimelineItem({ item }) {
   return (
     <li className="flex mt-6">
-      <p className="flex-none w-5 text-lg">{item.icon}</p>
+      <p className="flex-none w-6 text-lg">{item.icon}</p>
 
       <div className="ml-2">
         <p className="text-lg leading-normal font-semibold">{item.heading}</p>
