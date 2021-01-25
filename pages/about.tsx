@@ -40,18 +40,24 @@ export default function About({ projects, articles }) {
             continuous deployment with Netlify, and performance, SEO and
             accessibility auditing with Lighthouse.
           </p>
-          <p>I also teach web dev youtube, newline</p>
+          <p>
+            I also teach whenever I can, including on YouTube where I have ten
+            beginner videos explaining how to get started with React and Gatsby. I'm
+            currently working on a new course for newline teaching headless
+            ecommerce with Next and Shopify.
+          </p>
           <p>
             You can find me on Twitter where I talk about web development and share
-            links to useful resources I've found helpful, or on GitHub where I work
-            on various projects in the open.
+            links to useful resources, or on GitHub where I build in the open.
           </p>
         </section>
 
         <section className="py-12">
           <header>
             <h2 className="text-2xl font-extrabold">Projects</h2>
-            <p className="mt-1 text-lg">Bits of software I have fun working on.</p>
+            <p className="mt-1 text-lg">
+              Software and side projects I have fun working on.
+            </p>
           </header>
           <ol reversed>
             {projects.map(project => (
