@@ -29,7 +29,7 @@ const Image = ({ alt, src, width, height, priority = false }) => {
       height={height}
       priority={priority}
       layout="responsive"
-      className="rounded"
+      className="rounded bg-gray-900"
     />
   )
 }

@@ -17,7 +17,7 @@ export default function About({ projects, articles }) {
           width={2883}
           height={2058}
           priority
-          className="flex mt-8 shadow-md rounded"
+          className="flex mt-8 shadow-md rounded bg-gray-900"
         />
       </header>
 
