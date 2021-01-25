@@ -1,20 +1,13 @@
-import Layout from 'components/layout'
+import Outer from 'layouts/outer'
 import Header from 'components/header'
 
 export default function Learns({ data, preview }) {
   return (
-    <Layout>
-      <Header
-        title="Notes"
-        emoji={{
-          picture: '📚',
-          label: 'A stack of three hardcover books.',
-        }}
-        summary="Helpful resources I want to remember."
-      />
+    <Outer>
+      <Header title="Notes" summary="Helpful resources I want to remember." />
 
       <main>{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}</main>
-    </Layout>
+    </Outer>
   )
 }
 

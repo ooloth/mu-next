@@ -41,7 +41,7 @@ class MyDocument extends Document {
     return (
       <Html lang="en" className="dark">
         <Head />
-        <body className="overflow-x-hidden bg-white dark:bg-gray-900 min-h-screen font-sans text-gray-600 dark:text-gray-400">
+        <body className="overflow-x-hidden bg-white dark:bg-black min-h-screen font-sans text-gray-600 dark:text-gray-300">
           <SetColorModeBeforeFirstRender defaultMode="dark" />
           <Main />
           <NextScript />

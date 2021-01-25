@@ -3,7 +3,7 @@ import BlockContent from '@sanity/block-content-to-react'
 import { PrismAsyncLight as SyntaxHighlighter } from 'react-syntax-highlighter'
 import synthwave84 from 'react-syntax-highlighter/dist/cjs/styles/prism/synthwave84'
 
-import Layout from '../components/layout'
+import Layout from '../layouts/outer'
 import { Figure, Heading, List, ListItem, P, Quote } from './elements'
 import { dataset, projectId } from '../lib/sanity/constants'
 
@@ -104,11 +104,10 @@ const serializers = {
 }
 
 export default function Post({ post, preview }) {
-  console.log('post', post)
   return (
     <Layout>
       <main className="mt-8">
-        <article className="">
+        <article>
           <Heading level={1} className="text-5xl font-extrabold">
             {post.title}
           </Heading>
@@ -119,8 +118,6 @@ export default function Post({ post, preview }) {
             blocks={post.body}
             serializers={serializers}
           />
-
-          <aside></aside>
         </article>
       </main>
     </Layout>

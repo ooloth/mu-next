@@ -1,45 +1,82 @@
-import ErrorPage from 'next/error'
-import { useRouter } from 'next/router'
+import hydrate from 'next-mdx-remote/hydrate'
+import { format } from 'timeago.js'
 
-import Post from '../components/post'
-import { getAllPostSlugs, getPostDetails } from '../lib/sanity/posts'
+import { getFiles, getFileBySlug } from 'lib/mdx'
+import Outer from 'layouts/outer'
+import BlogSeo from 'components/blog-seo'
+import MDXComponents from 'components/mdx'
 
-// See step 8 here: https://graphcms.com/blog/forms-and-submissions-with-nextjs-and-graphql#8-build-pages-programatically-with-nextjs
+const discussUrl = slug =>
+  `https://mobile.twitter.com/search?q=${encodeURIComponent(
+    `https://michaeluloth.com/${slug}`,
+  )}`
 
-export default function Index({ post, preview }) {
-  const router = useRouter()
+const editUrl = slug =>
+  `https://github.com/ooloth/mu-next/edit/master/content/blog/${slug}.mdx`
 
-  if (!router.isFallback && !post?.slug) {
-    return <ErrorPage statusCode={404} />
-  }
-
+function BlogFooter(frontMatter) {
   return (
-    <>
-      {post && <Post post={post} preview={preview} />}
-      {/* <pre>{JSON.stringify(post, null, 2)}</pre> */}
-    </>
+    <footer className="mt-12 text-sm text-gray-700 dark:text-gray-300">
+      <a
+        href={discussUrl(frontMatter.slug)}
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {'Discuss on Twitter'}
+      </a>
+      {` • `}
+      <a href={editUrl(frontMatter.slug)} target="_blank" rel="noopener noreferrer">
+        {'Edit on GitHub'}
+      </a>
+    </footer>
   )
 }
 
-export async function getStaticProps({ params, preview = false }) {
-  // TODO: get page data as well
-  const post = await getPostDetails(params.slug, preview)
+export default function Blog({ mdxSource, frontMatter }) {
+  const content = hydrate(mdxSource, {
+    components: MDXComponents,
+  })
 
-  return {
-    props: {
-      // page,
-      post,
-      preview,
-    },
-  }
+  return (
+    <Outer>
+      <BlogSeo
+        url={`https://michaeluloth.com/${frontMatter.slug}`}
+        {...frontMatter}
+      />
+
+      <article>
+        <header>
+          <h1 className="mb-0 leading-tight font-extrabold text-4xl">
+            {frontMatter.title}
+          </h1>
+          <p className="mt-3 text-sm text-gray-700 dark:text-gray-500">
+            Updated {format(frontMatter.dateUpdated || frontMatter.datePublished)}
+          </p>
+        </header>
+
+        <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
+          {content}
+        </div>
+      </article>
+    </Outer>
+  )
 }
 
 export async function getStaticPaths() {
-  // TODO: get page route as well
-  const slugs = await getAllPostSlugs()
+  const articles = await getFiles('articles')
 
   return {
-    paths: slugs.map(slug => ({ params: { slug } })),
-    fallback: true,
+    paths: articles.map(p => ({
+      params: {
+        slug: p.replace(/\.mdx/, ''),
+      },
+    })),
+    fallback: false,
   }
+}
+
+export async function getStaticProps({ params }) {
+  const post = await getFileBySlug('articles', params.slug)
+
+  return { props: post }
 }

@@ -1,28 +1,15 @@
-import Emoji, { EmojiProps } from './emoji'
-import { Heading } from './elements'
-
 interface HeaderProps {
   title: string
-  emoji: EmojiProps
   summary: string
 }
 
-export default function Header({ title, emoji, summary }: HeaderProps) {
+export default function Header({ title, summary }: HeaderProps) {
   return (
-    <header className="mt-8 mx-auto max-w-2xl">
-      <Heading
-        level={1}
-        className="flex flex-col-reverse sm:flex-row text-6xl font-extrabold"
-      >
+    <div className="mx-auto max-w-2xl md:text-center">
+      <h1 className="mb-0 leading-tight font-extrabold text-4xl md:text-5xl">
         {title}
-        <Emoji
-          picture={emoji.picture}
-          label={emoji.label}
-          className="mb-4 sm:ml-4 sm:mb-0"
-        />
-      </Heading>
-
-      <p className="mt-3 leading-relaxed text-xl tracking-tight">{summary}</p>
-    </header>
+      </h1>
+      <p className="mt-3 leading-normal text-xl tracking-tight">{summary}</p>
+    </div>
   )
 }

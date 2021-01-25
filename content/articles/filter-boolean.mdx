@@ -1,0 +1,142 @@
+---
+title: The filter(Boolean) trick
+slug: filter-boolean
+description: How to remove empty values from an array.
+featuredImage: '/images/filter-boolean/be-careful-austin-distel.jpg'
+linkSharedOnTwitter: https://www.michaeluloth.com/filter-boolean
+devLink: https://dev.to/ooloth/the-filter-boolean-trick-2o55
+published: true
+datePublished: '2020-06-01'
+dateUpdated: '2020-06-02'
+---
+
+<Figure
+  caption="Photo by Austin Distel"
+  alt="A sign in the woods reading 'Be Careful'"
+  src={`/images/filter-boolean/be-careful-austin-distel.jpg`}
+  width={2400}
+  height={1500}
+  priority
+/>
+
+Here's a trick I often find helpful.
+
+## Bad array. Very, very bad.
+
+You have an array of whatever:
+
+```js
+const array = [{ stuff }, { moreStuff }, ...]
+```
+
+But hiding in that array are some unusable `null` or `undefined` values:
+
+```js
+const array = [{ good }, null, { great }, undefined]
+```
+
+Those empty values might be a sneaky little gift from an API. Or you may have left them there yourself while validating the original data. Either way, you've got a problem.
+
+## Looping over null data
+
+If you try to perform actions on every item in the array, you'll run into errors when you hit those `null` and `undefined` items:
+
+```js
+const newArray = array.map(item => {
+  // Of course this will work, wheeee...
+  const assumption = item.thing
+})
+
+// Oh noooo...
+🚨 Cannot read property "thing" of undefined. 🚨
+🚨 Cannot read property "thing" of null. 🚨
+```
+
+Illegal! Now you're a criminal. Before you interact with an item, you need to make sure it exists.
+
+## Null checks?
+
+You could confirm each item exists by performing a `null` check before you use it:
+
+```js
+const newArray = array.map(item => {
+  // Life has made me cautious.
+  if (!item) {
+    return item // Just forget it
+  }
+
+  // If we get this far, item exists.
+  const assumption = item.thing
+})
+```
+
+Buuut, now your code is getting cluttered. And worse, those dangerous empty values will be passed along to `newArray`. So when `newArray` is used, another round of suspicious `null` checks will be needed.
+
+## The truth and only the truth
+
+Want something better?
+
+Here's my favourite way to quickly remove all empty items from an array:
+
+```js
+const array = [{ good }, null, { great }, undefined]
+
+const truthyArray = array.filter(Boolean)
+// truthyArray = [{ good }, { great }]
+```
+
+The `filter(Boolean)` step does the following:
+
+1. Passes each item in the array to the `Boolean()` object
+2. The `Boolean()` object [coerces](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion) each item to `true` or `false` depending on whether it's [truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) or [falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy)
+3. If the item is truthy, we keep it
+
+## Where did item go?
+
+I love how concise `filter(Boolean)` is, but it might look strange that we aren't explicitly passing `item` to `Boolean`.
+
+The main thing to know is that, in JavaScript, this:
+
+```js
+array.filter(item => Boolean(item))
+```
+
+is exactly the same as this:
+
+```js
+array.filter(Boolean)
+```
+
+The second version is just written in a ["tacit" or "point-free" style](https://en.wikipedia.org/wiki/Tacit_programming). We don't name each item and pass it into `Boolean`, but JavaScript understands that `Boolean` takes one argument, so it takes the argument `filter()` exposes and [passes it to Boolean for you](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/ch02.html).
+
+If you find the first version easier to understand, use it! Readable code is more important than fancy tricks.
+
+## Safer mapping
+
+With our new tool, we can remove the `null` checks from above and chain a filtering step instead:
+
+```js
+const newArray = array.filter(Boolean).map(item => {
+  // Item is always truthy!
+  const assumption = item.thing
+})
+```
+
+Now, our `map` can focus on what it's trying to do, and we've removed the empty values from our pipeline forever.
+
+Hope that helps!
+
+## Glossary
+
+- **Falsy values:** `false`, `0`, `-0`, `0n`, `""`, `null`, `undefined`, `NaN`
+- **Truthy values:** anything not in the falsy list
+
+## Links
+
+- [Filter](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/filter) | MDN web docs
+- [Boolean](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Boolean) | MDN web docs
+- [Falsy](https://developer.mozilla.org/en-US/docs/Glossary/Falsy) | MDN web docs
+- [Truthy](https://developer.mozilla.org/en-US/docs/Glossary/Truthy) | MDN web docs
+- [Type coercion](https://developer.mozilla.org/en-US/docs/Glossary/Type_coercion) | MDN web docs
+- [Tacit programming](https://en.wikipedia.org/wiki/Tacit_programming) | Wikipedia
+- [Chapter 2, Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/ch02.html) | Brian Lonsdorf
