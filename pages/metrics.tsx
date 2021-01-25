@@ -4,14 +4,7 @@ import Header from 'components/header'
 export default function Tracks({ data, preview }) {
   return (
     <Outer>
-      <Header
-        title="Stats"
-        emoji={{
-          picture: '👀',
-          label: 'Two eyes looking to the left.',
-        }}
-        summary="Numbers I track just for fun."
-      />
+      <Header title="Stats" summary="Numbers I track just for fun." />
 
       <main>{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}</main>
     </Outer>

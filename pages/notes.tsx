@@ -4,14 +4,7 @@ import Header from 'components/header'
 export default function Learns({ data, preview }) {
   return (
     <Outer>
-      <Header
-        title="Notes"
-        emoji={{
-          picture: '📚',
-          label: 'A stack of three hardcover books.',
-        }}
-        summary="Helpful resources I want to remember."
-      />
+      <Header title="Notes" summary="Helpful resources I want to remember." />
 
       <main>{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}</main>
     </Outer>

@@ -4,14 +4,7 @@ import Header from 'components/header'
 export default function Uses({ data, preview }) {
   return (
     <Outer>
-      <Header
-        title="Tools"
-        emoji={{
-          picture: '🧰',
-          label: 'A red toolbox',
-        }}
-        summary="Gear I use to build cool things."
-      />
+      <Header title="Tools" summary="Gear I use to build cool things." />
 
       <main>{/* <pre>{JSON.stringify(data, null, 2)}</pre> */}</main>
     </Outer>
