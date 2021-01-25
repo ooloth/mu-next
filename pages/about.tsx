@@ -133,6 +133,12 @@ export async function getStaticProps() {
       blurb:
         'Ten beginner-friendly YouTube videos that cover the basics of React and how to get a Gatsby project up and running.',
     },
+    {
+      name: 'Dotfiles',
+      url: 'https://github.com/ooloth/dotfiles',
+      blurb:
+        'Config files with my favourite settings for Neovim, Tmux, Alacritty, Zsh and Git, plus a script that uses them to set up a new Mac with one command.',
+    },
   ]
 
   const unsortedArticles = await getAllFilesFrontMatter('articles')
