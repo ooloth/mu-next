@@ -44,7 +44,9 @@ const Figure = ({ caption, alt, src, width, height, priority }) => {
         height={height}
         priority={priority}
       />
-      <figcaption className="mt-1 text-center text-sm">{caption}</figcaption>
+      <figcaption className="text-center text-sm dark:text-gray-400">
+        {caption}
+      </figcaption>
     </figure>
   )
 }

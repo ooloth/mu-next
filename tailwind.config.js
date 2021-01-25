@@ -46,7 +46,6 @@ module.exports = {
               code: { color: theme('colors.blue.400') },
             },
             code: {
-              color: theme('colors.pink.500'),
               '&::before': { content: '""' },
               '&::after': { content: '""' },
             },
@@ -68,7 +67,6 @@ module.exports = {
               backgroundColor: theme('colors.gray.900'),
             },
             code: {
-              color: theme('colors.pink.400'),
               '&::before': { content: '""' },
               '&::after': { content: '""' },
             },
