@@ -18,9 +18,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           images: [
             {
               alt: 'Michael Uloth smiling into the camera',
-              url: 'https://michaeluloth.com/images/michael-landscape.jpg',
-              width: 2883,
-              height: 2058,
+              url: 'https://michaeluloth.com/images/michael-square.jpg',
+              width: 1929,
+              height: 1928,
             },
           ],
         }}
