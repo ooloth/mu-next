@@ -9,7 +9,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   return (
     <>
       <DefaultSeo
-        titleTemplate="Michael Uloth | %s"
+        titleTemplate="Michael Uloth — %s"
         openGraph={{
           type: 'website',
           locale: 'en_CA',
