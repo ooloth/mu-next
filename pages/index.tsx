@@ -34,9 +34,11 @@ function Timeline({ items }) {
   return (
     <section className="mt-24 divide-y divide-gray-300 divide-opacity-20">
       <h2 className="sr-only">Timeline</h2>
-      <TimelineYear year="2021" items={items['2021']} />
-      <TimelineYear year="2020" items={items['2020']} />
-      <TimelineYear year="2019" items={items['2019']} />
+      {Object.keys(items)
+        .reverse()
+        .map(year => (
+          <TimelineYear year={year} items={items[year]} />
+        ))}
     </section>
   )
 }
@@ -87,6 +89,12 @@ export async function getStaticProps() {
     ],
     2020: [
       {
+        icon: '✍️',
+        heading: 'Published "The filter(Boolean) trick"',
+        date: 'June 1, 2020',
+        blurb: '',
+      },
+      {
         icon: '🛍',
         heading: 'Launched ecobee.com cart',
         date: 'February 26, 2020',
@@ -100,6 +108,49 @@ export async function getStaticProps() {
         heading: 'Joined ecobee, Inc.',
         date: 'August 15, 2019',
         blurb: '',
+      },
+      {
+        icon: '📺',
+        heading: 'Published "Up and Running with Gatsby"',
+        date: 'January - June 2019',
+        blurb: 'A series of ten beginner-friendly YouTube videos.',
+      },
+    ],
+    2018: [
+      {
+        icon: '✍️',
+        heading: 'Published "Introducing Gatsby Tutorials"',
+        date: 'November 15, 2018',
+        blurb: '',
+      },
+      {
+        icon: '🚀',
+        heading: 'Launched Gatsby Tutorials',
+        date: 'November 15, 2018',
+        blurb: '',
+      },
+      {
+        icon: '✍️',
+        heading: 'Published "How to Set Up a Mac for Web Development"',
+        date: 'October 15, 2018',
+        blurb: '',
+      },
+    ],
+    2017: [
+      {
+        icon: '💼',
+        heading: 'Joined Coffeeshop Creative',
+        date: 'January 15, 2018',
+        blurb: '',
+      },
+    ],
+    2015: [
+      {
+        icon: '🚀',
+        heading: 'Launched egofilmarts.com',
+        date: 'July 15, 2019',
+        blurb:
+          'After a decade of learning web development and building side projects as a hobby, it was pretty sweet that the first client to pay me to design and build their website was Atom Egoyan.',
       },
       {
         icon: '☕',
