@@ -87,6 +87,12 @@ export async function getStaticProps() {
     ],
     2020: [
       {
+        icon: '✍️',
+        heading: 'Published "The filter(Boolean) trick"',
+        date: 'June 1, 2020',
+        blurb: '',
+      },
+      {
         icon: '🛍',
         heading: 'Launched ecobee.com cart',
         date: 'February 26, 2020',
@@ -99,12 +105,6 @@ export async function getStaticProps() {
         icon: '💼',
         heading: 'Joined ecobee, Inc.',
         date: 'August 15, 2019',
-        blurb: '',
-      },
-      {
-        icon: '📺',
-        heading: 'Published "How to Set Up a Mac for Web Development"',
-        date: 'October 15, 2018',
         blurb: '',
       },
     ],
@@ -141,7 +141,7 @@ export async function getStaticProps() {
         icon: '🚀',
         heading: 'Launched egofilmarts.com',
         date: 'July 15, 2019',
-        blurb: '',
+        blurb: 'After a decade of learning web development as a hobby, this was the first project I was paid to build for a client. Pretty awesome first client!',
       },
       {
         icon: '☕',
