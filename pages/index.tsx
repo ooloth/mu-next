@@ -1,45 +1,32 @@
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
+import hydrate from 'next-mdx-remote/hydrate'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
+import MdxComponents from 'components/mdx'
+import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx'
 
-function TimelineItem({ item }) {
-  return (
-    <li className="flex mt-6">
-      <p className="flex-none w-6 text-lg">{item.icon}</p>
+function TimelineYear({ year, steps }) {
+  const content = hydrate(steps, {
+    components: MdxComponents,
+  })
 
-      <div className="ml-2">
-        <p className="text-lg leading-normal font-semibold">{item.heading}</p>
-        <p className="mt-2 text-gray-500">{item.date}</p>
-        <p className="mt-4 leading-relaxed text-gray-400">{item.blurb}</p>
-      </div>
-    </li>
-  )
-}
-
-function TimelineYear({ year, items }) {
   return (
     <section className="mt-16">
       <h3 className="pt-8 text-2xl font-extrabold">{year}</h3>
-      <ul>
-        {items.map(item => (
-          <TimelineItem item={item} />
-        ))}
-      </ul>
+      <ul>{content}</ul>
     </section>
   )
 }
 
-function Timeline({ items }) {
+function Timeline({ years }) {
   return (
     <section className="mt-24 divide-y divide-gray-300 divide-opacity-20">
       <h2 className="sr-only">Timeline</h2>
-      {Object.keys(items)
-        .reverse()
-        .map(year => (
-          <TimelineYear year={year} items={items[year]} />
-        ))}
+      {years.map(({ frontMatter, mdxSource }) => (
+        <TimelineYear year={frontMatter.year} steps={mdxSource} />
+      ))}
     </section>
   )
 }
@@ -51,7 +38,7 @@ const seo = {
     "Hi! I'm Michael. I'm a web developer and opera singer living in Toronto.",
 }
 
-export default function Home({ timelineItems }) {
+export default function Home({ timelineByYear }) {
   return (
     <Outer>
       <NextSeo
@@ -85,98 +72,22 @@ export default function Home({ timelineItems }) {
       </header>
 
       <main>
-        <Timeline items={timelineItems} />
+        <Timeline years={timelineByYear} />
       </main>
     </Outer>
   )
 }
 
 export async function getStaticProps() {
-  const timelineItems = {
-    2021: [
-      {
-        icon: '🎨',
-        heading: 'Launched redesigned michaeluloth.com',
-        date: 'January 25, 2021',
-        blurb:
-          'Finally! After years of bright-white versions of this site built with Gatsby.js, I had fun creating a dark concept built with Next.js and TailwindCSS.',
-      },
-    ],
-    2020: [
-      {
-        icon: '✍️',
-        heading: 'Published "The filter(Boolean) trick"',
-        date: 'June 1, 2020',
-        blurb: '',
-      },
-      {
-        icon: '🛍',
-        heading: 'Launched ecobee.com cart',
-        date: 'February 26, 2020',
-        blurb:
-          "I helped bring a new shopping experience to ecobee.com by leading the development of a new cart powered by XState and Shopify's Storefront API.",
-      },
-    ],
-    2019: [
-      {
-        icon: '💼',
-        heading: 'Joined ecobee, Inc.',
-        date: 'August 15, 2019',
-        blurb: '',
-      },
-      {
-        icon: '📺',
-        heading: 'Published "Up and Running with Gatsby"',
-        date: 'January - June 2019',
-        blurb: 'A series of ten beginner-friendly YouTube videos.',
-      },
-    ],
-    2018: [
-      {
-        icon: '✍️',
-        heading: 'Published "Introducing Gatsby Tutorials"',
-        date: 'November 15, 2018',
-        blurb: '',
-      },
-      {
-        icon: '🚀',
-        heading: 'Launched Gatsby Tutorials',
-        date: 'November 15, 2018',
-        blurb: '',
-      },
-      {
-        icon: '✍️',
-        heading: 'Published "How to Set Up a Mac for Web Development"',
-        date: 'October 15, 2018',
-        blurb: '',
-      },
-    ],
-    2017: [
-      {
-        icon: '💼',
-        heading: 'Joined Coffeeshop Creative',
-        date: 'January 15, 2018',
-        blurb: '',
-      },
-    ],
-    2015: [
-      {
-        icon: '🚀',
-        heading: 'Launched egofilmarts.com',
-        date: 'July 15, 2019',
-        blurb:
-          'After a decade of learning web development and building side projects as a hobby, it was pretty sweet that the first client to pay me to design and build their website was Atom Egoyan.',
-      },
-      {
-        icon: '☕',
-        heading: 'Work in progress...',
-        date: '',
-        blurb: 'More timeline entries coming soon.',
-      },
-    ],
-  }
+  const timelineFileMetadata = await getAllFilesFrontMatter('timeline')
+
+  const timelineByYear = await Promise.all(
+    timelineFileMetadata.map(async metadata =>
+      getFileContents('timeline', metadata.year),
+    ),
+  )
 
   return {
-    props: { timelineItems },
+    props: { timelineByYear },
   }
 }

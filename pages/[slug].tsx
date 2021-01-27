@@ -4,7 +4,7 @@ import { format } from 'timeago.js'
 
 import { getFileNames, getFileContents } from 'lib/mdx'
 import Outer from 'layouts/outer'
-import MDXComponents from 'components/mdx'
+import MdxComponents from 'components/mdx'
 
 const ArticleSeo = ({
   title,
@@ -89,7 +89,7 @@ function BlogFooter(frontMatter) {
 
 export default function Blog({ mdxSource, frontMatter }) {
   const content = hydrate(mdxSource, {
-    components: MDXComponents,
+    components: MdxComponents,
   })
 
   return (
