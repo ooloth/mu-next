@@ -10,16 +10,17 @@ const root = process.cwd()
 
 type ContentType = 'about' | 'articles' | 'notes' | 'snippets' | 'timeline'
 
-export async function getFiles(type: ContentType) {
+export async function getFileNames(type: ContentType) {
   return fs.readdirSync(path.join(root, 'content', type))
 }
 
-export async function getFileBySlug(type: ContentType, slug: string) {
-  const source = slug
-    ? fs.readFileSync(path.join(root, 'content', type, `${slug}.mdx`), 'utf8')
+export async function getFileContents(type: ContentType, fileName?: string) {
+  const source = fileName
+    ? fs.readFileSync(path.join(root, 'content', type, `${fileName}.mdx`), 'utf8')
     : fs.readFileSync(path.join(root, 'content', `${type}.mdx`), 'utf8')
 
   const { data, content } = matter(source)
+
   const mdxSource = await renderToString(content, {
     components: MDXComponents,
     mdxOptions: {
@@ -33,22 +34,23 @@ export async function getFileBySlug(type: ContentType, slug: string) {
   })
 
   return {
-    mdxSource,
     frontMatter: {
-      slug: slug || null,
       ...data,
+      slug: (fileName || type).replace('.mdx', ''),
     },
+    mdxSource,
   }
 }
 
 export async function getAllFilesFrontMatter(type: ContentType) {
-  const fileNames = await getFiles(type)
+  const fileNames = await getFileNames(type)
 
   return fileNames.reduce((allFrontMatter, fileName) => {
     const source = fs.readFileSync(
       path.join(root, 'content', type, fileName),
       'utf8',
     )
+
     const { data } = matter(source)
 
     return [
