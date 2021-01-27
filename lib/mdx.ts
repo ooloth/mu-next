@@ -8,11 +8,13 @@ import MDXComponents from 'components/mdx'
 
 const root = process.cwd()
 
-export async function getFiles(type) {
+type ContentType = 'about' | 'articles' | 'notes' | 'snippets' | 'timeline'
+
+export async function getFiles(type: ContentType) {
   return fs.readdirSync(path.join(root, 'content', type))
 }
 
-export async function getFileBySlug(type, slug) {
+export async function getFileBySlug(type: ContentType, slug: string) {
   const source = slug
     ? fs.readFileSync(path.join(root, 'content', type, `${slug}.mdx`), 'utf8')
     : fs.readFileSync(path.join(root, 'content', `${type}.mdx`), 'utf8')
@@ -39,12 +41,12 @@ export async function getFileBySlug(type, slug) {
   }
 }
 
-export async function getAllFilesFrontMatter(type) {
-  const files = fs.readdirSync(path.join(root, 'content', type))
+export async function getAllFilesFrontMatter(type: ContentType) {
+  const fileNames = await getFiles(type)
 
-  return files.reduce((allPosts, postSlug) => {
+  return fileNames.reduce((allFrontMatter, fileName) => {
     const source = fs.readFileSync(
-      path.join(root, 'content', type, postSlug),
+      path.join(root, 'content', type, fileName),
       'utf8',
     )
     const { data } = matter(source)
@@ -52,9 +54,9 @@ export async function getAllFilesFrontMatter(type) {
     return [
       {
         ...data,
-        slug: postSlug.replace('.mdx', ''),
+        slug: fileName.replace('.mdx', ''),
       },
-      ...allPosts,
+      ...allFrontMatter,
     ]
   }, [])
 }
