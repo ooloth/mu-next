@@ -2,9 +2,9 @@ import hydrate from 'next-mdx-remote/hydrate'
 import { NextSeo, ArticleJsonLd } from 'next-seo'
 import { format } from 'timeago.js'
 
-import { getFiles, getFileBySlug } from 'lib/mdx'
+import { getFileNames, getFileContents } from 'lib/mdx'
 import Outer from 'layouts/outer'
-import MDXComponents from 'components/mdx'
+import MdxComponents from 'components/mdx'
 
 const ArticleSeo = ({
   title,
@@ -89,7 +89,7 @@ function BlogFooter(frontMatter) {
 
 export default function Blog({ mdxSource, frontMatter }) {
   const content = hydrate(mdxSource, {
-    components: MDXComponents,
+    components: MdxComponents,
   })
 
   return (
@@ -115,12 +115,12 @@ export default function Blog({ mdxSource, frontMatter }) {
 }
 
 export async function getStaticPaths() {
-  const articles = await getFiles('articles')
+  const articleFileNames = await getFileNames('articles')
 
   return {
-    paths: articles.map(p => ({
+    paths: articleFileNames.map(fileName => ({
       params: {
-        slug: p.replace(/\.mdx/, ''),
+        slug: fileName.replace('.mdx', ''),
       },
     })),
     fallback: false,
@@ -128,7 +128,7 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  const post = await getFileBySlug('articles', params.slug)
+  const post = await getFileContents('articles', params.slug)
 
   return { props: post }
 }

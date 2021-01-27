@@ -8,16 +8,19 @@ import MDXComponents from 'components/mdx'
 
 const root = process.cwd()
 
-export async function getFiles(type) {
+type ContentType = 'about' | 'articles' | 'notes' | 'snippets' | 'timeline'
+
+export async function getFileNames(type: ContentType) {
   return fs.readdirSync(path.join(root, 'content', type))
 }
 
-export async function getFileBySlug(type, slug) {
-  const source = slug
-    ? fs.readFileSync(path.join(root, 'content', type, `${slug}.mdx`), 'utf8')
+export async function getFileContents(type: ContentType, fileName?: string) {
+  const source = fileName
+    ? fs.readFileSync(path.join(root, 'content', type, `${fileName}.mdx`), 'utf8')
     : fs.readFileSync(path.join(root, 'content', `${type}.mdx`), 'utf8')
 
   const { data, content } = matter(source)
+
   const mdxSource = await renderToString(content, {
     components: MDXComponents,
     mdxOptions: {
@@ -31,30 +34,31 @@ export async function getFileBySlug(type, slug) {
   })
 
   return {
-    mdxSource,
     frontMatter: {
-      slug: slug || null,
       ...data,
+      slug: (fileName || type).replace('.mdx', ''),
     },
+    mdxSource,
   }
 }
 
-export async function getAllFilesFrontMatter(type) {
-  const files = fs.readdirSync(path.join(root, 'content', type))
+export async function getAllFilesFrontMatter(type: ContentType) {
+  const fileNames = await getFileNames(type)
 
-  return files.reduce((allPosts, postSlug) => {
+  return fileNames.reduce((allFrontMatter, fileName) => {
     const source = fs.readFileSync(
-      path.join(root, 'content', type, postSlug),
+      path.join(root, 'content', type, fileName),
       'utf8',
     )
+
     const { data } = matter(source)
 
     return [
       {
         ...data,
-        slug: postSlug.replace('.mdx', ''),
+        slug: fileName.replace('.mdx', ''),
       },
-      ...allPosts,
+      ...allFrontMatter,
     ]
   }, [])
 }

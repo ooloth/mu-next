@@ -49,10 +49,25 @@ const Figure = ({ caption, alt, src, width, height, priority }) => {
   )
 }
 
+const Step = ({ icon, heading, date, children }) => {
+  return (
+    <li className="flex mt-6">
+      <p className="flex-none w-6 text-lg">{icon}</p>
+
+      <div className="ml-2">
+        <p className="text-lg leading-normal font-semibold">{heading}</p>
+        <p className="mt-2 text-gray-500">{date}</p>
+        <p className="mt-4 leading-relaxed text-gray-400">{children}</p>
+      </div>
+    </li>
+  )
+}
+
 const MDXComponents = {
   a: Link,
   Figure,
   Image,
+  Step,
   Tweet,
 }
 
