@@ -9,14 +9,14 @@
   ],
   "scripts": {
     "build": "next build",
-    "check-format": "npm run prettier -- --list-different",
+    "check-format": "yarn prettier -- --list-different",
     "check-types": "tsc",
     "dev": "next dev",
     "format": "yarn prettier -- --write",
     "lint": "eslint '**/*.{js,jsx,ts,tsx}' --ignore-path .gitignore",
     "prettier": "prettier \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|css|html|md|mdx|graphql)\" --ignore-path .gitignore",
     "start": "next start",
-    "validate": "format && npm-run-all --parallel check-types lint"
+    "validate": "yarn format && npm-run-all --parallel check-types lint"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.5.0",
