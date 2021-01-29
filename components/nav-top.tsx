@@ -44,11 +44,12 @@ const topNavItems: NavItem[] = [
   { href: '/', text: 'Home' },
   { href: '/about', text: 'About' },
   { href: '/blog', text: 'Blog' },
-  // { href: '/notes', text: 'Notes' },
+  { href: '/notes', text: 'Notes' },
 ]
 
 function TopNavItem({ href, text, active = false }: NavItem) {
-  const baseClasses = 'mx-0.5 inline-flex rounded py-2 px-7 text-sm font-semibold'
+  const baseClasses =
+    'mx-0.5 inline-flex rounded py-2 px-4 sm:px-7 text-sm font-semibold'
 
   const activeColors = 'bg-blue-600 bg-opacity-20 text-blue-400'
   const inactiveColors =
