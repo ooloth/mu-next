@@ -15,9 +15,15 @@ export async function getFileNames(type: ContentType) {
 }
 
 export async function getFileContents(type: ContentType, fileName?: string) {
-  const source = fileName
-    ? fs.readFileSync(path.join(root, 'content', type, `${fileName}.mdx`), 'utf8')
-    : fs.readFileSync(path.join(root, 'content', `${type}.mdx`), 'utf8')
+  let source: string
+
+  try {
+    source = fileName
+      ? fs.readFileSync(path.join(root, 'content', type, `${fileName}.mdx`), 'utf8')
+      : fs.readFileSync(path.join(root, 'content', `${type}.mdx`), 'utf8')
+  } catch (e) {
+    return null
+  }
 
   const { data, content } = matter(source)
 
