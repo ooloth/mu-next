@@ -13,6 +13,26 @@ const seo = {
   description: 'Thoughts about coding and web development.',
 }
 
+function Articles({ articles }) {
+  return (
+    <ol reversed>
+      {articles.map(article => (
+        <li key={article.slug} className="space-y-1 mb-8 leading-relaxed">
+          <Link href={`/${article.slug}`}>
+            <a className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline">
+              {article.title}
+            </a>
+          </Link>
+          <p className="clamp-2">{article.description}</p>
+          <p className="text-sm text-gray-700 dark:text-gray-500">
+            Updated {format(article.dateUpdated || article.datePublished)}
+          </p>
+        </li>
+      ))}
+    </ol>
+  )
+}
+
 export default function Blog({ articles }) {
   return (
     <Outer>
@@ -23,33 +43,11 @@ export default function Blog({ articles }) {
         openGraph={{ ...seo }}
       />
       <Header title="Blog" summary="Thoughts about coding and web development." />
-
       <main>
         <section className="mt-14">
           <h2 className="sr-only">All Posts</h2>
-
-          <ol reversed>
-            {articles.map(article => (
-              <li key={article.slug} className="space-y-1 mb-8 leading-relaxed">
-                <Link href={`/${article.slug}`}>
-                  <a className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline">
-                    {article.title}
-                  </a>
-                </Link>
-                <p className="clamp-2">{article.description}</p>
-                <p className="text-sm text-gray-700 dark:text-gray-500">
-                  Updated {format(article.dateUpdated || article.datePublished)}
-                </p>
-              </li>
-            ))}
-          </ol>
+          <Articles articles={articles} />
         </section>
-
-        {/* <section className="mt-14">
-          <Heading level={2} className="mb-5 text-4xl font-extrabold">
-            Up and Running with Gatsby
-          </Heading>
-        </section> */}
       </main>
     </Outer>
   )
