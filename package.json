@@ -16,7 +16,7 @@
     "lint": "eslint '**/*.{js,jsx,ts,tsx}' --ignore-path .gitignore",
     "prettier": "prettier \"**/*.+(js|jsx|ts|tsx|json|yml|yaml|css|html|md|mdx|graphql)\" --ignore-path .gitignore",
     "start": "next start",
-    "validate": "npm-run-all --parallel check-types check-format lint"
+    "validate": "format && npm-run-all --parallel check-types lint"
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.5.0",
