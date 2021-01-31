@@ -8,7 +8,14 @@ import MDXComponents from 'components/mdx'
 
 const root = process.cwd()
 
-type ContentType = 'about' | 'articles' | 'notes' | 'snippets' | 'timeline'
+type ContentType =
+  | 'about'
+  | 'articles'
+  | 'bio'
+  | 'notes'
+  | 'projects'
+  | 'snippets'
+  | 'timeline'
 
 export async function getFileNames(type: ContentType) {
   return fs.readdirSync(path.join(root, 'content', type))
