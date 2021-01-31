@@ -55,10 +55,10 @@ export default function Blog({ articles }) {
 
 export async function getStaticProps() {
   const unsortedArticles = await getAllFilesFrontMatter('articles')
-  const articles = unsortedArticles.sort(
-    (a, b) =>
-      Number(new Date(b.dateUpdated || b.datePublished)) -
-      Number(new Date(a.dateUpdated || a.datePublished)),
+  const articles = unsortedArticles.sort((a, b) =>
+    (b.dateUpdated || b.datePublished).localeCompare(
+      a.dateUpdated || a.datePublished,
+    ),
   )
 
   return { props: { articles } }
