@@ -50,7 +50,8 @@ export default function Notes({ notes }) {
 }
 
 export async function getStaticProps() {
-  const notes = await getAllFilesFrontMatter('notes')
+  const unsortedNotes = await getAllFilesFrontMatter('notes')
+  const notesByTitle = unsortedNotes.sort((a, b) => a.title.localeCompare(b.title))
 
-  return { props: { notes: notes.reverse() } }
+  return { props: { notes: notesByTitle } }
 }
