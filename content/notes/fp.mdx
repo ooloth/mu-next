@@ -131,7 +131,7 @@ increment(2); // 3
 addTen(2); // 12
 ```
 
-### 👨‍💻 Example: currying a function with `ramda`
+### 👨‍💻 Example: currying a function with ramda
 
 ```js
 import R from 'ramda'
@@ -269,7 +269,7 @@ const g = x => x.length;
 const isFourLetterWord = compose(f, g);
 ```
 
-### 👨‍💻 Examples: composing more than two functions as two functions using multiple `compose()` calls
+### 👨‍💻 Examples: composing more than two functions as two functions using multiple compose() calls
 
 ```js
 // Composition is associative, so the groupings don't matter
@@ -402,7 +402,7 @@ const fastestCar = (cars) => {
 const fastestCar = compose(append(' is the fastest'), prop('name'), last, sortBy(prop('horsepower')))
 ```
 
-### 👨‍💻 Example: log data at any point in a composition with `trace()`
+### 👨‍💻 Example: log data at any point in a composition with trace()
 
 ```js
 // Definition
@@ -546,7 +546,7 @@ require(['jquery', 'ramda'], ($, { compose, curry, map, prop }) => {
 
 - 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html) • Chapter of an online book by Brain Lonsdorf.
 
-## 9. Handle empty values with `Maybe` or `Either`
+## 9. Handle empty values with Maybe or Either
 
 1. Use `Maybe` in functions that might return `null` or `undefined` and trigger an error in the next function
 2. Using `Maybe` (or its subtypes) enforces `null` checks that might otherwise be missed
@@ -558,7 +558,7 @@ require(['jquery', 'ramda'], ($, { compose, curry, map, prop }) => {
 > 
 > &mdash; Brian Lonsdorf, Professor Frisby's Mostly Adequate Guide to Functional Programming
 
-### 👨‍💻 Example: A `Maybe` type with `of()`, `map()` and `inspect()`
+### 👨‍💻 Example: A Maybe type with of(), map() and inspect()
 
 ```js
 import { prop } from 'ramda'
@@ -611,7 +611,7 @@ Maybe.of({ name: 'Dinah', age: 14 }).map(prop('age')).map(add(10));
 // Just(24)
 ```
 
-### 👨‍💻 Example: returning a `Maybe` if a function could fail to return a result
+### 👨‍💻 Example: returning a Maybe if a function could fail to return a result
 
 ```js
 import { compose, map, prop } from 'ramda'
@@ -629,7 +629,7 @@ streetName({ addresses: [{ street: 'Shady Ln.', number: 4201 }] });
 // Just('Shady Ln.')
 ```
 
-### 👨‍💻 Example: returning a `Nothing` to explicitly signal failure
+### 👨‍💻 Example: returning a Nothing to explicitly signal failure
 
 ```js
 import { curry } from 'ramda'
@@ -667,7 +667,7 @@ getTwenty({ balance: 10.00 });
 // Nothing
 ```
 
-### 👨‍💻 Example: using `maybe()` to remove a value from `Maybe` while returning it
+### 👨‍💻 Example: using maybe() to remove a value from Maybe while returning it
 
 ```js
 import { compose } from 'ramda'
@@ -699,7 +699,7 @@ getTwenty({ balance: 10.00 });
 // 'You\'re broke!'
 ```
 
-### 👨‍💻 Example: finding a user's first initial with `head` and `safeProp`
+### 👨‍💻 Example: finding a user's first initial with head and safeProp
 
 ```js
 import { compose, prop } from 'ramda'
@@ -717,7 +717,7 @@ const initial = compose(map(head), safeProp('name'))
 
 - 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html#schr%C3%B6dingers-maybe) • Chapter of an online book by Brain Lonsdorf.
 
-# 10. Handle errors with `Either`
+## 10. Handle errors with Either
 
 1. A `throw`/`catch` is not pure since it produces an instant side effect instead of an output value
 2. Use `Either` and its subtypes `Right` and `Left` to respond to errors with a message instead
@@ -731,7 +731,7 @@ const initial = compose(map(head), safeProp('name'))
 
 - 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html#pure-error-handling) • Chapter of an online book by Brain Lonsdorf.
 
-## 11. Handle side effects with `IO`
+## 11. Handle side effects with IO
 
 1. The goal is to contain side effects and run them in a controlled way
 2. Use IO to place side effects in a container that let's us map over them without actually triggering them
@@ -747,7 +747,7 @@ const initial = compose(map(head), safeProp('name'))
 
 - 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html#old-mcdonald-had-effects) • Chapter of an online book by Brain Lonsdorf.
 
-## 12. Handle asynchronous tasks with `Task`
+## 12. Handle asynchronous tasks with Task
 
 1. `Task` is basically a pure version of `Promise` that uses map instead of then
 2. It's like `IO` but for future values (though it works with normal, non-futuristic values as well)
@@ -770,7 +770,7 @@ const initial = compose(map(head), safeProp('name'))
 * **`associativity`:** the result of an expression is the same regardless of how the items are grouped
 * **`composition`: ...**
 * **`currying`: ...**
-* **`declarative programming`: writing expressions that specify what we want without providing step-by-step instructions for how to get it**
+* **`declarative programming`:** writing expressions that specify what we want without providing step-by-step instructions for how to get it
 * **`equational reasoning`:** understanding code by substituting "equals for equals" (by leveraging `referential transparency`)
 * **`function`:** a special relationship between values in which each possible input value maps to one output value (picture a table of input/output pairs)
 * **`functor`:** a container type that implements `map` and obeys some laws:
