@@ -1,0 +1,792 @@
+---
+title: Functional Programming
+description: A programming paradigm that prefers composing pure functions and avoiding shared state, mutable data and side-effects. 
+dateUpdated: '2021-01-31'
+---
+
+## Overview
+
+1. Write reusable pure functions
+2. Use composition to pipe data through those functions
+3. Specify behaviour declaratively 
+4. Isolate side effects at the top level of the program
+5. Use immutable data structures
+
+## 1. The Basics
+
+1. FP is an alternative to object-oriented and imperative programming
+2. It involves breaking a problem into composable pieces
+3. Functions are treated as first class data types that can be passed around like any other
+4. The first class approach eliminates redundant arguments and wrapper functions, reducing confusion and refactoring
+
+### References
+
+- 📕 [Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/) • Online book by Brain Lonsdorf. THE reference for how to apply FP in JS.
+- 📺 [Learning Functional Programming with JavaScript](https://m.youtube.com/watch?v=e-5obm1G_FY&feature=youtu.be) • 30 minute video by Anjana Vakil introducing FP concepts.
+- ✍️ [Master the JavaScript Interview: What is Functional Programming?](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-functional-programming-7f218c68b3a0) • Article by Eric Elliott.
+
+## 2. Write generic functions
+
+1. Having multiple names for the same concept is a common source of confusion in projects
+2. Using specific naming ties a function's usefulness to specific data
+3. User generic naming makes a function reusable across projects
+
+### 👩‍💻 Example: rewriting a domain-specific function in generic terms
+
+```js
+// Specific to these arguments
+const validArticles = articles =>
+  articles.filter(article => article !== null && article !== undefined),
+
+// Generic and reusable
+const compact = xs => xs.filter(x => x !== null && x !== undefined);
+```
+
+### References
+
+- 📕 [Chapter 2: Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch02.html#why-favor-first-class) • Online book by Brain Lonsdorf.
+
+## 3. Write pure functions
+
+### What?
+
+1. A pure function reads its input(s) and returns an output (nothing else)
+2. It ignores values outside itself (doesn't rely on external state)
+3. It changes nothing outside itself (no mutations or other side effects)
+4. When given the same input, it always returns the same output
+
+### Why?
+
+1. They eliminate a common cause of unexpected behaviour (side effects)
+2. They're cacheable (by memoizing based on inputs)
+3. They're portable because they are self-contained (allowing serializing, using sockets, using web workers, etc)
+4. They're self-documenting because their inputs are explicit about their dependencies (nothing in environment)
+5. They're easier to test (give input and assert output) because their environment doesn't need to be mocked
+6. They're easier to reason about because their referential transparency allows their calls to be simplified
+7. They can be run in parallel since they ignore the current system state and have no race conditions (bc no side effects)
+
+> The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana... and the entire jungle. 
+>
+> &mdash; Joe Armstrong, creator of Erlang
+
+### 🧑‍💻 Example: reading mutable external state vs. internal values only
+
+```js
+// Impure
+let minimum = 21; // may change
+const checkAge = age => age >= minimum;
+
+// Pure
+const checkAge = (age) => {
+  const minimum = 21; // will not change
+  return age >= minimum;
+};
+```
+
+### 👨‍💻 Example: making a function portable by injecting all of its dependencies as arguments
+
+```js
+// Impure (global dependencies)
+const signUp = (attrs) => {
+  const user = saveUser(attrs); // uses Db
+  welcomeUser(user); // uses Email
+};
+
+// Pure (all dependencies injected)
+const signUp = (Db, Email, attrs) => () => {
+  const user = saveUser(Db, attrs);
+  welcomeUser(Email, user);
+};
+```
+
+### References
+
+- 📕 [Chapter 3: Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch03.html) • Chapter of online book by Brian Lonsdorf.
+- ✍️ [Master the JavaScript Interview: What is a Pure Function?](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-a-pure-function-d1c076bec976) • Article by Eric Elliott.
+
+## 4. Call functions one argument at a time
+
+1. You can rewrite a function to accept its arguments one at a time. That's called currying.
+2. When you call it with fewer arguments than it expects, it returns a function that takes the remaining arguments.
+3. Each partially applied function will remember the previous argument values you preloaded into it
+4. When doing this, always position the data you're operating on as the final argument
+5. Partially applying a function can remove a lot of boiler plate code and makes FP less verbose and tedious
+6. In math, a pure function must map one input to one output. Currying enables us to do this since outputting a function counts.
+
+### 👨‍💻 Example: currying a function manually
+
+```js
+// Before currying
+const add = (x, y) => x + y
+
+// After currying
+const add = x => y => x + y;
+
+// Calling with first arg returns a function that remembers that arg
+const increment = add(1); // y => 1 + y
+const addTen = add(10); // y => 10 + y
+
+// Calling with final arg returns a value
+increment(2); // 3
+addTen(2); // 12
+```
+
+### 👨‍💻 Example: currying a function with ramda
+
+```js
+import R from 'ramda'
+
+// Without currying
+const add = (x, y) => x + y
+
+// With currying (works for any number of args)
+const add = R.curry((x, y) => x + y)
+```
+
+### 👨‍💻 Example: creating new helpers with currying and partial application
+
+```js
+// Curried helpers (with data as final arg)
+const match = curry((what, s) => s.match(what));
+const filter = curry((f, xs) => xs.filter(f));
+const replace = curry((what, replacement, s) => s.replace(what, replacement));
+const map = curry((f, xs) => xs.map(f));
+
+// Calling match() with all args
+match(/r/g, 'hello world'); // [ 'r' ]
+
+// Partially applying match() as hasLetterR()
+const hasLetterR = match(/r/g); // x => x.match(/r/g)
+hasLetterR('hello world'); // [ 'r' ]
+hasLetterR('just j and s and t etc'); // null
+
+// Calling filter() with all args
+filter(hasLetterR, ['rock and roll', 'smooth jazz']); // ['rock and roll']
+
+// Partially applying filter() as removeStringsWithoutRs()
+const removeStringsWithoutRs = filter(hasLetterR); // xs => xs.filter(x => x.match(/r/g))
+removeStringsWithoutRs(['rock and roll', 'smooth jazz', 'drum circle']); // ['rock and roll', 'drum circle']
+
+// Partially applying replace() as noVowels() and censored()
+const noVowels = replace(/[aeiou]/ig); // (r,x) => x.replace(/[aeiou]/ig, r)
+const censored = noVowels('*'); // x => x.replace(/[aeiou]/ig, '*')
+censored('Chocolate Rain'); // 'Ch*c*l*t* R**n'
+```
+
+### References
+
+- 📕 [Chapter 4: Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch04.html) • Chapter of online book by Brian Lonsdorf.
+- 📖 [Ramda Docs: `curry`](https://ramdajs.com/docs/#curry)
+
+## 5. Call functions in a pointfree style
+
+1. Pointfree style means writing (and calling) a function without mentioning the data argument it's operating on
+2. It works with a function that only takes one argument, or is a curried function with everything partially applied except the data
+3. It removes needless names and helps keep functions concise and generic
+4. It's also a good litmus test for functional code since it only works for small functions that pass an input to an output
+5. Sometimes it can make it harder to see what's happening, so aim for it, but swap in a pointed style when it's clearer
+
+### 👨‍💻 Examples: refactoring to remove all arguments
+
+```js
+// Not pointfree (we mention the data: word)
+const snakeCase = word => word.toLowerCase().replace(/\s+/ig, '_')
+
+// Pointfree
+const snakeCase = compose(replace(/\s+/ig, '_'), toLowerCase)
+```
+
+```js
+// Not pointfree (we mention the data: str)
+const words = str => split(' ', str)
+
+// Pointfree
+const words = split(' ')
+```
+
+```js
+const match = curry((what, s) => s.match(what))
+
+// Not pointfree (we mention the data: xs and x)
+const filterQs = xs => filter(x => x.match(/q/i), xs)
+
+// Pointfree
+const filterQs = filter(match(/q/i)); // after
+```
+
+```js
+const keepHighest = (x, y) => (x >= y ? x : y)
+
+// Not pointfree (we mention the data: xs and x)
+const max = xs => reduce((acc, x) => (x >= acc ? x : acc), -Infinity, xs)
+
+// Pointfree
+const max = reduce(keepHighest, -Infinity)
+```
+
+### References
+
+- 📕 [Chapter 05: Coding by Composing • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch05.html#pointfree) • Chapter of online book by Brain Lonsdorf.
+
+## 6. Compose functions
+
+1. Composition connects functions together like a series of pipes the data will flow through
+2. Composition is the most important design principle in FP because it keeps the app logic simple and reasonable
+3. Composing multiple functions creates a new function
+4. The data flows through a composition from right to left 
+5. All composed functions must take one input only (use partial application to achieve this if necessary)
+6. A common mistake is to compose something like map (which takes two arguments) without first partially applying it, so be careful!
+7. To debug a composition, use the impure `trace()` function to view the data any any point in a composition and reveal if an unexpected input type is being passed into a function.
+
+### 👨‍💻 Examples: composing two functions
+
+```js
+const compose = (f, g) => x => f(g(x));
+const toUpperCase = x => x.toUpperCase();
+const exclaim = x => `${x}!`;
+
+const shout = x => exclaim(toUpperCase(x)); // without helper
+const shout = compose(exclaim, toUpperCase); // with helper
+
+shout('send in the clowns'); // "SEND IN THE CLOWNS!"
+```
+
+```js
+const compose = (f, g) => x => f(g(x));
+const head = x => x[0];
+const reverse = reduce((acc, x) => [x].concat(acc), []);
+
+const last = compose(head, reverse); // reverse, then head
+
+last(['jumpkick', 'roundhouse', 'uppercut']); // 'uppercut'
+```
+
+```js
+const compose = (f, g) => x => f(g(x));
+const f = x => x === 4;
+const g = x => x.length;
+
+const isFourLetterWord = compose(f, g);
+```
+
+### 👨‍💻 Examples: composing more than two functions as two functions using multiple compose() calls
+
+```js
+// Composition is associative, so the groupings don't matter
+compose(f, compose(g, h)) === compose(compose(f, g), h);
+```
+
+```js
+const compose = (f, g) => x => f(g(x));
+const toUpperCase = x => x.toUpperCase();
+const head = x => x[0];
+const reverse = reduce((acc, x) => [x].concat(acc), []);
+
+// This...
+compose(toUpperCase, compose(head, reverse))
+
+// is identical to this
+compose(compose(toUpperCase, head), reverse);
+```
+
+### 👨‍💻 Examples: composing any number of functions
+
+```js
+import { compose } from 'ramda'
+
+const toUpperCase = x => x.toUpperCase();
+const exclaim = x => `${x}!`;
+const head = x => x[0];
+const reverse = reduce((acc, x) => [x].concat(acc), []);
+
+/**
+ * Because ramda's compose() accepts any number of functions and
+ * compose() is associative, we can pass compose as many fn's as we
+ * like and let compose() decide how it groups them under the hood.
+ */
+const arg = ['jumpkick', 'roundhouse', 'uppercut'];
+
+const lastUpper = compose(toUpperCase, head, reverse);
+const loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
+
+lastUpper(arg); // 'UPPERCUT'
+loudLastUpper(arg); // 'UPPERCUT!'
+
+// -- or --
+
+const last = R.compose(head, reverse);
+const loudLastUpper = R.compose(exclaim, toUpperCase, last);
+
+// -- or --
+
+const last = compose(head, reverse);
+const angry = compose(exclaim, toUpperCase);
+const loudLastUpper = compose(angry, last);
+
+// We can compose into as many reusable mini-helpers as we like...
+```
+
+### 👨‍💻 Example: breaking a composition by failing to pass a single argument of the expected type to the next function
+
+```js
+import { compose } from 'ramda'
+
+const toUpperCase = x => x.toUpperCase();
+const exclaim = x => `${x}!`;
+const reverse = reduce((acc, x) => [x].concat(acc), []);
+const angry = compose(exclaim, toUpperCase);
+
+// Broken! Angry gets an array (instead of a string) and we partially applied map with who knows what
+const latin = compose(map, angry, reverse);
+
+latin(['frog', 'eyes']); // error
+
+// Fixed! Each function gets 1 argument of the expected type
+const latin = compose(map(angry), reverse);
+
+latin(['frog', 'eyes']); // ['EYES!', 'FROG!'])
+```
+
+### 👨‍💻 Examples: refactoring imperative functions to use composition
+
+```js
+// Example car object
+{
+  name: 'Aston Martin One-77',
+  horsepower: 750,
+  dollar_value: 1850000,
+  in_stock: true,
+}
+```
+
+```js
+import { compose, prop } from 'ramda'
+
+// Rewrite as a composition
+const isLastInStock = (cars) => {
+  const lastCar = last(cars);
+  return prop('in_stock', lastCar);
+};
+
+// Composed version
+const isLastInStock = compose(prop('in_stock'), last)
+```
+
+```js
+import { compose, prop } from 'ramda'
+
+// Helper
+const average = xs => reduce(add, 0, xs) / xs.length;
+
+// Rewrite as a composition using average()
+const averageDollarValue = (cars) => {
+  const dollarValues = map(c => c.dollar_value, cars);
+  return average(dollarValues);
+};
+
+// Composed version
+const averageDollarValue = compose(average, map(prop('dollar_value')))
+```
+
+```js
+import { append, compose, prop } from 'ramda'
+
+// Rewrite as a composition using append()
+const fastestCar = (cars) => {
+  const sorted = sortBy(car => car.horsepower, cars);
+  const fastest = last(sorted);
+  return concat(fastest.name, ' is the fastest');
+};
+
+// Composed version
+const fastestCar = compose(append(' is the fastest'), prop('name'), last, sortBy(prop('horsepower')))
+```
+
+### 👨‍💻 Example: log data at any point in a composition with trace()
+
+```js
+// Definition
+const trace = curry((tag, x) => {
+  console.log(tag, x);
+  return x;
+})
+
+// Usage
+trace('after split')
+```
+
+```js
+// Composition that isn't working
+const dasherize = compose(
+  intercalate('-'),
+  toLower,
+  split(' '),
+  replace(/\s{2,}/ig, ' '),
+);
+
+dasherize('The world is a vampire');
+// TypeError: Cannot read property 'apply' of undefined
+
+// Same composition using trace() to inspect the data after split()
+const dasherize = compose(
+  intercalate('-'),
+  toLower,
+  trace('after split'),
+  split(' '),
+  replace(/\s{2,}/ig, ' '),
+);
+
+dasherize('The world is a vampire');
+// after split [ 'The', 'world', 'is', 'a', 'vampire' ]
+
+// Solution: we need to wrap toLower in a map since it's working on an array
+const dasherize = compose(
+  intercalate('-'),
+  map(toLower),
+  split(' '),
+  replace(/\s{2,}/ig, ' '),
+);
+
+dasherize('The world is a vampire'); // 'the-world-is-a-vampire'
+```
+
+### References
+
+- 📕 [Chapter 05: Coding by Composing • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch05.html) • Chapter of online book by Brain Lonsdorf.
+- 📖 [Ramda Docs: `compose`](https://ramdajs.com/docs/#compose)
+- ✍️ [Master the JavaScript Interview: What is Function Composition?](https://medium.com/javascript-scene/master-the-javascript-interview-what-is-function-composition-20dfb109a1a0) • Article by Eric Elliott.
+
+## 7. Describe app behaviour declaratively
+
+1. In FP, we stop telling the computer how to do its job and instead write a specification for the result we'd like
+2. We specify what, not how
+3. The computer/browser is free to do its job and perform its own optimizations
+4. This approach lets us focus on our logic and is much less stressful than trying to micromanage everything all the time
+5. Because we don't dictate the order of evaluation within a composition, declarative coding also lends itself to parallel computing
+
+### 👨‍💻 Examples: rewriting imperative code in a declarative style
+
+```js
+// Imperative (create a new array, then a counter, then increment the counter, then push to the array sequentially)
+const makes = [];
+for (let i = 0; i < cars.length; i += 1) {
+  makes.push(cars[i].make);
+}
+
+// Declarative (car makes, please)
+const makes = cars.map(car => car.make);
+```
+
+```js
+import { compose } from 'ramda'
+
+// Imperative (to authenticate, call toUser first, then call logIn)
+const authenticate = (form) => {
+  const user = toUser(form);
+  return logIn(user);
+};
+
+// Declarative (authentication is the composition of toUser and logIn)
+// In cases where the call order doesn't matter (it does here), this version would be free to parallelize
+const authenticate = compose(logIn, toUser);
+```
+
+### 👨‍💻 Example: a declarative example app that displays Flickr images
+
+```js
+// A declarative specification of what things are, not how they come to be
+
+const CDN = s => `https://cdnjs.cloudflare.com/ajax/libs/${s}`;
+const ramda = CDN('ramda/0.21.0/ramda.min');
+const jquery = CDN('jquery/3.0.0-rc1/jquery.min');
+
+requirejs.config({ paths: { ramda, jquery } });
+require(['jquery', 'ramda'], ($, { compose, curry, map, prop }) => {
+  // Utils
+  const Impure = {
+    trace: curry((tag, x) => { console.log(tag, x); return x; }), // eslint-disable-line no-console
+    getJSON: curry((callback, url) => $.getJSON(url, callback)),
+    setHtml: curry((sel, html) => $(sel).html(html)),
+  };
+
+  // Pure
+  const host = 'api.flickr.com';
+  const path = '/services/feeds/photos_public.gne';
+  const query = t => `?tags=${t}&format=json&jsoncallback=?`;
+  const url = t => `https://${host}${path}${query(t)}`;
+
+  const img = src => $('<img />', { src });
+  const mediaUrl = compose(prop('m'), prop('media'));
+  const mediaToImg = compose(img, mediaUrl);
+  const images = compose(map(mediaToImg), prop('items'));
+
+  // Impure
+  const render = compose(Impure.setHtml('#js-main'), images);
+  const app = compose(Impure.getJSON(render), url);
+
+  app('cats');
+});
+```
+
+### References
+
+- 📕 [Chapter 06: Declarative Coding • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch06.html) • Chapter from online book by Brian Lonsdorf.
+
+## 8. Create containers for data
+
+1. A container is like a special box that cradles the data placed inside it
+2. It is an object that bottles up its data and some functions to apply to it
+3. It must accept any type of value
+4. Once data goes into a container, it stays there until we're done acting on it and finally ready to take it out
+5. Use `of` to lift data into a container
+6. Use `map` to run functions on the container's data (including changing its type) while keeping it contained
+7. You can also define reusable functions that work with normal data types (rather than container types) and lift them into a container when you call them by wrapping their call with `map`. This leads to more reusable functions that will work with any functor.
+
+### References
+
+- 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html) • Chapter of an online book by Brain Lonsdorf.
+
+## 9. Handle empty values with Maybe or Either
+
+1. Use `Maybe` in functions that might return `null` or `undefined` and trigger an error in the next function
+2. Using `Maybe` (or its subtypes) enforces `null` checks that might otherwise be missed
+3. `Maybe` is usually split into a `Some(x)` / `None` or `Just(x)` / `Nothing` pair instead of one `Maybe` that does a `null` check
+4. Returning `None` or `Nothing` allows values like `null` and `undefined` to be mapped without crashing the pipeline
+5. Replace `Maybe` with `Either` if you want to provide feedback when things go wrong
+
+> Our application's job is to retrieve, transform, and map its data along in the safety of a container until it's time to say goodbye and spit out a side effect. A common error is to remove a value from Maybe too early. We must remember it may be on a branch of code in which its value can't be computed. The data, much like Schrödinger's cat, is in two states at once and should maintain that awareness until the final function. Maybe gives our code a linear flow despite the logical branching.
+> 
+> &mdash; Brian Lonsdorf, Professor Frisby's Mostly Adequate Guide to Functional Programming
+
+### 👨‍💻 Example: A Maybe type with of(), map() and inspect()
+
+```js
+import { prop } from 'ramda'
+
+/**
+  * Maybe looks a lot like Container with one minor change: it will 
+  * first check to see if it has a value before calling the supplied 
+  * function. This has the effect of side stepping those pesky nulls 
+  * as we map. (Note: this is a simplified implementation.)
+  */
+
+class Maybe {
+  static of(x) {
+    return new Maybe(x);
+  }
+
+  get isNothing() {
+    return this.$value === null || this.$value === undefined;
+  }
+
+  constructor(x) {
+    this.$value = x;
+  }
+
+  map(fn) {
+    return this.isNothing ? this : Maybe.of(fn(this.$value));
+  }
+
+  inspect() {
+    return this.isNothing ? 'Nothing' : `Just(${inspect(this.$value)})`;
+  }
+}
+
+/**
+ * Notice the app doesn't explode with errors as we map functions over our 
+ * null values. This is because Maybe will take care to check for a value 
+ * each and every time it applies a function.
+ */
+
+Maybe.of('Malkovich Malkovich').map(match(/a/ig));
+// Just(True)
+
+Maybe.of(null).map(match(/a/ig));
+// Nothing
+
+Maybe.of({ name: 'Boris' }).map(prop('age')).map(add(10));
+// Nothing
+
+Maybe.of({ name: 'Dinah', age: 14 }).map(prop('age')).map(add(10));
+// Just(24)
+```
+
+### 👨‍💻 Example: returning a Maybe if a function could fail to return a result
+
+```js
+import { compose, map, prop } from 'ramda'
+
+// [a] -> Maybe(a) - a safer version of head()
+const safeHead = xs => Maybe.of(xs[0]);
+
+// streetName :: Object -> Maybe String
+const streetName = compose(map(prop('street')), safeHead, prop('addresses'));
+
+streetName({ addresses: [] });
+// Nothing
+
+streetName({ addresses: [{ street: 'Shady Ln.', number: 4201 }] });
+// Just('Shady Ln.')
+```
+
+### 👨‍💻 Example: returning a Nothing to explicitly signal failure
+
+```js
+import { curry } from 'ramda'
+
+/**
+ * Instead of Just('..'), withdraw() will explicitly return Nothing if we're 
+ * low on cash. This signals failure and intentionally skips the remaining
+ * computations (namely finishTransaction) since the remaining mapped functions 
+ * won't be run once a Nothing is received. This is the intended behaviour as 
+ * we'd prefer not to update our ledger or show a new balance if we couldn't 
+ * successfully withdraw funds.
+ */
+
+// withdraw :: Number -> Account -> Maybe(Account)
+const withdraw = curry((amount, { balance }) =>
+  Maybe.of(balance >= amount ? { balance: balance - amount } : null));
+
+// This function is hypothetical, not implemented here... nor anywhere else.
+// updateLedger :: Account -> Account 
+const updateLedger = account => account;
+
+// remainingBalance :: Account -> String
+const remainingBalance = ({ balance }) => `Your balance is $${balance}`;
+
+// finishTransaction :: Account -> String
+const finishTransaction = compose(remainingBalance, updateLedger);
+
+// getTwenty :: Account -> Maybe(String)
+const getTwenty = compose(map(finishTransaction), withdraw(20));
+
+getTwenty({ balance: 200.00 }); 
+// Just('Your balance is $180')
+
+getTwenty({ balance: 10.00 });
+// Nothing
+```
+
+### 👨‍💻 Example: using maybe() to remove a value from Maybe while returning it
+
+```js
+import { compose } from 'ramda'
+
+/**
+ * getTwenty() will now return either a static value (of the same type that 
+ * finishTransaction returns) or continue finishing up the transaction sans 
+ * Maybe. With maybe(), we are witnessing the equivalent of an if/else 
+ * statement, whereas with map(), the imperative analog would be: 
+ * if (x !== null) { return f(x) }.
+ */
+
+// maybe :: b -> (a -> b) -> Maybe a -> b
+const maybe = curry((v, f, m) => {
+  if (m.isNothing) {
+    return v;
+  }
+
+  return f(m.$value);
+});
+
+// getTwenty :: Account -> String
+const getTwenty = compose(maybe('You\'re broke!', finishTransaction), withdraw(20));
+
+getTwenty({ balance: 200.00 }); 
+// 'Your balance is $180.00'
+
+getTwenty({ balance: 10.00 }); 
+// 'You\'re broke!'
+```
+
+### 👨‍💻 Example: finding a user's first initial with head and safeProp
+
+```js
+import { compose, prop } from 'ramda'
+
+// Helpers
+const user = { id: 2, name: 'Albert', active: true }
+const head = xs => xs[0]
+const safeProp = curry((p, obj) => compose(Maybe.of, prop(p))(obj))
+
+// Solution
+const initial = compose(map(head), safeProp('name'))
+```
+
+### References
+
+- 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html#schr%C3%B6dingers-maybe) • Chapter of an online book by Brain Lonsdorf.
+
+## 10. Handle errors with Either
+
+1. A `throw`/`catch` is not pure since it produces an instant side effect instead of an output value
+2. Use `Either` and its subtypes `Right` and `Left` to respond to errors with a message instead
+3. `Right` works like `Identity`, while `Left` ignores all operations and passes its value straight down
+4. We could use `Nothing` to signal failure and branch our program; however, that won't tell us why it failed
+5. The advantage of `Either` over `Maybe` is its ability to embed an error message within the `Left` 
+6. `Either` is great for casual errors like validation as well as more serious "stop the show" errors like missing files or broken sockets
+7. Try replacing some of the `Maybe` examples with `Either` so they provide better feedback
+
+### References
+
+- 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html#pure-error-handling) • Chapter of an online book by Brain Lonsdorf.
+
+## 11. Handle side effects with IO
+
+1. The goal is to contain side effects and run them in a controlled way
+2. Use IO to place side effects in a container that let's us map over them without actually triggering them
+3. Compute the side effect's value using pure functions
+4. Run the resulting side effect in the impure calling function 
+5. Push impure functions as close to the outer edges of the program as possible
+
+> There will always be an end of the line; some effecting function that sends JSON along, or prints to the screen, or alters our filesystem, etc. We cannot deliver the output with return; we must run a function to send it out into the world.
+>
+> &mdash; Brian Lonsdorf, Professor Frisby's Mostly Adequate Guide to Functional Programming
+
+### References
+
+- 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html#old-mcdonald-had-effects) • Chapter of an online book by Brain Lonsdorf.
+
+## 12. Handle asynchronous tasks with Task
+
+1. `Task` is basically a pure version of `Promise` that uses map instead of then
+2. It's like `IO` but for future values (though it works with normal, non-futuristic values as well)
+3. `Task` lets us map over the future value and work on it as though we already have it
+4. Like `IO`, `Task` waits to trigger the task until we specifically start it (in this case, by calling its fork method)
+5. `Task` gives us us a linear control flow that reads bottom to top and is easy to follow
+6. Having multiple asynchronous tasks in one workflow will require more container APIs than just `Task` to handle... (🚧)
+
+### References
+
+- 📕 [Chapter 08: Tupperware • Professor Frisby's Mostly Adequate Guide to Functional Programming](https://mostly-adequate.gitbooks.io/mostly-adequate-guide/content/ch08.html#asynchronous-tasks) • Chapter of an online book by Brain Lonsdorf.
+
+## Avoid mutating data
+
+- 📺 [Immer - Immutability through mutations](https://m.youtube.com/watch?v=vsrhBUxfXQM) • 21 minute video by Leigh Halliday introducing how to use `immer`.
+- 📺 [Immutable Data Without Pain & Suffering](https://m.youtube.com/watch?v=BcvezP2Av_4) • 22 minute video by Leigh Halliday showing how to use [`immer`](https://immerjs.github.io/immer/docs/introduction) and [`use-immer`](https://github.com/immerjs/use-immer) to make concise, immutable updates to nested object properties.
+
+## Glossary
+
+* **`associativity`:** the result of an expression is the same regardless of how the items are grouped
+* **`composition`: ...**
+* **`currying`: ...**
+* **`declarative programming`:** writing expressions that specify what we want without providing step-by-step instructions for how to get it
+* **`equational reasoning`:** understanding code by substituting "equals for equals" (by leveraging `referential transparency`)
+* **`function`:** a special relationship between values in which each possible input value maps to one output value (picture a table of input/output pairs)
+* **`functor`:** a container type that implements `map` and obeys some laws:
+	* identity: `map(id) === id`
+	* composition: `compose(map(f), map(g)) === map(compose(f, g))`
+* **`generic function`:** a function named for its high-level concept with its arguments named vaguely to allow reuse with other data
+* **`higher order function`:** a function that takes or returns a function
+* **`imperative programming`: writing step-by-step instructions that tell the computer how to produce what we want**
+* **`lifting`:** transforming a non-functory function into a functory one
+* **`monad`: ...**
+* **`monoid`: ...**
+* **`parametric function`:** a function that acts on all types in a uniform manner
+* **`partial application`:** giving a function fewer arguments than it expects in order to return a new function that remembers those values
+* **`pointed functor`:** a functor with an `of` method
+* **`pointfree`:** a style in which, thanks to first class functions, currying and composition, functions can drop their final argument in order to avoid specifying the data they operate on
+* **`pure function`:** a function that, given the same input, will always return the same output and has no observable side effects
+* **`referential transparency`:** when a function call can be substituted for its output without changing the program's behaviour
+* **`side effect`:** any interaction with the world outside of a function (e.g. mutating a variable, changing the file system, inserting a record into a database, making an http call, printing to the screen, logging, obtaining user input, querying the DOM, accessing system state)
+* **`unary function`:** a function that accepts only one argument
