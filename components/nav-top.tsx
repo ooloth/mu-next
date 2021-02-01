@@ -1,38 +1,29 @@
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 
-import Emoji from './emoji'
+import Emoji, { EmojiPicture } from './emoji'
 import notCurrentPage from '../utils/not-current-page'
 import classNames from '../utils/class-names'
 import { useColorMode } from './color-mode'
 
-function ToggleDarkMode() {
-  const { colorMode, setColorMode } = useColorMode()
+// function ToggleDarkMode() {
+//   const { colorMode, setColorMode } = useColorMode()
 
-  const emoji =
-    colorMode === 'light'
-      ? {
-          picture: '🌙',
-          label: 'A crescent moon.',
-        }
-      : {
-          picture: '☀️️',
-          label: 'A yellow sun.',
-        }
+//   const emoji: EmojiPicture = colorMode === 'light' ? '🌙' : '☀️️'
 
-  function handleClick() {
-    setColorMode(colorMode === 'dark' ? 'light' : 'dark')
-  }
+//   function handleClick() {
+//     setColorMode(colorMode === 'dark' ? 'light' : 'dark')
+//   }
 
-  return (
-    <button
-      onClick={handleClick}
-      className="rounded bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 p-1 w-8 h-8 leading-none text-xl"
-    >
-      {colorMode && <Emoji picture={emoji.picture} label={emoji.label} />}
-    </button>
-  )
-}
+//   return (
+//     <button
+//       onClick={handleClick}
+//       className="rounded bg-gray-800 dark:bg-gray-800 dark:hover:bg-gray-700 p-1 w-8 h-8 leading-none text-xl"
+//     >
+//       {colorMode && <Emoji picture={emoji} />}
+//     </button>
+//   )
+// }
 
 export interface NavItem {
   href: string

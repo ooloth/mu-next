@@ -1,22 +1,25 @@
 import NextLink from 'next/link'
 import NextImage from 'next/image'
 import { ReactNode } from 'react'
-import Tweet from 'react-tweet-embed'
+// import Tweet from 'react-tweet-embed'
+
+import Emoji from 'components/emoji'
 
 interface LinkProps {
   href: string
   children?: ReactNode
   ariaLabel?: string
-  className: string
+  className?: string
+  style?: any
 }
 
-const Link = ({ href, children, ariaLabel, className }: LinkProps) => {
+const Link = ({ href, children, ariaLabel, className, style }: LinkProps) => {
   const isInternalLink = href && (href.startsWith('/') || href.startsWith('#'))
 
   if (isInternalLink) {
     return (
       <NextLink href={href}>
-        <a aria-label={ariaLabel || null} className={className}>
+        <a aria-label={ariaLabel || null} className={className} style={style}>
           {children}
         </a>
       </NextLink>
@@ -30,9 +33,23 @@ const Link = ({ href, children, ariaLabel, className }: LinkProps) => {
       target="_blank"
       rel="noopener noreferrer"
       className={className}
+      style={style}
     >
       {children}
     </a>
+  )
+}
+
+function BlockLink({ icon, href, children }) {
+  return (
+    <Link
+      href={href}
+      className="inline-flex mb-3 mr-3 shadow-md rounded bg-gray-800 hover:bg-gray-700 py-3 px-5 text-center text-sm font-semibold"
+      style={{ textDecoration: 'none', color: 'rgb(228, 228, 231)' }}
+    >
+      {icon && <Emoji picture={icon} className="pr-2" />}
+      {children}
+    </Link>
   )
 }
 
@@ -83,7 +100,7 @@ const Figure = ({ caption, alt, src, width, height, priority }) => {
 
 const Step = ({ icon, heading, date, children }) => {
   return (
-    <li className="flex mt-8">
+    <li className="flex mb-12">
       <p className="flex-none w-6 text-lg">{icon}</p>
 
       <div className="ml-2 w-full">
@@ -147,12 +164,13 @@ function Project({ name, url, children }) {
 
 const MDXComponents = {
   a: Link,
+  BlockLink,
   Figure,
   Image,
   Step,
   Card,
   Project,
-  Tweet,
+  // Tweet,
 }
 
 export default MDXComponents
