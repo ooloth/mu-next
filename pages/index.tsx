@@ -14,7 +14,7 @@ function TimelineYear({ year, steps }) {
 
   return (
     <section className="mt-16">
-      <h3 className="pt-8 text-2xl font-extrabold">{year}</h3>
+      <h3 className="py-8 text-2xl font-extrabold">{year}</h3>
       <ul>{content}</ul>
     </section>
   )
@@ -56,7 +56,7 @@ export default function Home({ timelineByYear }) {
 
         <div className="flex flex-col md:flex-row md:items-center md:justify-center space-y-2 md:space-y-0 md:space-x-4 mt-8">
           <Link href="/about">
-            <a className="shadow-md rounded bg-blue-600 py-3 px-6 text-center text-sm font-semibold">
+            <a className="shadow-md rounded bg-blue-600 py-3 px-6 text-center text-sm font-semibold text-gray-200">
               More about me
             </a>
           </Link>
@@ -64,7 +64,7 @@ export default function Home({ timelineByYear }) {
             href="https://twitter.com/ooloth"
             target="_blank"
             rel="noopener noreferrer"
-            className="shadow-md rounded bg-gray-900 py-3 px-6 text-center text-sm font-semibold"
+            className="shadow-md rounded bg-gray-800 hover:bg-gray-700 py-3 px-6 text-center text-sm font-semibold"
           >
             Follow me on Twitter
           </a>
