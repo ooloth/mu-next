@@ -12,6 +12,8 @@ dateUpdated: '2021-02-04'
 
 ### Creating a free development store
 
+This is how to create a free store you can play with for as long as you like.
+
 1. Create a free [Shopify Partner](https://www.shopify.ca/partners)
 2. Log in
 3. Click "Create new partner account"
@@ -27,6 +29,8 @@ dateUpdated: '2021-02-04'
 
 ### Adding sample product data to a store
 
+If all you need is some dummy data, this is the fastest way to get it.
+
 1. In your store, click "Apps" in the sidebar
 2. Click "Visit the Shopify App Store"
 3. Search for "simple sample data"
@@ -34,7 +38,7 @@ dateUpdated: '2021-02-04'
 5. Although it says it costs $0.99, since we're building a development store, it will actually be free when we add it
 6. Click "Add app"
 7. Click "Install app"
-8. On the Simple Sample Data app page, select a theme and which types of sample data to add
+8. On the Simple Sample Data app page, select a theme and which types of sample data to add (note that if you include "Orders", you'll receive an email notification about each order, but don't worry! They aren't real orders and it doesn't mean your shop is public. In the next step, we're going to remove the online store completely).
 9. Click "Generate Data" (top right)
 10. Click "Yes, generate dummy data!"
 11. Wait several minutes while the data generates ☕️
@@ -43,7 +47,18 @@ dateUpdated: '2021-02-04'
 
 - 📺 [How To Add Sample Data For Your Shopify Store: Products, Orders, Customers](https://m.youtube.com/watch?v=e-xXJOvuJDo) • 5 minute video by CodingPhase showing how to populate a Shopify store with sample products.
 
+### Remove Online Store
+
+These pages aren't needed when using Shopify as a headless API.
+
+1. In your store, go to "Settings" (bottom of sidebar)
+2. Go to "Sales channels"
+3. Remove the Online Store
+4. Confirm
+
 ### Generating Shopify API credentials
+
+This will allow you to query your store data from your site.
 
 1. In your store, go to "Apps"
 2. Scroll to the bottom and click "Manage private apps"
@@ -65,6 +80,8 @@ dateUpdated: '2021-02-04'
 - 📖 [Make your first Shopify API request](https://shopify.dev/tutorials/make-your-first-shopify-api-request) • Shopify docs for how to generate API credentials (ignore the rest).
 
 #### Using the Storefront API
+
+This is the API that includes your products, collections and checkouts.
 
 - 🧑‍💻 [Storefront API Examples: React + GraphQL](https://github.com/Shopify/storefront-api-examples/blob/master/react-graphql-client/src/App.js) • Example code showing how to make a variety of detailed, authenticated GraphQL queries to the Storefront API in a React app.
 - 📖 [Shopify Storefront API](https://shopify.dev/docs/storefront-api) • Shopify docs.
