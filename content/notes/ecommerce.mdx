@@ -1,13 +1,73 @@
 ---
 title: Ecommerce
 description: Online ways to trade your thing for their money.
-dateUpdated: '2021-02-03'
+dateUpdated: '2021-02-04'
 ---
 
 ## Shopify
 
+### Introduction
+
 - 📺 [Understanding the Shopify API](https://m.youtube.com/watch?v=U2nIleAHQXE) • 8 minute video by Coding with Jan briefly summarizing what you can do with the Admin and Storefront APIs.
-- 📺 [How To Add Sample Data For Your Shopify Store: Products, Orders, Customers](https://m.youtube.com/watch?v=e-xXJOvuJDo) • 5 minute video by CodingPhase.
+
+### Creating a free development store
+
+1. Create a free [Shopify Partner](https://www.shopify.ca/partners)
+2. Log in
+3. Click "Create new partner account"
+4. Fill in the form and click "View your dashboard"
+5. Confirm your email address
+6. Click "Create store" on main  dashboard or "Stores" > "Add store"
+7. Select "Development store"
+8. Fill in the form (any email/password combo is okay) and click "Save" 
+
+#### Reference
+
+- 📖 [Creating development stores](https://help.shopify.com/en/partners/dashboard/managing-stores/development-stores) • How to create Shopify stores that are free for an unlimited time in development mode.
+
+### Adding sample product data to a store
+
+1. In your store, click "Apps" in the sidebar
+2. Click "Visit the Shopify App Store"
+3. Search for "simple sample data"
+4. Click on the result called "Simple Sample Data"
+5. Although it says it costs $0.99, since we're building a development store, it will actually be free when we add it
+6. Click "Add app"
+7. Click "Install app"
+8. On the Simple Sample Data app page, select a theme and which types of sample data to add
+9. Click "Generate Data" (top right)
+10. Click "Yes, generate dummy data!"
+11. Wait several minutes while the data generates ☕️
+
+#### Reference
+
+- 📺 [How To Add Sample Data For Your Shopify Store: Products, Orders, Customers](https://m.youtube.com/watch?v=e-xXJOvuJDo) • 5 minute video by CodingPhase showing how to populate a Shopify store with sample products.
+
+### Generating Shopify API credentials
+
+1. In your store, go to "Apps"
+2. Scroll to the bottom and click "Manage private apps"
+3. Click "Enable private app development"
+4. Select all three checkboxes and click "Enable private app development"
+5. Click "Create private app"
+6. Enter any name (e.g. "Website API Access")
+7. Enter your email address
+8. Scroll down to Storefront API
+9. Check "Allow this app to access your storefront data using the Storefront API"
+10. Check all relevant data categories
+10. Click "Save"
+11. Click "Create app"
+12. Use the "Storefront API token" at the bottom of the app settings page to authenticate with the Storefront API
+13. Use the "API key" above it to authenticate with the Admin API
+
+#### Reference
+
+- 📖 [Make your first Shopify API request](https://shopify.dev/tutorials/make-your-first-shopify-api-request) • Shopify docs for how to generate API credentials (ignore the rest).
+
+#### Using the Storefront API
+
+- 🧑‍💻 [Storefront API Examples: React + GraphQL](https://github.com/Shopify/storefront-api-examples/blob/master/react-graphql-client/src/App.js) • Example code showing how to make a variety of detailed, authenticated GraphQL queries to the Storefront API in a React app.
+- 📖 [Shopify Storefront API](https://shopify.dev/docs/storefront-api) • Shopify docs.
 
 ## Stripe
 
