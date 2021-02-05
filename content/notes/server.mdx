@@ -1,0 +1,23 @@
+---
+title: Home Media Server
+description: How to use a Mac mini to back up other devices and host large media files.
+dateUpdated: '2021-02-04'
+---
+
+## Overview 
+
+- Used a Synology NAS to achieve this at first and stuck with it for a few months
+- Ultimately decided to switch to a Mac mini with attached HDDs so I could interact with macOS instead of Synology's limited operating system
+
+## Details
+
+- M1 Mac mini
+- Terraform 5-bay HDD enclosure
+- Five 8 TB HDDs
+  - Two media drives
+  - Two backup drives (one per media drive)
+  - One drive to store Time Machine backups from other devices
+- Backup drives updated nightly by Carbon Copy Cloner
+- Mac mini + two media drives backed up to Backblaze
+- Plex Media Server consumes content of media drives and makes it available to Plex apps on home devices
+
