@@ -63,6 +63,12 @@ class MyDocument extends Document {
           <meta name="theme-color" content="#ffffff" />
           <meta name="msapplication-TileColor" content="#ffffff" />
           <meta name="msapplication-config" content="/favicons/browserconfig.xml" />
+          <link
+            rel="alternate"
+            type="application/rss+xml"
+            title="RSS for blog posts"
+            href="https://michaeluloth.com/rss.xml"
+          />
           <meta
             name="google-site-verification"
             content={
