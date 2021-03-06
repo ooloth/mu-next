@@ -11,7 +11,7 @@ export default async function fetchTmdbList(
   api: 'tv' | 'movie',
 ): Promise<TmdbItem[]> {
   if (!listId) {
-    console.log('fetchTMDBListData error: listId is undefined')
+    console.log('fetchTmdbList error: listId is undefined')
     return []
   }
 
@@ -43,9 +43,7 @@ export default async function fetchTmdbList(
         for (let result of data.results) {
           const title = result.title || result.name
           const id = result.id
-          const date = new Date(
-            result.release_date || result.first_air_date,
-          ).getFullYear()
+          const date = result.release_date || result.first_air_date
           const imageUrl = `https://image.tmdb.org/t/p/original${result.poster_path}`
           const link = `https://www.themoviedb.org/${api}/${id}`
 
@@ -58,7 +56,7 @@ export default async function fetchTmdbList(
         }
       }
     } catch (error) {
-      console.log('fetchTMDBListData error', error)
+      console.log('fetchTmdbList error:', error)
     }
 
     page++
