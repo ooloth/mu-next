@@ -1,10 +1,17 @@
 import hydrate from 'next-mdx-remote/hydrate'
 import { format } from 'timeago.js'
+import { NextSeo } from 'next-seo'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
 import MdxComponents from 'components/mdx'
 import { getFileContents } from 'lib/mdx'
+
+const seo = {
+  url: 'https://michaeluloth.com/uses',
+  title: 'Uses 🧰',
+  description: 'Hardware and software I use to build cool things.',
+}
 
 export default function Uses({ uses: { mdxSource, frontMatter } }) {
   const content = hydrate(mdxSource, {
@@ -12,7 +19,14 @@ export default function Uses({ uses: { mdxSource, frontMatter } }) {
   })
 
   return (
-    <Outer>
+    <Outer narrow>
+      <NextSeo
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.url}
+        openGraph={{ ...seo }}
+      />
+
       <header>
         <Header title={frontMatter.title} summary={frontMatter.summary} />
       </header>
