@@ -3,7 +3,15 @@ module.exports = {
     optimizeFonts: true,
   },
   images: {
-    domains: ['image.tmdb.org', 'media.giphy.com'],
+    domains: [
+      'image.tmdb.org',
+      'is1-ssl.mzstatic.com',
+      'is2-ssl.mzstatic.com',
+      'is3-ssl.mzstatic.com',
+      'is4-ssl.mzstatic.com',
+      'is5-ssl.mzstatic.com',
+      'media.giphy.com',
+    ],
   },
   reactStrictMode: true,
   async redirects() {
