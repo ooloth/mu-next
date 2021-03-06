@@ -4,8 +4,11 @@ import { NextSeo } from 'next-seo'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
+import albumList from '../content/likes/albums'
+import bookList from '../content/likes/books'
+import podcastList from '../content/likes/podcasts'
 import fetchTmdbList, { TmdbItem } from 'lib/tmdb/fetchTmdbList'
-import { iTunesItem } from 'lib/itunes/fetchItunesItems'
+import fetchItunesItems, { iTunesItem } from 'lib/itunes/fetchItunesItems'
 
 const seo = {
   url: 'https://michaeluloth.com/likes',
@@ -13,7 +16,7 @@ const seo = {
   description: 'TV shows, movies, albums, books and podcasts I liked a lot.',
 }
 
-export default function LikesPage({ tvShows, movies }) {
+export default function LikesPage({ tvShows, movies, books, albums, podcasts }) {
   return (
     <Outer>
       <NextSeo
@@ -28,6 +31,9 @@ export default function LikesPage({ tvShows, movies }) {
       <main>
         <Category heading="TV" items={tvShows} info="TMDB" />
         <Category heading="Movies" items={movies} info="TMDB" />
+        <Category heading="Books" items={books} info="Apple Books" />
+        <Category heading="Albums" items={albums} info="Apple Music" />
+        <Category heading="Podcasts" items={podcasts} info="Apple Podcasts" />
       </main>
     </Outer>
   )
@@ -45,7 +51,7 @@ const Category = ({ heading, items, info }: LikesCategory) => (
   <section className="mt-16">
     <h2 className="text-5xl font-extrabold">{heading}</h2>
 
-    <ul className="flex relative mt-4 overflow-x-auto overflow-y-hidden hide-scrollbar scrolling-touch">
+    <ul className="flex relative mt-6 overflow-x-auto overflow-y-hidden hide-scrollbar scrolling-touch">
       {items.map(item => (
         <li key={item.id} className="flex-none mr-10 w-48">
           <Link
@@ -57,7 +63,7 @@ const Category = ({ heading, items, info }: LikesCategory) => (
                 src={item.imageUrl}
                 alt="" // decorative, so hide from screen readers
                 width={300}
-                height={435}
+                height={heading === 'Albums' || heading === 'Podcasts' ? 300 : 435}
                 className="shadow-lg rounded"
               />
 
@@ -73,7 +79,7 @@ const Category = ({ heading, items, info }: LikesCategory) => (
 
               {item.date && (
                 <p className="mt-1 text-sm text-center font-semibold">
-                  ({item.date})
+                  ({new Date(item.date).getFullYear()})
                 </p>
               )}
             </a>
@@ -85,10 +91,17 @@ const Category = ({ heading, items, info }: LikesCategory) => (
 )
 
 export async function getStaticProps() {
-  const tvShows = await fetchTmdbList(process.env.TMDB_TV_LIST_ID, 'tv')
-  const movies = await fetchTmdbList(process.env.TMDB_MOVIE_LIST_ID, 'movie')
+  let tvShows, movies, books, albums, podcasts
+
+  await Promise.all([
+    (tvShows = await fetchTmdbList(process.env.TMDB_TV_LIST_ID, 'tv')),
+    (movies = await fetchTmdbList(process.env.TMDB_MOVIE_LIST_ID, 'movie')),
+    (books = await fetchItunesItems(bookList, 'ebook', 'ebook')),
+    (albums = await fetchItunesItems(albumList, 'music', 'album')),
+    (podcasts = await fetchItunesItems(podcastList, 'podcast', 'podcast')),
+  ])
 
   return {
-    props: { tvShows, movies },
+    props: { tvShows, movies, books, albums, podcasts },
   }
 }
