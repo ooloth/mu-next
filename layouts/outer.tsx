@@ -1,13 +1,24 @@
+import { ReactNode } from 'react'
+
 import Head from '../components/head'
 import TopNav from '../components/nav-top'
 import Footer from '../components/footer'
 
-export default function Outer({ children }) {
+interface OuterProps {
+  narrow?: boolean
+  children: ReactNode
+}
+
+export default function Outer({ narrow, children }: OuterProps) {
   return (
     <>
       <Head />
       <TopNav />
-      <div className="flex flex-col mx-auto pt-28 px-6 max-w-2xl min-h-screen">
+      <div
+        className={`flex flex-col pt-28 px-6 min-h-screen ${
+          narrow ? 'mx-auto max-w-2xl' : ''
+        }`}
+      >
         <div className="flex-auto">{children}</div>
         <Footer />
       </div>

@@ -59,6 +59,33 @@ const ArticleSeo = ({
   )
 }
 
+export default function Article({ article: { mdxSource, frontMatter } }) {
+  const content = hydrate(mdxSource, {
+    components: MdxComponents,
+  })
+
+  return (
+    <Outer narrow>
+      <ArticleSeo {...frontMatter} />
+
+      <article>
+        <header>
+          <h1 className="mb-0 leading-tight font-extrabold text-4xl">
+            {frontMatter.title}
+          </h1>
+          <p className="mt-3 text-sm text-gray-700 dark:text-gray-500">
+            Updated {format(frontMatter.dateUpdated || frontMatter.datePublished)}
+          </p>
+        </header>
+
+        <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
+          {content}
+        </div>
+      </article>
+    </Outer>
+  )
+}
+
 // const discussUrl = slug =>
 //   `https://mobile.twitter.com/search?q=${encodeURIComponent(
 //     `https://michaeluloth.com/${slug}`,
@@ -84,30 +111,3 @@ const ArticleSeo = ({
 //     </footer>
 //   )
 // }
-
-export default function Article({ article: { mdxSource, frontMatter } }) {
-  const content = hydrate(mdxSource, {
-    components: MdxComponents,
-  })
-
-  return (
-    <Outer>
-      <ArticleSeo {...frontMatter} />
-
-      <article>
-        <header>
-          <h1 className="mb-0 leading-tight font-extrabold text-4xl">
-            {frontMatter.title}
-          </h1>
-          <p className="mt-3 text-sm text-gray-700 dark:text-gray-500">
-            Updated {format(frontMatter.dateUpdated || frontMatter.datePublished)}
-          </p>
-        </header>
-
-        <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
-          {content}
-        </div>
-      </article>
-    </Outer>
-  )
-}

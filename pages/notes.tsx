@@ -14,7 +14,7 @@ const seo = {
 
 export default function Notes({ notes }) {
   return (
-    <Outer>
+    <Outer narrow>
       <NextSeo
         canonical={seo.url}
         title={seo.title}

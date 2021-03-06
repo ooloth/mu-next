@@ -16,11 +16,8 @@
 
 @import 'tailwindcss/components';
 
+@import './components/hide-scrollbar.css';
 @import './components/syntax-highlighting.css';
-
-/* @import './components/aspect-ratios.css'; */
-/* @import './components/hide-scrollbar.css'; */
-/* @import './components/icon.css'; */
 
 /** 
  * Utilities 

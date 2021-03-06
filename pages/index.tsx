@@ -7,30 +7,6 @@ import Header from 'components/header'
 import MdxComponents from 'components/mdx'
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx'
 
-function TimelineYear({ year, steps }) {
-  const content = hydrate(steps, {
-    components: MdxComponents,
-  })
-
-  return (
-    <section className="mt-16">
-      <h3 className="py-8 text-2xl font-extrabold">{year}</h3>
-      <ul>{content}</ul>
-    </section>
-  )
-}
-
-function Timeline({ years }) {
-  return (
-    <section className="mt-24 divide-y divide-gray-300 divide-opacity-20">
-      <h2 className="sr-only">Timeline</h2>
-      {years.map(({ frontMatter, mdxSource }) => (
-        <TimelineYear year={frontMatter.year} steps={mdxSource} />
-      ))}
-    </section>
-  )
-}
-
 const seo = {
   url: 'https://michaeluloth.com',
   title: 'Hey 👋',
@@ -40,7 +16,7 @@ const seo = {
 
 export default function Home({ timelineByYear }) {
   return (
-    <Outer>
+    <Outer narrow>
       <NextSeo
         canonical={seo.url}
         title={seo.title}
@@ -75,6 +51,30 @@ export default function Home({ timelineByYear }) {
         <Timeline years={timelineByYear} />
       </main>
     </Outer>
+  )
+}
+
+function TimelineYear({ year, steps }) {
+  const content = hydrate(steps, {
+    components: MdxComponents,
+  })
+
+  return (
+    <section className="mt-16">
+      <h3 className="py-8 text-2xl font-extrabold">{year}</h3>
+      <ul>{content}</ul>
+    </section>
+  )
+}
+
+function Timeline({ years }) {
+  return (
+    <section className="mt-24 divide-y divide-gray-300 divide-opacity-20">
+      <h2 className="sr-only">Timeline</h2>
+      {years.map(({ frontMatter, mdxSource }) => (
+        <TimelineYear year={frontMatter.year} steps={mdxSource} />
+      ))}
+    </section>
   )
 }
 

@@ -58,7 +58,7 @@ export default function Note({ note: { mdxSource, frontMatter } }) {
   })
 
   return (
-    <Outer>
+    <Outer narrow>
       <NoteSeo {...frontMatter} />
 
       <article>
