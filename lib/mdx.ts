@@ -16,6 +16,7 @@ type ContentType =
   | 'projects'
   | 'snippets'
   | 'timeline'
+  | 'uses'
 
 export async function getFileNames(type: ContentType) {
   return fs.readdirSync(path.join(root, 'content', type))
