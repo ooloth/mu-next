@@ -3,7 +3,7 @@ module.exports = {
     optimizeFonts: true,
   },
   images: {
-    domains: ['media.giphy.com'],
+    domains: ['image.tmdb.org', 'media.giphy.com'],
   },
   reactStrictMode: true,
   async redirects() {
@@ -17,11 +17,6 @@ module.exports = {
         source: '/contact',
         destination: '/',
         permanent: true,
-      },
-      {
-        source: '/likes',
-        destination: '/',
-        permanent: false,
       },
       {
         source: '/opera',
