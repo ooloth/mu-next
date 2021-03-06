@@ -15,6 +15,37 @@ const seo = {
     'A summary of my career plus links to my recent videos, blog posts and side projects.',
 }
 
+export default function About({ bio, projects, articles }) {
+  return (
+    <Outer narrow>
+      <NextSeo
+        title={seo.title}
+        description={seo.description}
+        canonical={seo.url}
+        openGraph={{ ...seo }}
+      />
+
+      <header>
+        <h1 className="sr-only">About | Michael Uloth</h1>
+        <Image
+          alt="Michael smiling into the camera."
+          src={`/images/michael-landscape.jpg`}
+          width={2883}
+          height={2058}
+          priority
+          className="flex mt-8 shadow-md rounded bg-gray-900"
+        />
+      </header>
+
+      <main className="divide-y divide-gray-300 divide-opacity-20">
+        <Bio bio={bio} />
+        <Projects projects={projects} />
+        <Writing articles={articles} />
+      </main>
+    </Outer>
+  )
+}
+
 function Bio({ bio: { frontMatter, mdxSource } }) {
   const content = hydrate(mdxSource, {
     components: MdxComponents,
@@ -81,37 +112,6 @@ function Writing({ articles }) {
       </a>
     </Link>*/}
     </section>
-  )
-}
-
-export default function About({ bio, projects, articles }) {
-  return (
-    <Outer>
-      <NextSeo
-        title={seo.title}
-        description={seo.description}
-        canonical={seo.url}
-        openGraph={{ ...seo }}
-      />
-
-      <header>
-        <h1 className="sr-only">About | Michael Uloth</h1>
-        <Image
-          alt="Michael smiling into the camera."
-          src={`/images/michael-landscape.jpg`}
-          width={2883}
-          height={2058}
-          priority
-          className="flex mt-8 shadow-md rounded bg-gray-900"
-        />
-      </header>
-
-      <main className="divide-y divide-gray-300 divide-opacity-20">
-        <Bio bio={bio} />
-        <Projects projects={projects} />
-        <Writing articles={articles} />
-      </main>
-    </Outer>
   )
 }
 

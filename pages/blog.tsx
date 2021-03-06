@@ -13,6 +13,26 @@ const seo = {
   description: 'Thoughts about coding and web development.',
 }
 
+export default function Blog({ articles }) {
+  return (
+    <Outer narrow>
+      <NextSeo
+        canonical={seo.url}
+        title={seo.title}
+        description={seo.description}
+        openGraph={{ ...seo }}
+      />
+      <Header title="Blog" summary="Thoughts about coding and web development." />
+      <main>
+        <section className="mt-14">
+          <h2 className="sr-only">All Posts</h2>
+          <Articles articles={articles} />
+        </section>
+      </main>
+    </Outer>
+  )
+}
+
 function Articles({ articles }) {
   return (
     <ol reversed>
@@ -30,26 +50,6 @@ function Articles({ articles }) {
         </li>
       ))}
     </ol>
-  )
-}
-
-export default function Blog({ articles }) {
-  return (
-    <Outer>
-      <NextSeo
-        canonical={seo.url}
-        title={seo.title}
-        description={seo.description}
-        openGraph={{ ...seo }}
-      />
-      <Header title="Blog" summary="Thoughts about coding and web development." />
-      <main>
-        <section className="mt-14">
-          <h2 className="sr-only">All Posts</h2>
-          <Articles articles={articles} />
-        </section>
-      </main>
-    </Outer>
   )
 }
 
