@@ -52,32 +52,6 @@ const NoteSeo = ({ title, slug, description, featuredImage, dateUpdated }) => {
   )
 }
 
-// const discussUrl = slug =>
-//   `https://mobile.twitter.com/search?q=${encodeURIComponent(
-//     `https://michaeluloth.com/${slug}`,
-//   )}`
-
-// const editUrl = slug =>
-//   `https://github.com/ooloth/mu-next/edit/master/content/blog/${slug}.mdx`
-
-// function NoteFooter(frontMatter) {
-//   return (
-//     <footer className="mt-12 text-sm text-gray-700 dark:text-gray-300">
-//       <a
-//         href={discussUrl(frontMatter.slug)}
-//         target="_blank"
-//         rel="noopener noreferrer"
-//       >
-//         {'Discuss on Twitter'}
-//       </a>
-//       {` • `}
-//       <a href={editUrl(frontMatter.slug)} target="_blank" rel="noopener noreferrer">
-//         {'Edit on GitHub'}
-//       </a>
-//     </footer>
-//   )
-// }
-
 export default function Note({ note: { mdxSource, frontMatter } }) {
   const content = hydrate(mdxSource, {
     components: MdxComponents,
