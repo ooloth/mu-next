@@ -55,6 +55,7 @@ function Articles({ articles }) {
 
 export async function getStaticProps() {
   const unsortedArticles = await getAllFilesFrontMatter('articles')
+
   const articles = unsortedArticles.sort((a, b) =>
     (b.dateUpdated || b.datePublished).localeCompare(
       a.dateUpdated || a.datePublished,

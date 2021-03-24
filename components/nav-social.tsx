@@ -25,6 +25,19 @@ export default function SocialLinks() {
   )
 }
 
+function SocialLink({ platform, href, text }: SocialNavItem) {
+  return (
+    <li className="mx-3">
+      <Link href={href}>
+        <a className="text-2xl text-gray-400 hover:text-gray-100">
+          <span className="sr-only">{text}</span>
+          {getIcon(platform)}{' '}
+        </a>
+      </Link>
+    </li>
+  )
+}
+
 const iconClasses = 'inline-block w-1em h-1em leading-0 pointer-events-none'
 
 const icons = {
@@ -70,18 +83,5 @@ const socialLinks: SocialNavItem[] = [
     href: 'mailto:hello@michaeluloth.com',
     text: 'Email Michael',
   },
-  { platform: 'RSS', href: '/rss.xml', text: '' },
+  { platform: 'RSS', href: '/rss.xml', text: `Subscribe to Michael's blog` },
 ]
-
-function SocialLink({ platform, href, text }: SocialNavItem) {
-  return (
-    <li className="mx-3">
-      <Link href={href}>
-        <a className="text-2xl text-gray-400 hover:text-gray-100">
-          <span className="sr-only">{text}</span>
-          {getIcon(platform)}{' '}
-        </a>
-      </Link>
-    </li>
-  )
-}
