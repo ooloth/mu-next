@@ -64,7 +64,7 @@ const Category = ({ heading, items, info }: LikesCategory) => (
                 alt="" // decorative, so hide from screen readers
                 width={300}
                 height={heading === 'Albums' || heading === 'Podcasts' ? 300 : 435}
-                className="shadow-lg rounded"
+                className="shadow-lg rounded bg-gray-900"
               />
 
               <p className="mt-2 leading-snug sm:leading-tight text-center font-semibold">
