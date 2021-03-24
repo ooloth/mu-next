@@ -114,7 +114,14 @@ const Step = ({ icon, heading, date, children }) => {
   )
 }
 
-const Card = ({ imageUrl, title, blurb, href }) => {
+const Card = ({
+  imageUrl,
+  imageWidth = 1600,
+  imageHeight = 900,
+  title,
+  blurb,
+  href,
+}) => {
   return (
     <div className="relative shadow-md rounded bg-gray-900">
       <Link href={href} ariaLabel={title} className="absolute inset-0 z-10" />
@@ -123,8 +130,8 @@ const Card = ({ imageUrl, title, blurb, href }) => {
         <Image
           src={imageUrl}
           alt="Blah"
-          width={1600}
-          height={900}
+          width={imageWidth}
+          height={imageHeight}
           className="rounded-b-none"
         />
       )}
