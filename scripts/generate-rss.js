@@ -10,23 +10,33 @@ async function generate() {
     feed_url: 'https://michaeluloth.com/rss.xml',
   })
 
-  const posts = await fs.readdir(path.join(__dirname, '..', 'content', 'articles'))
+  const unsortedArticleFileNames = await fs.readdir(
+    path.join(__dirname, '..', 'content', 'articles'),
+  )
 
-  await Promise.all(
-    posts.map(async name => {
+  const unsortedFeedItems = await Promise.all(
+    unsortedArticleFileNames.map(async fileName => {
       const content = await fs.readFile(
-        path.join(__dirname, '..', 'content', 'articles', name),
+        path.join(__dirname, '..', 'content', 'articles', fileName),
       )
       const frontmatter = matter(content)
 
-      feed.item({
+      return {
         title: frontmatter.data.title,
-        url: 'https://michaeluloth.com/' + name.replace(/\.mdx?/, ''),
+        url: 'https://michaeluloth.com/' + fileName.replace(/\.mdx?/, ''),
         date: frontmatter.data.datePublished,
         description: frontmatter.data.description,
-      })
+      }
     }),
   )
+
+  const sortedFeedItems = unsortedFeedItems.sort((a, b) =>
+    b.date.localeCompare(a.date),
+  )
+
+  sortedFeedItems.forEach(item => {
+    feed.item(item)
+  })
 
   await fs.writeFile('./public/rss.xml', feed.xml({ indent: true }))
 }
