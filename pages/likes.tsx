@@ -16,7 +16,21 @@ const seo = {
   description: 'TV shows, movies, albums, books and podcasts I liked a lot.',
 }
 
-export default function LikesPage({ tvShows, movies, books, albums, podcasts }) {
+interface LikesProps {
+  tvShows: TmdbItem[]
+  movies: TmdbItem[]
+  books: iTunesItem[]
+  albums: iTunesItem[]
+  podcasts: iTunesItem[]
+}
+
+export default function LikesPage({
+  tvShows,
+  movies,
+  books,
+  albums,
+  podcasts,
+}: LikesProps) {
   return (
     <Outer>
       <NextSeo
@@ -91,7 +105,11 @@ const Category = ({ heading, items, info }: LikesCategory) => (
 )
 
 export async function getStaticProps() {
-  let tvShows, movies, books, albums, podcasts
+  let tvShows: TmdbItem[],
+    movies: TmdbItem[],
+    books: iTunesItem[],
+    albums: iTunesItem[],
+    podcasts: iTunesItem[]
 
   await Promise.all([
     (tvShows = await fetchTmdbList(process.env.TMDB_TV_LIST_ID, 'tv')),
