@@ -50,6 +50,9 @@ export default [
 
   // Stefan Fatsis
   { name: `Word Freak`, id: 1304841374, date: '2001-07-07' },
+  
+  // Tina Fey
+  { name: `Bossypants`, id: 395522913, date: '2011-04-05' },
 
   // Malcolm Gladwell
   { name: `The Tipping Point`, id: 357658331, date: '2000-05-11' },
