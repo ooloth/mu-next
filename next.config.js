@@ -1,6 +1,6 @@
 module.exports = {
   experimental: {
-    optimizeFonts: true,
+    turboMode: true,
   },
   images: {
     domains: [
