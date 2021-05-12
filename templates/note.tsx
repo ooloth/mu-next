@@ -1,9 +1,8 @@
-import hydrate from 'next-mdx-remote/hydrate'
+import { MDXRemote } from 'next-mdx-remote'
 import { NextSeo, ArticleJsonLd } from 'next-seo'
 import { format } from 'timeago.js'
 
 import Outer from 'layouts/outer'
-import MdxComponents from 'components/mdx'
 
 const NoteSeo = ({ title, slug, description, featuredImage, dateUpdated }) => {
   const url = `https://michaeluloth.com/${slug}`
@@ -53,10 +52,6 @@ const NoteSeo = ({ title, slug, description, featuredImage, dateUpdated }) => {
 }
 
 export default function Note({ note: { mdxSource, frontMatter } }) {
-  const content = hydrate(mdxSource, {
-    components: MdxComponents,
-  })
-
   return (
     <Outer narrow>
       <NoteSeo {...frontMatter} />
@@ -72,7 +67,7 @@ export default function Note({ note: { mdxSource, frontMatter } }) {
         </header>
 
         <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
-          {content}
+          <MDXRemote {...mdxSource} />
         </div>
       </article>
     </Outer>

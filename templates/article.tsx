@@ -1,9 +1,8 @@
-import hydrate from 'next-mdx-remote/hydrate'
+import { MDXRemote } from 'next-mdx-remote'
 import { NextSeo, ArticleJsonLd } from 'next-seo'
 import { format } from 'timeago.js'
 
 import Outer from 'layouts/outer'
-import MdxComponents from 'components/mdx'
 
 const ArticleSeo = ({
   title,
@@ -60,10 +59,6 @@ const ArticleSeo = ({
 }
 
 export default function Article({ article: { mdxSource, frontMatter } }) {
-  const content = hydrate(mdxSource, {
-    components: MdxComponents,
-  })
-
   return (
     <Outer narrow>
       <ArticleSeo {...frontMatter} />
@@ -79,7 +74,7 @@ export default function Article({ article: { mdxSource, frontMatter } }) {
         </header>
 
         <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
-          {content}
+          <MDXRemote {...mdxSource} />
         </div>
       </article>
     </Outer>

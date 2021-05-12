@@ -1,6 +1,10 @@
 module.exports = {
   experimental: {
-    optimizeFonts: true,
+    turboMode: true,
+  },
+  future: {
+    webpack5: true,
+    strictPostcssConfiguration: true,
   },
   images: {
     domains: [

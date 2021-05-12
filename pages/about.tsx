@@ -1,12 +1,11 @@
 import Image from 'next/image'
 import Link from 'next/link'
-import hydrate from 'next-mdx-remote/hydrate'
+import { MDXRemote } from 'next-mdx-remote'
 import { NextSeo } from 'next-seo'
 import { format } from 'timeago.js'
 
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx'
 import Outer from 'layouts/outer'
-import MdxComponents from 'components/mdx'
 
 const seo = {
   url: 'https://michaeluloth.com/about',
@@ -47,24 +46,16 @@ export default function About({ bio, projects, articles }) {
 }
 
 function Bio({ bio: { frontMatter, mdxSource } }) {
-  const content = hydrate(mdxSource, {
-    components: MdxComponents,
-  })
-
   return (
     <section className="py-12 prose dark:prose-dark md:prose-lg dark:md:prose-lg">
       <h2 className="sr-only">{frontMatter.heading}</h2>
       <p className="text-lg">{frontMatter.lead}</p>
-      {content}
+      <MDXRemote {...mdxSource} />
     </section>
   )
 }
 
 function Projects({ projects: { frontMatter, mdxSource } }) {
-  const content = hydrate(mdxSource, {
-    components: MdxComponents,
-  })
-
   return (
     <section className="py-12">
       <header>
@@ -72,7 +63,9 @@ function Projects({ projects: { frontMatter, mdxSource } }) {
         <p className="mt-1 text-lg">{frontMatter.description}</p>
       </header>
 
-      <ul>{content}</ul>
+      <ul>
+        <MDXRemote {...mdxSource} />
+      </ul>
     </section>
   )
 }

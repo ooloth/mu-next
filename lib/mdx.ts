@@ -2,9 +2,7 @@ import fs from 'fs'
 import matter from 'gray-matter'
 import mdxPrism from 'mdx-prism'
 import path from 'path'
-import renderToString from 'next-mdx-remote/render-to-string'
-
-import MDXComponents from 'components/mdx'
+import { serialize } from 'next-mdx-remote/serialize'
 
 const root = process.cwd()
 
@@ -35,8 +33,7 @@ export async function getFileContents(type: ContentType, fileName?: string) {
 
   const { data, content } = matter(source)
 
-  const mdxSource = await renderToString(content, {
-    components: MDXComponents,
+  const mdxSource = await serialize(content, {
     mdxOptions: {
       remarkPlugins: [
         require('remark-autolink-headings'),

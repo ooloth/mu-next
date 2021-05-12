@@ -1,7 +1,9 @@
 import type { AppProps } from 'next/app'
 import 'what-input'
 import { DefaultSeo } from 'next-seo'
+import { MDXProvider } from '@mdx-js/react'
 
+import MdxComponents from 'components/mdx'
 import ColorModeProvider from 'components/color-mode'
 import '../styles/tailwind.css'
 
@@ -32,7 +34,9 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
 
       <ColorModeProvider>
-        <Component {...pageProps} />
+        <MDXProvider components={MdxComponents}>
+          <Component {...pageProps} />
+        </MDXProvider>
       </ColorModeProvider>
     </>
   )
