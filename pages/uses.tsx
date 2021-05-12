@@ -1,10 +1,9 @@
-import hydrate from 'next-mdx-remote/hydrate'
+import { MDXRemote } from 'next-mdx-remote'
 import { format } from 'timeago.js'
 import { NextSeo } from 'next-seo'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
-import MdxComponents from 'components/mdx'
 import { getFileContents } from 'lib/mdx'
 
 const seo = {
@@ -14,10 +13,6 @@ const seo = {
 }
 
 export default function Uses({ uses: { mdxSource, frontMatter } }) {
-  const content = hydrate(mdxSource, {
-    components: MdxComponents,
-  })
-
   return (
     <Outer narrow>
       <NextSeo
@@ -33,7 +28,7 @@ export default function Uses({ uses: { mdxSource, frontMatter } }) {
 
       <main>
         <div className="mt-14 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
-          {content}
+          <MDXRemote {...mdxSource} />
         </div>
       </main>
 

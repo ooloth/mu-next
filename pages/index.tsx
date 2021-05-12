@@ -1,10 +1,9 @@
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
-import hydrate from 'next-mdx-remote/hydrate'
+import { MDXRemote } from 'next-mdx-remote'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
-import MdxComponents from 'components/mdx'
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx'
 
 const seo = {
@@ -59,21 +58,23 @@ function Timeline({ years }) {
     <section className="mt-24 divide-y divide-gray-300 divide-opacity-20">
       <h2 className="sr-only">Timeline</h2>
       {years.map(({ frontMatter, mdxSource }) => (
-        <TimelineYear year={frontMatter.year} steps={mdxSource} />
+        <TimelineYear
+          key={frontMatter.year}
+          year={frontMatter.year}
+          steps={mdxSource}
+        />
       ))}
     </section>
   )
 }
 
 function TimelineYear({ year, steps }) {
-  const content = hydrate(steps, {
-    components: MdxComponents,
-  })
-
   return (
     <section className="mt-16">
       <h3 className="py-8 text-2xl font-extrabold">{year}</h3>
-      <ul>{content}</ul>
+      <ul>
+        <MDXRemote {...steps} />
+      </ul>
     </section>
   )
 }
