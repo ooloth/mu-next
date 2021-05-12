@@ -1,6 +1,5 @@
 module.exports = {
   experimental: {
-    eslint: true,
     turboMode: true,
   },
   future: {
