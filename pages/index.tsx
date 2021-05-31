@@ -80,10 +80,10 @@ function TimelineYear({ year, steps }) {
 }
 
 export async function getStaticProps() {
-  const timelineFileMetadata = await getAllFilesFrontMatter('timeline')
+  const timelineFilesFrontmatter = await getAllFilesFrontMatter('timeline')
 
   const timelineByYear = await Promise.all(
-    timelineFileMetadata.map(async metadata =>
+    timelineFilesFrontmatter.map(async metadata =>
       getFileContents('timeline', metadata.year),
     ),
   )
