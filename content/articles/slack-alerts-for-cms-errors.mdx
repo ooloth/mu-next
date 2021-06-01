@@ -1,0 +1,295 @@
+---
+title: How ecobee Uses Slack to Report Data Entry Errors to Content Editors
+slug: slack-alerts-for-cms-errors
+description: How the "dotcom" team at ecobee uses Slack as a CMS alert system.
+featuredImage: /images/slack-alerts-for-cms-errors/stephen-phillips-hostreviews-co-uk-aE0iX-bLCJc-unsplash.jpg
+linkSharedOnTwitter: ''
+devLink: ''
+published: true
+datePublished: '2021-05-31'
+dateUpdated: '2021-05-31'
+---
+
+<Figure
+  caption="Photo by Stephen Phillips"
+  alt="The top left corner of the Slack website in Safari, showing the Slack logo and a menu item with the text, 'Why Slack?'."
+  src={`/images/slack-alerts-for-cms-errors/stephen-phillips-hostreviews-co-uk-aE0iX-bLCJc-unsplash.jpg`}
+  width={5364}
+  height={3576}
+  priority
+/>
+
+_This post originally appeared on the [ecobee engineering blog](https://www.ecobee.dev/blog/2021-05-21-how-ecobee-uses-slack-to-report-data-entry-errors-to-content-editors/)._
+
+My team at ecobee spent months debugging build failures on the staging site for [ecobee.com](https://www.ecobee.com/) until we finally discovered a way to solve them with automated [Slack](https://slack.com) notifications.
+
+## Production vs. staging
+
+[ecobee.com](https://www.ecobee.com/) is an e-commerce website, which we populate with content from [Contentful](https://www.contentful.com) and [Shopify](https://www.shopify.com).
+
+Our designers and writers create new pages by building and assembling “blocks” of content in Contentful. As they work, they can preview their changes on a staging version of our site.
+
+Here’s the live version of ecobee.com:
+
+<Figure
+  alt="The top section of ecobee.com, showing an image of a Smart Camera, Smart Thermostat, and two Smart Sensors next to the words, 'Imagine what could be'."
+  src={`/images/slack-alerts-for-cms-errors/dotcom-production.png`}
+  width={2652}
+  height={1974}
+/>
+
+And here’s the staging version of ecobee.com:
+
+<Figure
+  alt="An identical-looking screenshot of the top section of the staging version of ecobee.com, showing an image of a Smart Camera, Smart Thermostat, and two Smart Sensors next to the words, 'Imagine what could be'."
+  src={`/images/slack-alerts-for-cms-errors/dotcom-staging.png`}
+  width={2652}
+  height={1974}
+/>
+
+The staging version looks very similar to the live version because, well, that’s the point. It’s generated using the exact same codebase as the live site and all the content for both versions of the site come from Contentful.
+
+If you aren't familiar, here’s what Contentful looks like:
+
+<Figure
+  alt="A screenshot of a Contentful entry showing pairs of input fields and their labels, like 'Title', 'URL', etc."
+  src={`/images/slack-alerts-for-cms-errors/contentful-homepage.png`}
+  width={3722}
+  height={2554}
+/>
+
+This example is the “Page” entry that creates the homepage for ecobee.com. It’s basically a series of fields: some are required; some are not.
+
+If you mark a field as required, Contentful will confirm that field is populated before it lets you publish the entry. (The same applies to other field validations like max length, number vs. text, etc.) And because the live site only consumes published entries, we know all the fields have been validated (e.g. no required fields are empty), and the data the website receives will match what we expect.
+
+So far, so good.
+
+However, the staging site is a little different: it connects to the same production Contentful data as the live site, but also includes any draft entries that have not yet been published.
+
+That’s by design, so that editors can preview their in-progress changes on staging as they go.
+
+But those draft entries have one major problem: their fields have not been validated.
+
+## Broken staging builds
+
+The challenge we faced was that we kept seeing errors like this:
+
+<Figure
+  alt="The console output of a failed website build showing an error in red that says 'Cannot read property match of null'."
+  src={`/images/slack-alerts-for-cms-errors/netlify-build-error.png`}
+  width={2614}
+  height={1066}
+/>
+
+This the deploy log for a build of our staging website on [Netlify](https://www.netlify.com). And over and over, we encountered errors saying `Cannot read property X of null` or `Cannot read property X of undefined`, which indicated that our codebase trusted a value existed (because its Contentful field was required) and tried to use it, but failed because that value was unexpectedly empty.
+
+So, why didn’t Contentful make sure those required fields were populated?
+
+## Draft entries cannot be trusted
+
+The basic reason is that unpublished draft entries (which staging consumes) are not validated by Contentful because Contentful only applies validations when an entry is published.
+
+So, while our production builds were stable (since the live site only consumes validated, published entries), our staging builds were constantly exposed to the risk that a field coming from a draft entry could contain invalid data (or no data at all).
+
+This issue was minor when our team only had one or two content editors. But as our team grew to include half a dozen or more editors working separately and constantly triggering new builds, incomplete data began to be hit staging on a daily basis.
+
+## Debugging in the dark
+
+When one of these errors occurred, the staging website would stop updating, and one or more devs would have to put aside their work and jump into the build logs to locate an error like the one shown above.
+
+Next came the hard part: trying to figure out which field in Contentful was responsible for the problem.
+
+For example, all the error in the screenshot above says is that the `Link` component was passed an empty `href`. It doesn’t say which field in Contentful that empty value came from.
+
+Trying to track down those empty fields was no fun. Each hunt took up a lot of time and involved a lot of head scratching and rooting through Contentful, searching for the root of each problem. Work ground to a halt for editors and developers while we hunted, sometimes for up to an hour.
+
+We were to determined to free ourselves from these thankless debugging sessions.
+
+## Custom null checks everywhere
+
+To do that, we started adding defensive `null` checks all over our codebase.
+
+Even though we didn’t have to worry about the existence of required values in production, for the sake of our editors having a working preview site to look at, we realized we needed to treat required fields as unreliable and start guarding against their lack of existence.
+
+So, we started adding things like this all over our codebase that intercepted empty values and identified exactly which Contentful field to fix:
+
+```tsx
+const ReviewsResolver = ({
+  data: { productReference, header, name = '' },
+}: BlockResolverProps<ReviewsDataType>) => {
+  const logError = useLogError()
+
+  if (!productReference) {
+    logError(
+      `The Reviews entry named "${name}" cannot be displayed because its required field "Product reference" is empty.`,
+    )
+
+    return null
+  }
+
+  return <Reviews product={productReference} />
+}
+```
+
+## Slack to the rescue
+
+We also created a helper, called `logError`, to decide whether each error message should appear just in the console or also be posted to Slack:
+
+```tsx
+// If this is prod, report the issue and break the build
+if (context === 'PRODUCTION') {
+  const prodImpact = 'The live site will not update until this issue is resolved.'
+
+  const prodMessage = formatMessage(\`🚨 PRODUCTION ERROR 🚨\n\n${message}\n\n${prodImpact}\`)
+
+  postToSlack(prodMessage).then(() => {
+    throw new Error(prodMessage)
+  })
+}
+
+// If this is staging, report the issue and continue the build
+if (context === 'STAGING') {
+  const stagingImpact = 'The staging site will continue to update while this issue gets resolved.'
+
+  const stagingMessage = formatMessage(\`⚠️ STAGING ERROR ⚠️\n\n${message}\n\n${stagingImpact}\`)
+
+  postToSlack(stagingMessage)
+  console.error(stagingMessage)
+
+  return
+}
+
+// In all other environments, just log the issue and continue the build
+console.error(formatMessage(\`\n\n⚠️ ${message}\n\n\`))
+```
+
+So, we ask, “Are we on the production site? Or staging? Or just in development?”, and based on the answer we decide if we should to stop the build (production only) and/or post the error to Slack (production and staging only). In all environments, we also log the error to the console.
+
+We then created a dedicated Slack channel and invited all our editors to it, created a [Slack bot](https://slack.com/intl/en-ca/help/articles/115005265703-Create-a-bot-for-your-workspace), and used the [Slack Web API](https://slack.dev/node-slack-sdk/web-api) to automatically post these Slack messages for us:
+
+```ts
+import type { WebClient } from '@slack/web-api'
+
+import { isTest } from '../../src/utils/getEnv'
+
+const isSSR = typeof window === 'undefined'
+
+async function postToSlack(text: string, channel = '#dotcom-cms-errors') {
+  // Only post during a build that isn't part of a test run
+  if (!isSSR || isTest || !global.slackClient) {
+    return
+  }
+
+  try {
+    await global.slackClient.chat.postMessage({ channel, text })
+  } catch (error) {
+    console.error(\`\n\[postToSlack]: ${error}\n\`)
+  }
+}
+```
+
+Now, whenever a build error occurs and is caused by a Contentful data entry problem we know about, the message goes straight to that editor-focused channel so they can can hop into Contentful and fix the issue without dev assistance:
+
+<Figure
+  alt="A message posted to Slack by 'DotCom Build Alerts' explaining that a specific 'Reviews' entry cannot be shown because one of its required fields is empty."
+  src={`/images/slack-alerts-for-cms-errors/slack-notification-v1.png`}
+  width={1200}
+  height={472}
+/>
+
+## An endless process
+
+But, we weren’t done.
+
+We started noticing that after we had fixed the 10 or so errors we had seen over and over, there were 10 or so new ones that we hadn’t previously seen because they never had a chance to appear because the other errors were happening first.
+
+It slowly dawned on us that with our current approach of inserting custom `null` checks and error messages in individual components, this problem would never end. We’d have to `null` check every single value we considered required and continue doing that whenever we wrote new code.
+
+That was not going to be scalable for us in the future.
+
+## Automated validation step
+
+So, we came up with a better idea.
+
+To avoid having to spread `null` checks all over our codebase and worry about this forever, early in our build we now query all of the data from Contentful that our website will use along with the rules for every field, and then compare the two.
+
+We take each field and its rules and pass it to a function that asks if it’s invalid. For example, for requiredness, we check if the field’s rules say it’s required and if its value is empty. If both are true at the same time, the field is invalid:
+
+```ts
+function isEmptyRequiredField(fieldRules: ContentFields, fieldValue: unknown) {
+  const isRequired = 'required' in fieldRules && !!fieldRules.required
+
+  // We don't want to check falsiness here, since that would flag fields intentionally set to 0
+  const isEmpty = fieldValue == null
+
+  return isRequired && isEmpty
+}
+
+function detectFieldInvalidity(
+  rules: ContentTypeIdsAndFields,
+  contentTypeId: string,
+  fieldName: string,
+  fieldValue: unknown,
+): string | null {
+  const fieldRules = getFieldRules(rules, contentTypeId, fieldName)
+
+  if (isEmptyRequiredField(fieldRules, fieldValue)) {
+    return 'is required but empty'
+  }
+
+  if (isInvalidRichTextField(fieldValue)) {
+    return 'contains invalid HTML'
+  }
+
+  return null
+}
+```
+
+Then, we have a single place where we call our `logError` helper as many times as necessary:
+
+```ts
+const isInvalidReason = detectFieldInvalidity(rules, contentTypeId, fieldName, entry[fieldName])
+
+if (isInvalidReason) {
+  const contentTypeName = startCase(contentTypeId)
+
+  const entryName = entry?.name || entry?.title || ''
+
+  const contentTypeAndEntryName = entryName
+	? `The Contentful ${contentTypeName} entry named "${entryName}"`
+	: `An unnamed Contentful ${contentTypeName} entry with entry ID "${entry.contentful_id}"`
+
+  const locale = entry?.node_locale
+    ? (String(entry.node_locale).toLowerCase() as 'en-us' | 'en-ca')
+    : undefined
+
+  const message = \`${contentTypeAndEntryName} cannot be displayed because its field "${fieldName}" ${isInvalidReason}.\n\nPlease update this field and publish your changes.\`
+
+  logError(message, locale, entry.contentful_id)
+}
+```
+
+The updated version of these Slack error notifications looks like this:
+
+<Figure
+  alt="Another message posted to Slack by 'DotCom Build Alerts' explaining that a specific 'Reviews' entry cannot be shown because one of its required fields is empty, this time including a link to the broken entry."
+  src={`/images/slack-alerts-for-cms-errors/slack-notification-v2.png`}
+  width={1250}
+  height={590}
+/>
+
+The updated template tells editors the name of the broken Contentful entry, which field in the entry has the problem, what the problem is, how to fix it, a link to the entry, and context about the environment where the build error occurred.
+
+## Happy editors and developers
+
+We've been living with this solution for the past few months and our editors and developers are both much happier!
+
+There are no more confusing debugging sessions. Whenever a staging build breaks, the solution is posted to Slack a second later and an editor can fix it themselves within a minute.
+
+This has eliminated an annoying source context switching and restored hours of developer and editor productivity each week.
+
+## Please share your ideas!
+
+So, that’s how the "dotcom" team at ecobee is currently tackling the challenge of using the same codebase for production and staging but sending that codebase different data in each environment.
+
+If you’ve encountered this issue before and have tips or best practices that might help us, please let us know! We realize this is likely a common problem for sites with a content management system, so we’d love to hear how you approached solving this issue.
