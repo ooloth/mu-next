@@ -4,11 +4,11 @@ import { NextSeo } from 'next-seo'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
-import notion from 'lib/notion/client'
-import { albumsDbId, booksDbId, podcastsDbId } from 'lib/notion/constants'
 import fetchItunesItems, { iTunesItem } from 'lib/itunes/fetchItunesItems'
-import fetchTmdbList, { TmdbItem } from 'lib/tmdb/fetchTmdbList'
+import { albumsDbId, booksDbId, podcastsDbId } from 'lib/notion/constants'
+import getDatabase from 'lib/notion/getDatabase'
 import { tmdbMovieListId, tmdbTvListId } from 'lib/tmdb/constants'
+import fetchTmdbList, { TmdbItem } from 'lib/tmdb/fetchTmdbList'
 
 const seo = {
   url: 'https://michaeluloth.com/likes',
@@ -109,11 +109,9 @@ function Category({ heading, items, info }: LikesCategory) {
 }
 
 async function fetchNotionLikesContent(notionDbId: string) {
-  const notionDbRows = await notion.databases.query({
-    database_id: notionDbId,
-  })
+  const rows = await getDatabase(notionDbId)
 
-  const contentList = notionDbRows.results.reduce((validatedItems, item) => {
+  const iTunesQueryData = rows.reduce((validatedItems, item) => {
     // @ts-ignore
     const name = item.properties['Title']?.title[0]?.plain_text
     // @ts-ignore
@@ -128,7 +126,7 @@ async function fetchNotionLikesContent(notionDbId: string) {
     return validatedItems
   }, [])
 
-  return contentList
+  return iTunesQueryData
 }
 
 export async function getStaticProps() {
