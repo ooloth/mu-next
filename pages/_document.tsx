@@ -1,6 +1,8 @@
 import Document, { Html, Head, Main, NextScript } from 'next/document'
 import React from 'react'
 
+import { googleSearchConsoleSiteVerification } from 'lib/google/constants'
+
 function SetColorModeBeforeFirstRender({ defaultMode }) {
   // Runs only once (when the first page loads) to avoid a FOUC when the content appears
 
@@ -71,9 +73,7 @@ class MyDocument extends Document {
           />
           <meta
             name="google-site-verification"
-            content={
-              process.env.NEXT_PUBLIC_GOOGLE_SITE_VERIFICATION_SEARCH_CONSOLE
-            }
+            content={googleSearchConsoleSiteVerification}
           />
         </Head>
 
