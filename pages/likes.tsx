@@ -109,7 +109,7 @@ function Category({ heading, items, info }: LikesCategory) {
 }
 
 async function fetchNotionLikesContent(notionDbId: string) {
-  const rows = await getDatabase(notionDbId)
+  const rows = await getDatabase({ databaseId: notionDbId })
 
   const iTunesQueryData = rows.reduce((validatedItems, item) => {
     // @ts-ignore
