@@ -21,6 +21,11 @@ module.exports = {
   async redirects() {
     return [
       {
+        source: '/blog',
+        destination: '/writing',
+        permanent: true,
+      },
+      {
         source: '/codes',
         destination: '/',
         permanent: true,
@@ -57,7 +62,7 @@ module.exports = {
       },
       {
         source: '/writes',
-        destination: '/blog',
+        destination: '/writing',
         permanent: true,
       },
     ]
