@@ -94,7 +94,7 @@ function Writing({ articles }) {
         ))}
       </ol>
 
-      <Link href="/blog">
+      <Link href="/writing">
         <a className="flex mt-8 font-semibold text-blue-500 dark:text-blue-400 hover:underline">
           See all posts &rarr;
         </a>
