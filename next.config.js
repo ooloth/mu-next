@@ -21,6 +21,11 @@ module.exports = {
   async redirects() {
     return [
       {
+        source: '/blog',
+        destination: '/writing',
+        permanent: true,
+      },
+      {
         source: '/codes',
         destination: '/',
         permanent: true,
@@ -28,6 +33,11 @@ module.exports = {
       {
         source: '/contact',
         destination: '/',
+        permanent: true,
+      },
+      {
+        source: '/notes',
+        destination: '/bookmarks',
         permanent: true,
       },
       {
@@ -57,7 +67,7 @@ module.exports = {
       },
       {
         source: '/writes',
-        destination: '/blog',
+        destination: '/writing',
         permanent: true,
       },
     ]
@@ -67,6 +77,11 @@ module.exports = {
       require('./scripts/generate-rss')
       require('./scripts/generate-sitemap')
     }
+
+    config.module.rules.push({
+      test: /\.svg$/,
+      use: ['@svgr/webpack'],
+    })
 
     return config
   },

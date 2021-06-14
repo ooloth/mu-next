@@ -8,12 +8,12 @@ import Header from 'components/header'
 import { getAllFilesFrontMatter } from 'lib/mdx'
 
 const seo = {
-  url: 'https://michaeluloth.com/blog',
-  title: 'Blog ✍',
+  url: 'https://michaeluloth.com/writing',
+  title: 'Writing ✍',
   description: 'Thoughts about coding and web development.',
 }
 
-export default function Blog({ articles }) {
+export default function Writing({ articles }) {
   return (
     <Outer narrow>
       <NextSeo
@@ -22,7 +22,10 @@ export default function Blog({ articles }) {
         description={seo.description}
         openGraph={{ ...seo }}
       />
-      <Header title="Blog" summary="Thoughts about coding and web development." />
+      <Header
+        title="Writing"
+        summary="Thoughts about coding and web development."
+      />
       <main>
         <section className="mt-14">
           <h2 className="sr-only">All Posts</h2>
