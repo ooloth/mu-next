@@ -36,6 +36,11 @@ module.exports = {
         permanent: true,
       },
       {
+        source: '/notes',
+        destination: '/bookmarks',
+        permanent: true,
+      },
+      {
         source: '/opera',
         destination: '/',
         permanent: true,
