@@ -7,6 +7,7 @@ const emojiLabel = {
   '👩‍💻': 'An emoji of a person using a laptop.',
   '📤': 'An emoji of an outbox tray.',
   '🧰': 'An emoji of a red toolbox.',
+  '🎉': 'An emoji of confetti flying out of a striped party decoration.',
   '☀️': 'An emoji of a sun.',
   '🌙️': 'An emoji of a crescent moon.',
 }
