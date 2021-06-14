@@ -41,12 +41,12 @@ function SocialLink({ platform, href, text }: SocialNavItem) {
 const iconClasses = 'inline-block w-1em h-1em leading-0 pointer-events-none'
 
 const icons = {
-  Twitter: <TwitterIcon className={iconClasses} />,
-  GitHub: <GitHubIcon className={iconClasses} />,
-  YouTube: <YouTubeIcon className={iconClasses} />,
-  LinkedIn: <LinkedInIcon className={iconClasses} />,
-  Email: <EmailIcon className={iconClasses} />,
-  RSS: <RssIcon className={iconClasses} />,
+  Twitter: <TwitterIcon className={iconClasses} aria-hidden />,
+  YouTube: <YouTubeIcon className={iconClasses} aria-hidden />,
+  GitHub: <GitHubIcon className={iconClasses} aria-hidden />,
+  LinkedIn: <LinkedInIcon className={iconClasses} aria-hidden />,
+  Email: <EmailIcon className={iconClasses} aria-hidden />,
+  RSS: <RssIcon className={iconClasses} aria-hidden />,
 }
 
 export type Platform = keyof typeof icons
@@ -59,6 +59,11 @@ interface SocialNavItem extends NavItem {
 
 const socialLinks: SocialNavItem[] = [
   {
+    platform: 'YouTube',
+    href: 'https://www.youtube.com/user/michaeluloth',
+    text: `Subscribe to Michael's YouTube channel`,
+  },
+  {
     platform: 'Twitter',
     href: 'https://twitter.com/ooloth',
     text: 'Follow Michael on Twitter',
@@ -69,19 +74,14 @@ const socialLinks: SocialNavItem[] = [
     text: 'Follow Michael on GitHub',
   },
   {
-    platform: 'YouTube',
-    href: 'https://www.youtube.com/user/michaeluloth',
-    text: `Subscribe to Michael's YouTube channel`,
-  },
-  {
     platform: 'LinkedIn',
     href: 'https://www.linkedin.com/in/michael-uloth-848a1b98/',
     text: 'Connect with Michael on LinkedIn',
   },
+  { platform: 'RSS', href: '/rss.xml', text: `Subscribe to Michael's blog` },
   {
     platform: 'Email',
     href: 'mailto:hello@michaeluloth.com',
     text: 'Email Michael',
   },
-  { platform: 'RSS', href: '/rss.xml', text: `Subscribe to Michael's blog` },
 ]
