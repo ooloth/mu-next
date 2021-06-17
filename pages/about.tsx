@@ -4,8 +4,9 @@ import { MDXRemote } from 'next-mdx-remote'
 import { NextSeo } from 'next-seo'
 import { format } from 'timeago.js'
 
-import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx'
+import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 import Outer from 'layouts/outer'
+import headshot from 'public/images/michael-landscape.jpg'
 
 const seo = {
   url: 'https://michaeluloth.com/about',
@@ -28,7 +29,8 @@ export default function About({ bio, projects, articles }) {
         <h1 className="sr-only">About | Michael Uloth</h1>
         <Image
           alt="Michael smiling into the camera."
-          src={`/images/michael-landscape.jpg`}
+          src={headshot}
+          placeholder="blur"
           width={2883}
           height={2058}
           priority
