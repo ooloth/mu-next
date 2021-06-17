@@ -55,7 +55,7 @@ export default async function fetchTmdbList(
             continue
           }
 
-          const { base64 } = await getPlaiceholder(imageUrl, { size: 64 })
+          const { base64 } = await getPlaiceholder(imageUrl, { size: 4 })
 
           items.push({ title, id, date, imageUrl, imagePlaceholder: base64, link })
         }

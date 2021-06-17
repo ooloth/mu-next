@@ -86,7 +86,7 @@ export default async function fetchItunesItems(
           return null
         }
 
-        const { base64 } = await getPlaiceholder(imageUrl, { size: 64 })
+        const { base64 } = await getPlaiceholder(imageUrl, { size: 4 })
 
         includedIds.add(id)
 
