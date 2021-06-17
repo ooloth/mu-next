@@ -4,7 +4,7 @@ import { NextSeo } from 'next-seo'
 
 import Outer from 'layouts/outer'
 import Header from 'components/header'
-import { getFileContents } from 'lib/mdx'
+import { getFileContents } from 'lib/mdx/mdx'
 
 const seo = {
   url: 'https://michaeluloth.com/uses',

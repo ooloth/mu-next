@@ -5,7 +5,7 @@ import { format } from 'timeago.js'
 import Header from 'components/header'
 import Outer from 'layouts/outer'
 import getTopics from 'lib/notion/getTopics'
-import { getAllFilesFrontMatter } from 'lib/mdx'
+import { getAllFilesFrontMatter } from 'lib/mdx/mdx'
 
 export default function Bookmarks({ topics }) {
   return (

@@ -5,7 +5,7 @@ import { format } from 'timeago.js'
 import Outer from 'layouts/outer'
 import Header from 'components/header'
 
-import { getAllFilesFrontMatter } from 'lib/mdx'
+import { getAllFilesFrontMatter } from 'lib/mdx/mdx'
 
 const seo = {
   url: 'https://michaeluloth.com/writing',
