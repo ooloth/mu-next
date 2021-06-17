@@ -1,6 +1,9 @@
+import { getPlaiceholder } from 'plaiceholder'
+
 export interface TmdbItem {
   id: string
   imageUrl: string
+  imagePlaceholder: string
   date: string
   link: string
   title: string
@@ -52,7 +55,9 @@ export default async function fetchTmdbList(
             continue
           }
 
-          items.push({ title, id, date, imageUrl, link })
+          const { base64 } = await getPlaiceholder(imageUrl, { size: 64 })
+
+          items.push({ title, id, date, imageUrl, imagePlaceholder: base64, link })
         }
       }
     } catch (error) {

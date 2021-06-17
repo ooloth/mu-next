@@ -1,3 +1,5 @@
+import { getPlaiceholder } from 'plaiceholder'
+
 interface iTunesListItem {
   date: string
   id: number
@@ -11,6 +13,7 @@ export interface iTunesItem {
   date: string
   link: string
   imageUrl: string
+  imagePlaceholder: string
 }
 
 type iTunesMedium = 'ebook' | 'music' | 'podcast'
@@ -51,41 +54,45 @@ export default async function fetchItunesItems(
 
     const data = await response.json()
 
-    formattedResults = data.results.map((result: Result) => {
-      if (!result) {
-        return null
-      }
+    formattedResults = await Promise.all(
+      data.results.map(async (result: Result) => {
+        if (!result) {
+          return null
+        }
 
-      const resultID: number = result.collectionId || result.trackId
-      const matchingItem: iTunesListItem | undefined = items.find(
-        item => item.id === resultID,
-      )
+        const resultID: number = result.collectionId || result.trackId
+        const matchingItem: iTunesListItem | undefined = items.find(
+          item => item.id === resultID,
+        )
 
-      if (!matchingItem) {
-        console.log('No matching item...')
-        console.log('matchingItem', matchingItem)
-        console.log('result', result)
-        console.log('resultID', resultID)
-        return null
-      }
+        if (!matchingItem) {
+          console.log('No matching item...')
+          console.log('matchingItem', matchingItem)
+          console.log('result', result)
+          console.log('resultID', resultID)
+          return null
+        }
 
-      const artist = result.artistName
-      const title = matchingItem.name
-      const id = resultID
-      const date = matchingItem.date
-      const link = result.collectionViewUrl || result.trackViewUrl
-      // See image srcset URLs used on books.apple.com:
-      const imageUrl = result.artworkUrl100.replace('100x100bb', '400x0w')
+        const artist = result.artistName
+        const title = matchingItem.name
+        const id = resultID
+        const date = matchingItem.date
+        const link = result.collectionViewUrl || result.trackViewUrl
+        // See image srcset URLs used on books.apple.com:
+        const imageUrl = result.artworkUrl100.replace('100x100bb', '400x0w')
 
-      if (!title || !id || !date || !link || !imageUrl || includedIds.has(id)) {
-        console.log(`Removed iTunes result:`, result)
-        return null
-      }
+        if (!title || !id || !date || !link || !imageUrl || includedIds.has(id)) {
+          console.log(`Removed iTunes result:`, result)
+          return null
+        }
 
-      includedIds.add(id)
+        const { base64 } = await getPlaiceholder(imageUrl, { size: 64 })
 
-      return { artist, title, id, date, link, imageUrl }
-    })
+        includedIds.add(id)
+
+        return { artist, title, id, date, link, imageUrl, imagePlaceholder: base64 }
+      }),
+    )
 
     return formattedResults
       .filter(Boolean)
