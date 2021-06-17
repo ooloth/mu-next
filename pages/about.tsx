@@ -4,9 +4,10 @@ import { MDXRemote } from 'next-mdx-remote'
 import { NextSeo } from 'next-seo'
 import { format } from 'timeago.js'
 
+import addImagePlaceholderToMdxFrontMatter from 'lib/mdx/addImagePlaceholderToMdxFrontMatter'
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 import Outer from 'layouts/outer'
-import headshot from 'public/images/michael-landscape.jpg'
+// import headshot from 'public/images/michael-landscape.jpg'
 
 const seo = {
   url: 'https://michaeluloth.com/about',
@@ -26,11 +27,12 @@ export default function About({ bio, projects, articles }) {
       />
 
       <header>
-        <h1 className="sr-only">About | Michael Uloth</h1>
+        <h1 className="sr-only">About</h1>
         <Image
           alt="Michael smiling into the camera."
-          src={headshot}
+          src={bio.frontMatter.featuredImage}
           placeholder="blur"
+          blurDataURL={bio.frontMatter.featuredImagePlaceholder}
           width={2883}
           height={2058}
           priority
@@ -77,7 +79,7 @@ function Writing({ articles }) {
     <section className="py-12">
       <header>
         <h2 className="text-2xl font-extrabold">Writing</h2>
-        <p className="mt-1 text-lg">Thoughts about coding and web development.</p>
+        <p className="mt-1 text-lg">Thoughts about coding.</p>
       </header>
 
       <ol reversed>
@@ -112,6 +114,8 @@ function Writing({ articles }) {
 
 export async function getStaticProps() {
   const bio = await getFileContents('bio')
+  const bioWithImagePlaceholder = await addImagePlaceholderToMdxFrontMatter(bio)
+
   const projects = await getFileContents('projects')
 
   const unsortedArticles = await getAllFilesFrontMatter('articles')
@@ -123,5 +127,7 @@ export async function getStaticProps() {
     )
     .slice(0, 5)
 
-  return { props: { bio, projects, articles: lastFiveArticles } }
+  return {
+    props: { bio: bioWithImagePlaceholder, projects, articles: lastFiveArticles },
+  }
 }
