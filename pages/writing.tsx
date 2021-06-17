@@ -10,7 +10,7 @@ import { getAllFilesFrontMatter } from 'lib/mdx/mdx'
 const seo = {
   url: 'https://michaeluloth.com/writing',
   title: 'Writing ✍',
-  description: 'Thoughts about coding and web development.',
+  description: 'Thoughts about coding.',
 }
 
 export default function Writing({ articles }) {
@@ -22,10 +22,7 @@ export default function Writing({ articles }) {
         description={seo.description}
         openGraph={{ ...seo }}
       />
-      <Header
-        title="Writing"
-        summary="Thoughts about coding and web development."
-      />
+      <Header title="Writing" summary="Thoughts about coding." />
       <main>
         <section className="mt-14">
           <h2 className="sr-only">All Posts</h2>
