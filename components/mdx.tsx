@@ -55,7 +55,8 @@ function BlockLink({ icon, href, children }) {
 
 interface ImageProps {
   alt: string
-  src: string
+  imageUrl: string
+  blurDataURL?: string
   width: number
   height: number
   priority?: boolean
@@ -64,7 +65,8 @@ interface ImageProps {
 
 const Image = ({
   alt,
-  src,
+  imageUrl,
+  blurDataURL,
   width,
   height,
   priority = false,
@@ -73,22 +75,33 @@ const Image = ({
   return (
     <NextImage
       alt={alt}
-      src={src}
+      src={imageUrl}
       width={width}
       height={height}
       priority={priority}
       layout="responsive"
+      placeholder="blur"
+      blurDataURL={blurDataURL}
       className={`rounded bg-gray-900  ${className || ''}`}
     />
   )
 }
 
-const Figure = ({ caption, alt, src, width, height, priority }) => {
+const Figure = ({
+  caption,
+  alt,
+  imageUrl,
+  imagePlaceholder, // injected dynamically
+  width,
+  height,
+  priority,
+}) => {
   return (
     <figure>
       <Image
         alt={alt}
-        src={src}
+        imageUrl={imageUrl}
+        blurDataURL={imagePlaceholder}
         width={width}
         height={height}
         priority={priority}
@@ -116,6 +129,7 @@ const Step = ({ icon, heading, date, children }) => {
 
 const Card = ({
   imageUrl,
+  imagePlaceholder, // injected dynamically
   imageWidth = 1600,
   imageHeight = 900,
   title,
@@ -128,8 +142,9 @@ const Card = ({
 
       {imageUrl && (
         <Image
-          src={imageUrl}
-          alt="Blah"
+          imageUrl={imageUrl}
+          blurDataURL={imagePlaceholder}
+          alt=""
           width={imageWidth}
           height={imageHeight}
           className="rounded-b-none"
