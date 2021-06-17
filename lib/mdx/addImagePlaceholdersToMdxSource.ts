@@ -1,6 +1,6 @@
 import { getPlaiceholder } from 'plaiceholder'
 
-export default async function addImagePlaceholdersToMdx(fileContents: any) {
+export default async function addImagePlaceholdersToMdxSource(fileContents: any) {
   const compiledSourceAsArray = fileContents.mdxSource.compiledSource.split(',')
 
   const compiledSourceWithBase64Placeholders = await Promise.all(

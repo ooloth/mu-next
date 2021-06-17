@@ -1,3 +1,4 @@
+import addImagePlaceholdersToMdxSource from 'lib/mdx/addImagePlaceholdersToMdxSource'
 import { getFileNames, getFileContents } from 'lib/mdx/mdx'
 import getTopics from 'lib/notion/getTopics'
 import getTopicBySlug from 'lib/notion/getTopicBySlug'
@@ -6,7 +7,6 @@ import getSubtopicNameById from 'lib/notion/getSubtopicNameById'
 import Article from 'templates/article'
 import Note from 'templates/note'
 import Topic from 'templates/topic'
-import addImagePlaceholdersToMdx from 'lib/mdx/addImagePlaceholdersToMdx'
 
 export default function DynamicRoute({ article, note, topic, bookmarks }) {
   if (article) {
@@ -55,7 +55,9 @@ export async function getStaticProps({ params }) {
   const article = await getFileContents('articles', params.slug)
 
   if (article) {
-    const articleWithImagePlaceholders = await addImagePlaceholdersToMdx(article)
+    const articleWithImagePlaceholders = await addImagePlaceholdersToMdxSource(
+      article,
+    )
     return { props: { article: articleWithImagePlaceholders } }
   }
 
