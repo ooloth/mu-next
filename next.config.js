@@ -3,7 +3,6 @@ module.exports = {
     turboMode: true,
   },
   future: {
-    webpack5: true,
     strictPostcssConfiguration: true,
   },
   images: {
@@ -77,11 +76,6 @@ module.exports = {
       require('./scripts/generate-rss')
       require('./scripts/generate-sitemap')
     }
-
-    config.module.rules.push({
-      test: /\.svg$/,
-      use: ['@svgr/webpack'],
-    })
 
     return config
   },

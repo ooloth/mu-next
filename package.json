@@ -21,7 +21,6 @@
   "dependencies": {
     "@mapbox/rehype-prism": "^0.6.0",
     "@notionhq/client": "^0.1.9",
-    "@svgr/webpack": "^5.5.0",
     "date-fns": "^2.22.1",
     "gray-matter": "^4.0.3",
     "mdx-prism": "^0.3.1",
