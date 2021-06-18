@@ -7,7 +7,6 @@ import { format } from 'timeago.js'
 import addImagePlaceholderToMdxFrontMatter from 'lib/mdx/addImagePlaceholderToMdxFrontMatter'
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 import Outer from 'layouts/outer'
-// import headshot from 'public/images/michael-landscape.jpg'
 
 const seo = {
   url: 'https://michaeluloth.com/about',
@@ -103,11 +102,11 @@ function Writing({ articles }) {
           See all posts &rarr;
         </a>
       </Link>
-      {/* <Link href="">
-      <a className="flex mt-4 font-semibold text-blue-500 dark:text-blue-400 hover:underline">
-        Subscribe via RSS &rarr;
-      </a>
-    </Link>*/}
+      <Link href="/rss.xml">
+        <a className="flex mt-4 font-semibold text-blue-500 dark:text-blue-400 hover:underline">
+          Subscribe via RSS &rarr;
+        </a>
+      </Link>
     </section>
   )
 }
