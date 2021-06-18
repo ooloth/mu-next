@@ -1,12 +1,13 @@
-import { getPlaiceholder } from 'plaiceholder'
+import getImagePlaceholderForEnv from 'utils/getImagePlaceholderForEnv'
 
 export default async function addImagePlaceholderToMdxFrontMatter(
   fileContents: any,
 ) {
   const { featuredImage } = fileContents.frontMatter
-  const { base64 } = await getPlaiceholder(featuredImage, { size: 64 })
 
-  fileContents.frontMatter.featuredImagePlaceholder = base64
+  const imagePlaceholder = await getImagePlaceholderForEnv(featuredImage, 64)
+
+  fileContents.frontMatter.featuredImagePlaceholder = imagePlaceholder
 
   return fileContents
 }

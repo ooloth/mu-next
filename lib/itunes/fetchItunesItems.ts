@@ -1,4 +1,4 @@
-import { getPlaiceholder } from 'plaiceholder'
+import getImagePlaceholderForEnv from 'utils/getImagePlaceholderForEnv'
 
 interface iTunesListItem {
   date: string
@@ -86,11 +86,11 @@ export default async function fetchItunesItems(
           return null
         }
 
-        const { base64 } = await getPlaiceholder(imageUrl, { size: 4 })
+        const imagePlaceholder = await getImagePlaceholderForEnv(imageUrl, 4)
 
         includedIds.add(id)
 
-        return { artist, title, id, date, link, imageUrl, imagePlaceholder: base64 }
+        return { artist, title, id, date, link, imageUrl, imagePlaceholder }
       }),
     )
 

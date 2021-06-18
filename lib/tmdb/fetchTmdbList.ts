@@ -1,4 +1,4 @@
-import { getPlaiceholder } from 'plaiceholder'
+import getImagePlaceholderForEnv from 'utils/getImagePlaceholderForEnv'
 
 export interface TmdbItem {
   id: string
@@ -55,9 +55,9 @@ export default async function fetchTmdbList(
             continue
           }
 
-          const { base64 } = await getPlaiceholder(imageUrl, { size: 4 })
+          const imagePlaceholder = await getImagePlaceholderForEnv(imageUrl, 4)
 
-          items.push({ title, id, date, imageUrl, imagePlaceholder: base64, link })
+          items.push({ title, id, date, imageUrl, imagePlaceholder, link })
         }
       }
     } catch (error) {
