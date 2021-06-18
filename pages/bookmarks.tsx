@@ -5,7 +5,7 @@ import { format } from 'timeago.js'
 import Header from 'components/header'
 import Outer from 'layouts/outer'
 import getTopics from 'lib/notion/getTopics'
-import { getAllFilesFrontMatter } from 'lib/mdx'
+import { getAllFilesFrontMatter } from 'lib/mdx/mdx'
 
 export default function Bookmarks({ topics }) {
   return (
@@ -17,7 +17,7 @@ export default function Bookmarks({ topics }) {
         openGraph={{ ...seo }}
       />
 
-      <Header title="Bookmarks" summary="Helpful links I want to remember." />
+      <Header title="Bookmarks" summary="Helpful links about interesting topics." />
 
       <main>
         <section className="mt-14">
@@ -67,7 +67,7 @@ export default function Bookmarks({ topics }) {
 const seo = {
   url: 'https://michaeluloth.com/bookmarks',
   title: 'Bookmarks 🔖',
-  description: 'Helpful links I want to remember.',
+  description: 'Helpful links about interesting topics.',
 }
 
 export async function getStaticProps() {

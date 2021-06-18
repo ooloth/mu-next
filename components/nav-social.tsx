@@ -41,11 +41,17 @@ function SocialLink({ platform, href, text }: SocialNavItem) {
 const iconClasses = 'inline-block w-1em h-1em leading-0 pointer-events-none'
 
 const icons = {
+  // @ts-ignore
   Twitter: <TwitterIcon className={iconClasses} aria-hidden />,
+  // @ts-ignore
   YouTube: <YouTubeIcon className={iconClasses} aria-hidden />,
+  // @ts-ignore
   GitHub: <GitHubIcon className={iconClasses} aria-hidden />,
+  // @ts-ignore
   LinkedIn: <LinkedInIcon className={iconClasses} aria-hidden />,
+  // @ts-ignore
   Email: <EmailIcon className={iconClasses} aria-hidden />,
+  // @ts-ignore
   RSS: <RssIcon className={iconClasses} aria-hidden />,
 }
 

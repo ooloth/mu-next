@@ -1,4 +1,5 @@
-import { getFileNames, getFileContents } from 'lib/mdx'
+import addImagePlaceholdersToMdxSource from 'lib/mdx/addImagePlaceholdersToMdxSource'
+import { getFileNames, getFileContents } from 'lib/mdx/mdx'
 import getTopics from 'lib/notion/getTopics'
 import getTopicBySlug from 'lib/notion/getTopicBySlug'
 import getBookmarksByIds from 'lib/notion/getBookmarksByIds'
@@ -54,7 +55,10 @@ export async function getStaticProps({ params }) {
   const article = await getFileContents('articles', params.slug)
 
   if (article) {
-    return { props: { article } }
+    const articleWithImagePlaceholders = await addImagePlaceholdersToMdxSource(
+      article,
+    )
+    return { props: { article: articleWithImagePlaceholders } }
   }
 
   const note = await getFileContents('notes', params.slug)

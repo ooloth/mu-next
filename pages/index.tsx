@@ -2,9 +2,10 @@ import Link from 'next/link'
 import { NextSeo } from 'next-seo'
 import { MDXRemote } from 'next-mdx-remote'
 
-import Outer from 'layouts/outer'
 import Header from 'components/header'
-import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx'
+import Outer from 'layouts/outer'
+import addImagePlaceholdersToMdxSource from 'lib/mdx/addImagePlaceholdersToMdxSource'
+import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 
 const seo = {
   url: 'https://michaeluloth.com',
@@ -83,9 +84,10 @@ export async function getStaticProps() {
   const timelineFilesFrontmatter = await getAllFilesFrontMatter('timeline')
 
   const timelineByYear = await Promise.all(
-    timelineFilesFrontmatter.map(async metadata =>
-      getFileContents('timeline', metadata.year),
-    ),
+    timelineFilesFrontmatter.map(async metadata => {
+      const fileContents = await getFileContents('timeline', metadata.year)
+      return await addImagePlaceholdersToMdxSource(fileContents)
+    }),
   )
 
   return {

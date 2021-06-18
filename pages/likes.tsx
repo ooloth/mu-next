@@ -77,6 +77,8 @@ function Category({ heading, items, info }: LikesCategory) {
                 <Image
                   src={item.imageUrl}
                   alt="" // decorative, so hide from screen readers
+                  placeholder="blur"
+                  blurDataURL={item.imagePlaceholder}
                   width={300}
                   height={
                     heading === 'Albums' || heading === 'Podcasts' ? 300 : 435
