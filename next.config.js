@@ -71,6 +71,7 @@ module.exports = {
       },
     ]
   },
+  target: 'serverless',
   webpack: (config, { isServer }) => {
     if (isServer) {
       require('./scripts/generate-rss')
