@@ -7,6 +7,8 @@ import getSubtopicNameById from 'lib/notion/getSubtopicNameById'
 import Article from 'templates/article'
 import Note from 'templates/note'
 import Topic from 'templates/topic'
+import getPosts from 'lib/notion/getPosts'
+import getBlockChildren from 'lib/notion/getBlockChildren'
 
 export default function DynamicRoute({ article, note, topic, bookmarks }) {
   if (article) {
@@ -24,6 +26,16 @@ export default function DynamicRoute({ article, note, topic, bookmarks }) {
   return null
 }
 
+async function getPostSlugs(): Promise<string[]> {
+  const posts = await getPosts()
+
+  const postSlugs: string[] = posts.map(
+    post => post.properties['Slug'].rich_text[0].plain_text,
+  )
+
+  return postSlugs
+}
+
 async function getTopicSlugs(): Promise<string[]> {
   const topics = await getTopics()
 
@@ -37,26 +49,45 @@ async function getTopicSlugs(): Promise<string[]> {
 export async function getStaticPaths() {
   // Stop querying note file names after all bookmarks are migrated to Notion
   const articleFileNames = await getFileNames('articles')
+  const postSlugs = await getPostSlugs()
   const noteFileNames = await getFileNames('notes')
   const topicSlugs = await getTopicSlugs()
 
-  const allSlugs = [...articleFileNames, ...noteFileNames, ...topicSlugs].map(
-    slug => slug.replace('.mdx', ''),
-  )
+  const allSlugs = [
+    ...articleFileNames,
+    ...postSlugs,
+    ...noteFileNames,
+    ...topicSlugs,
+  ].map(slug => slug.replace('.mdx', ''))
 
   const deduplicatedSlugs = Array.from(new Set(allSlugs))
 
   const paths = deduplicatedSlugs.map(slug => ({ params: { slug } }))
 
-  return { paths, fallback: false }
+  return { paths, fallback: 'blocking' }
 }
 
 export async function getStaticProps({ params }) {
-  const article = await getFileContents('articles', params.slug)
+  // Prefer the Notion version of a post to the MDX version by looking for it first
+  const notionPosts = await getPosts()
+  const notionPost = notionPosts.find(
+    post => post.properties['Slug'].rich_text[0].plain_text === params.slug,
+  )
 
-  if (article) {
+  if (notionPost) {
+    const notionPostBlocks = await getBlockChildren(notionPost.id)
+    return {
+      props: {
+        article: { properties: notionPost.properties, blocks: notionPostBlocks },
+      },
+    }
+  }
+
+  const mdxArticle = await getFileContents('articles', params.slug)
+
+  if (mdxArticle) {
     const articleWithImagePlaceholders = await addImagePlaceholdersToMdxSource(
-      article,
+      mdxArticle,
     )
     return { props: { article: articleWithImagePlaceholders } }
   }
@@ -95,5 +126,8 @@ export async function getStaticProps({ params }) {
     }),
   )
 
-  return { props: { topic, bookmarks: bookmarksBySubtopic } }
+  return {
+    props: { topic, bookmarks: bookmarksBySubtopic },
+    revalidate: 86400, // refetch data for this route once per day without requiring a new build
+  }
 }

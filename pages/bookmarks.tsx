@@ -91,7 +91,10 @@ export async function getStaticProps() {
     return aTitle.localeCompare(bTitle)
   })
 
-  return { props: { topics: sortedTopics } }
+  return {
+    props: { topics: sortedTopics },
+    revalidate: 86400, // refetch data for this route once per day without requiring a new build
+  }
 }
 
 function getUniqueTopics(topics: any[]) {
