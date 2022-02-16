@@ -1,7 +1,4 @@
 module.exports = {
-  experimental: {
-    turboMode: true,
-  },
   future: {
     strictPostcssConfiguration: true,
   },

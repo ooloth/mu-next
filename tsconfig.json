@@ -16,5 +16,13 @@
     "target": "es5"
   },
   "exclude": ["node_modules"],
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"]
+  "include": [
+    "next-env.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "lib/notion/client.js",
+    "lib/notion/constants.js",
+    "lib/notion/getDatabase.js",
+    "lib/notion/getPosts.js"
+  ]
 }
