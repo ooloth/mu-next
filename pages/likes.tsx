@@ -152,5 +152,6 @@ export async function getStaticProps() {
 
   return {
     props: { tvShows, movies, books, albums, podcasts },
+    revalidate: 86400 * 7, // refetch data for this route once per week without requiring a new build
   }
 }

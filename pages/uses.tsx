@@ -44,5 +44,8 @@ export default function Uses({ uses: { mdxSource, frontMatter } }) {
 export async function getStaticProps() {
   const uses = await getFileContents('uses')
 
-  return { props: { uses } }
+  return {
+    props: { uses },
+    revalidate: 86400 * 7, // refetch data for this route once per week without requiring a new build
+  }
 }
