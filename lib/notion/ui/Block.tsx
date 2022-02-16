@@ -73,20 +73,20 @@ export default function Block({ block }) {
         </p>
       )
 
-    case 'image':
-      return (
-        <figure>
-          <img
-            src={value.type === 'external' ? value.external.url : value.file.url}
-            alt={value.caption ? value.caption[0]?.plain_text : ''}
-          />
-          {value.caption && (
-            <figcaption>
-              {value.caption ? value.caption[0]?.plain_text : ''}
-            </figcaption>
-          )}
-        </figure>
-      )
+    // case 'image':
+    //   return (
+    //     <figure>
+    //       <img
+    //         src={value.type === 'external' ? value.external.url : value.file.url}
+    //         alt={value.caption ? value.caption[0]?.plain_text : ''}
+    //       />
+    //       {value.caption && (
+    //         <figcaption>
+    //           {value.caption ? value.caption[0]?.plain_text : ''}
+    //         </figcaption>
+    //       )}
+    //     </figure>
+    //   )
 
     // FIXME: support video embeds
     // case 'video':

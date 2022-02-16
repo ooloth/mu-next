@@ -9,6 +9,7 @@ export default function Text({ text }) {
 
     return (
       <span
+        key={text.link.url || text.content}
         className={[
           bold ? 'bold' : '',
           code ? 'code' : '',
