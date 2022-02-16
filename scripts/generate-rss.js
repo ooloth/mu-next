@@ -55,9 +55,6 @@ async function generateRssFeed() {
   const sortedFeedItems = deduplicatedFeedItems.sort((a, b) =>
     b.date.localeCompare(a.date),
   )
-  // const sortedFeedItems = unsortedMdxFeedItems.sort((a, b) =>
-  //   b.date.localeCompare(a.date),
-  // )
 
   // Add feed items to RSS feed
   sortedFeedItems.forEach(item => {
@@ -70,16 +67,12 @@ async function generateRssFeed() {
 function getUniqueFeedItems(feedItems) {
   let uniqueItemSlugs = new Set()
 
-  const uniqueItems = feedItems.reduce((allUniquePosts, item) => {
-    const itemSlug = item?.properties
-      ? item.properties['Slug'].rich_text[0].plain_text // Notion post
-      : item.slug // MDX article
-
-    if (uniqueItemSlugs.has(itemSlug)) {
-      return allUniquePosts
+  const uniqueItems = feedItems.reduce((uniqueFeedItems, item) => {
+    if (uniqueItemSlugs.has(item.url)) {
+      return uniqueFeedItems
     } else {
-      uniqueItemSlugs.add(itemSlug)
-      return [...allUniquePosts, item]
+      uniqueItemSlugs.add(item.url)
+      return [...uniqueFeedItems, item]
     }
   }, [])
 
