@@ -40,7 +40,7 @@ async function generateRssFeed() {
   // Create RSS feed items for Notion posts
   const notionFeedItems = notionPosts.map(post => ({
     title: post.properties['Title'].title[0].plain_text,
-    url: `https://michaeluloth.com/blog/${post.properties['Slug'].rich_text[0].plain_text}`,
+    url: `https://michaeluloth.com/${post.properties['Slug'].rich_text[0].plain_text}`,
     date: post.properties['First published'].date.start,
     description: post.properties['Description'].rich_text[0].plain_text,
   }))
