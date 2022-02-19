@@ -1,3 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
+import { transformCloudinaryImage } from 'lib/cloudinary/utils'
 import { Fragment } from 'react'
 import Text from './Text'
 
@@ -51,9 +53,11 @@ export default function Block({ block }) {
 
     case 'code':
       return (
-        <code>
-          <Text text={value.text} />
-        </code>
+        <pre className={`language-${value.language}`}>
+          <code className={`language-${value.language}`}>
+            <Text text={value.text} />
+          </code>
+        </pre>
       )
 
     case 'toggle':
@@ -73,20 +77,18 @@ export default function Block({ block }) {
         </p>
       )
 
-    // case 'image':
-    //   return (
-    //     <figure>
-    //       <img
-    //         src={value.type === 'external' ? value.external.url : value.file.url}
-    //         alt={value.caption ? value.caption[0]?.plain_text : ''}
-    //       />
-    //       {value.caption && (
-    //         <figcaption>
-    //           {value.caption ? value.caption[0]?.plain_text : ''}
-    //         </figcaption>
-    //       )}
-    //     </figure>
-    //   )
+    case 'image':
+      return (
+        <img
+          src={
+            value.type === 'external'
+              ? transformCloudinaryImage(value.external.url, 624)
+              : transformCloudinaryImage(value.file.url, 624)
+          }
+          alt={value.caption ? value.caption[0]?.plain_text : ''}
+          className="rounded bg-gray-900"
+        />
+      )
 
     // FIXME: support video embeds
     // case 'video':
