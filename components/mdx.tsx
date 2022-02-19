@@ -57,42 +57,22 @@ interface ImageProps {
   alt: string
   imageUrl: string
   blurDataURL?: string
-  width: number
-  height: number
+  width?: number
+  height?: number
   priority?: boolean
   className?: string
 }
 
-const Image = ({
-  alt,
-  imageUrl,
-  blurDataURL,
-  width,
-  height,
-  priority = false,
-  className,
-}: ImageProps) => {
+const Image = ({ alt, imageUrl, width, height, className }: ImageProps) => {
   return (
     // eslint-disable-next-line @next/next/no-img-element
     <img
       src={imageUrl}
-      alt=""
+      alt={alt || '""'}
+      width={width}
+      height={height}
       className={`rounded bg-gray-900  ${className || ''}`}
     />
-    // <NextImage
-    //   alt={alt}
-    //   src={imageUrl}
-    //   width={width}
-    //   height={height}
-    //   priority={priority}
-    //   layout="responsive"
-    //   // placeholder={blurDataURL ? 'blur' : 'empty'}
-    //   // blurDataURL={blurDataURL || ''}
-    //   // placeholder="blur"
-    //   // blurDataURL={blurDataURL}
-    //   unoptimized
-    //   className={`rounded bg-gray-900  ${className || ''}`}
-    // />
   )
 }
 
