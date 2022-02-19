@@ -1,3 +1,4 @@
+import { transformCloudinaryImage } from 'lib/cloudinary/utils'
 import getImagePlaceholderForEnv from 'utils/getImagePlaceholderForEnv'
 
 interface iTunesListItem {
@@ -79,7 +80,13 @@ export default async function fetchItunesItems(
         const date = matchingItem.date
         const link = result.collectionViewUrl || result.trackViewUrl
         // See image srcset URLs used on books.apple.com:
-        const imageUrl = result.artworkUrl100.replace('100x100bb', '400x0w')
+        const imageUrl = transformCloudinaryImage(
+          `https://res.cloudinary.com/ooloth/image/fetch/${result.artworkUrl100.replace(
+            '100x100bb',
+            '400x0w',
+          )}`,
+          192,
+        )
 
         if (!title || !id || !date || !link || !imageUrl || includedIds.has(id)) {
           console.log(`Removed iTunes result:`, result)

@@ -1,4 +1,4 @@
-import Image from 'next/image'
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { NextSeo } from 'next-seo'
 
@@ -74,11 +74,9 @@ function Category({ heading, items, info }: LikesCategory) {
               aria-label={`Visit the ${info} page for "${item.title}" in a new window.`}
             >
               <a>
-                <Image
+                <img
                   src={item.imageUrl}
                   alt="" // decorative, so hide from screen readers
-                  placeholder="blur"
-                  blurDataURL={item.imagePlaceholder}
                   width={300}
                   height={
                     heading === 'Albums' || heading === 'Podcasts' ? 300 : 435
