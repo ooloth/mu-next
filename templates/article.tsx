@@ -5,20 +5,28 @@ import { format } from 'timeago.js'
 import Outer from 'layouts/outer'
 import Emoji from 'components/emoji'
 import Block from 'lib/notion/ui/Block'
+import { transformCloudinaryImage } from 'lib/cloudinary/utils'
 
 const ArticleSeo = ({ title, slug, description, featuredImage, date }) => {
   const url = `https://michaeluloth.com/${slug}`
   const formattedDate = new Date(date).toISOString()
+
   const image = featuredImage
-    ? {
-        url: `https://michaeluloth.com${featuredImage}`,
-        alt: title,
-      }
+    ? featuredImage.includes('cloudinary')
+      ? {
+          url: transformCloudinaryImage(featuredImage, 1280),
+          alt: title,
+        }
+      : {
+          url: `https://michaeluloth.com${featuredImage}`,
+          alt: title,
+        }
     : {
         alt: 'Michael Uloth smiling into the camera',
-        url: 'https://michaeluloth.com/images/michael-landscape.jpg',
-        width: 2883,
-        height: 2058,
+        url: transformCloudinaryImage(
+          'https://res.cloudinary.com/ooloth/image/upload/mu/michael-landscape.jpg',
+          1280,
+        ),
       }
 
   return (
@@ -54,6 +62,7 @@ const ArticleSeo = ({ title, slug, description, featuredImage, date }) => {
 }
 
 export default function Article({ article }) {
+  console.log('article', article)
   const { type, title, slug, description, featuredImage, date } =
     parsePostProperties(article)
 
@@ -116,8 +125,7 @@ function parsePostProperties(post) {
     : post.frontMatter.description
 
   const featuredImage = post?.properties
-    ? // TODO: support an optional featured image in Notion posts?
-      null
+    ? post.properties['Featured image'].url
     : post.frontMatter.featuredImage
 
   const date = post?.properties
