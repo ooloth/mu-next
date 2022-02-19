@@ -47,7 +47,7 @@ export default async function fetchTmdbList(
           const title = result.title || result.name
           const id = result.id
           const date = result.release_date || result.first_air_date
-          const imageUrl = `https://res.cloudinary.com/ooloth/image/fetch/https://image.tmdb.org/t/p/original${result.poster_path}`
+          const imageUrl = `https://res.cloudinary.com/ooloth/image/fetch/w_192,f_auto,q_auto,dpr_2.0/https://image.tmdb.org/t/p/original${result.poster_path}`
           const link = `https://www.themoviedb.org/${api}/${id}`
 
           if (!title || !id || !date || !result.poster_path) {
