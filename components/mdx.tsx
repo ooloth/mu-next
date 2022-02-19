@@ -73,23 +73,30 @@ const Image = ({
   className,
 }: ImageProps) => {
   return (
-    <NextImage
-      alt={alt}
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
       src={imageUrl}
-      width={width}
-      height={height}
-      priority={priority}
-      layout="responsive"
-      // placeholder={blurDataURL ? 'blur' : 'empty'}
-      // blurDataURL={blurDataURL || ''}
-      placeholder="blur"
-      blurDataURL={blurDataURL}
+      alt=""
       className={`rounded bg-gray-900  ${className || ''}`}
     />
+    // <NextImage
+    //   alt={alt}
+    //   src={imageUrl}
+    //   width={width}
+    //   height={height}
+    //   priority={priority}
+    //   layout="responsive"
+    //   // placeholder={blurDataURL ? 'blur' : 'empty'}
+    //   // blurDataURL={blurDataURL || ''}
+    //   // placeholder="blur"
+    //   // blurDataURL={blurDataURL}
+    //   unoptimized
+    //   className={`rounded bg-gray-900  ${className || ''}`}
+    // />
   )
 }
 
-const Figure = ({
+export const Figure = ({
   caption,
   alt,
   imageUrl,
