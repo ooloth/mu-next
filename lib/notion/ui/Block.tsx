@@ -3,7 +3,11 @@ import { transformCloudinaryImage } from 'lib/cloudinary/utils'
 import { Fragment } from 'react'
 import Text from './Text'
 
-export default function Block({ block }) {
+type BlockProps = {
+  block: any
+}
+
+export default function Block({ block }: BlockProps) {
   const { type } = block
   const value = block[type]
 
@@ -37,11 +41,26 @@ export default function Block({ block }) {
       )
 
     case 'bulleted_list_item':
+      // TODO: extract into a List component that handles ul, ol, todos and toggles
+      return (
+        <ul>
+          {block.items.map((item, index) => (
+            <li key={index}>
+              <Text text={item[type].text} />
+            </li>
+          ))}
+        </ul>
+      )
+
     case 'numbered_list_item':
       return (
-        <li>
-          <Text text={value.text} />
-        </li>
+        <ol>
+          {block.items.map((item, index) => (
+            <li key={index}>
+              <Text text={item[type].text} />
+            </li>
+          ))}
+        </ol>
       )
 
     case 'quote':
