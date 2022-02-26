@@ -3,6 +3,8 @@ import { transformCloudinaryImage } from 'lib/cloudinary/utils'
 import { Fragment } from 'react'
 import Text from './Text'
 
+// TODO: add type definitions for raw Notion blocks + my parsed blocks
+// see: https://github.com/9gustin/react-notion-render/blob/93bc519a4b0e920a0a9b980323c9a1456fab47d5/src/types/NotionBlock.ts
 type BlockProps = {
   block: any
 }
@@ -11,6 +13,8 @@ export default function Block({ block }: BlockProps) {
   const { type } = block
   const value = block[type]
 
+  // TODO: move each markup component into a separate file
+  // see: https://github.com/9gustin/react-notion-render/tree/93bc519a4b0e920a0a9b980323c9a1456fab47d5/src/components/common
   switch (type) {
     case 'paragraph':
       return (
@@ -42,6 +46,7 @@ export default function Block({ block }: BlockProps) {
 
     case 'bulleted_list_item':
       // TODO: extract into a List component that handles ul, ol, todos and toggles
+      // see: https://github.com/9gustin/react-notion-render/blob/main/src/components/common/List/index.tsx
       return (
         <ul>
           {block.items.map((item, index) => (

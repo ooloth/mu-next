@@ -103,6 +103,10 @@ export default function Article({ article }) {
   )
 }
 
+/**
+ * Parses and renders the blocks for a Notion page.
+ * @see https://github.com/9gustin/react-notion-render/blob/93bc519a4b0e920a0a9b980323c9a1456fab47d5/src/components/core/Render/index.tsx
+ */
 function NotionBlocks({ blocks }) {
   const blocksToRender = getBlocksToRender(blocks)
 
@@ -111,6 +115,7 @@ function NotionBlocks({ blocks }) {
 
 /**
  * Returns a list of parsed blocks that Block knows how to render.
+ * @see https://github.com/9gustin/react-notion-render/blob/93bc519a4b0e920a0a9b980323c9a1456fab47d5/src/utils/getBlocksToRender.ts#L15
  */
 function getBlocksToRender(blocks: any[]) {
   // Filter out blocks the Notion API doesn't support
@@ -141,6 +146,7 @@ function getBlocksToRender(blocks: any[]) {
 
 /**
  * Returns a Notion block that's been extended with helper methods and a consolidated array of list items (if applicable)
+ * @see https://github.com/9gustin/react-notion-render/blob/93bc519a4b0e920a0a9b980323c9a1456fab47d5/src/types/Block.ts
  * @see https://kyleshevlin.com/what-is-a-factory-function
  */
 function createParsedNotionBlock(notionBlock: any) {
@@ -154,6 +160,9 @@ function createParsedNotionBlock(notionBlock: any) {
     },
     equalsType(type: string) {
       return notionBlock.type === type
+    },
+    getComponent() {
+      // TODO: Implement
     },
     getType,
     isList() {
