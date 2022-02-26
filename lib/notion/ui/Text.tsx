@@ -9,12 +9,13 @@ export default function Text({ text }) {
       text,
     } = value
 
-    const Tag = bold ? 'b' : code ? 'code' : italic ? 'em' : 'span'
+    const Tag = code ? 'code' : italic ? 'em' : 'span'
 
     return (
       <Tag
         key={text.link?.url || text.content}
         className={classNames([
+          bold && 'font-semibold',
           strikethrough && 'line-through',
           underline && 'underline',
         ])}
