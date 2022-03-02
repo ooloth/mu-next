@@ -25,6 +25,12 @@ export default async function getPosts(): Promise<any[]> {
           },
         },
         {
+          property: 'Author',
+          select: {
+            is_not_empty: true,
+          },
+        },
+        {
           property: 'Status',
           select: {
             equals: 'Published',
