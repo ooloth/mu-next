@@ -6,6 +6,8 @@ import Outer from 'layouts/outer'
 import Emoji from 'components/emoji'
 import Block from 'lib/notion/ui/Block'
 import { transformCloudinaryImage } from 'lib/cloudinary/utils'
+import { useEffect } from 'react'
+import Prism from 'prismjs'
 
 const ArticleSeo = ({ title, slug, description, featuredImage, date }) => {
   const url = `https://michaeluloth.com/${slug}`
@@ -28,6 +30,10 @@ const ArticleSeo = ({ title, slug, description, featuredImage, date }) => {
           1280,
         ),
       }
+
+  useEffect(() => {
+    Prism.highlightAll()
+  }, [])
 
   return (
     <>
@@ -77,7 +83,7 @@ export default function Article({ article }) {
 
       <article>
         <header>
-          <h1 className="mb-0 leading-tight font-extrabold text-4xl">
+          <h1 className="mb-0 text-4xl font-extrabold leading-tight">
             {title}
             {type === '🔖' && (
               <>

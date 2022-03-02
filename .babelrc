@@ -1,4 +1,25 @@
 {
   "presets": ["next/babel"],
-  "plugins": ["inline-react-svg"]
+  "plugins": [
+    "inline-react-svg",
+    [
+      "prismjs",
+      {
+        "languages": [
+          "css",
+          "html",
+          "javascript",
+          "json",
+          "jsx",
+          "markdown",
+          "tsx",
+          "typescript",
+          "yaml"
+        ],
+        "plugins": ["copy-to-clipboard", "line-numbers", "show-language"],
+        "theme": "tomorrow",
+        "css": true
+      }
+    ]
+  ]
 }
