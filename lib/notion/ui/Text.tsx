@@ -1,3 +1,4 @@
+import Link from 'next/link'
 import classNames from 'utils/class-names'
 
 export default function Text({ text }) {
@@ -20,7 +21,19 @@ export default function Text({ text }) {
           underline && 'underline',
         ])}
       >
-        {text.link ? <a href={text.link.url}>{text.content}</a> : text.content}
+        {text.link ? (
+          text.link.url.includes('michaeluloth.com') ? (
+            <Link href={text.link.url.replace('https://michaeluloth.com', '')}>
+              <a>{text.content}</a>
+            </Link>
+          ) : (
+            <a href={text.link.url} rel="noreferrer">
+              {text.content}
+            </a>
+          )
+        ) : (
+          text.content
+        )}
       </Tag>
     )
   })
