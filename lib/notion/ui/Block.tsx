@@ -102,6 +102,8 @@ export default function Block({ block }: BlockProps) {
       )
 
     case 'image':
+      const { alt, width, height } = parseImageCaption(value.caption)
+
       return (
         <img
           src={
@@ -109,8 +111,10 @@ export default function Block({ block }: BlockProps) {
               ? transformCloudinaryImage(value.external.url, 624)
               : transformCloudinaryImage(value.file.url, 624)
           }
-          alt={value.caption ? value.caption[0]?.plain_text : ''}
-          className="rounded bg-gray-900"
+          alt={alt}
+          width={width}
+          height={height}
+          className="bg-gray-900 rounded"
         />
       )
 
@@ -143,4 +147,29 @@ export default function Block({ block }: BlockProps) {
     //     : type
     // })`
   }
+}
+
+function parseImageCaption(caption) {
+  if (!caption) {
+    throw new Error('Image block must include a caption.')
+  }
+
+  const dimensions = caption[0].plain_text.match(/\d+x\d+/)
+
+  if (!dimensions) {
+    throw new Error(
+      'Image caption must start with valid dimensions: [<width>x<height>]',
+    )
+  }
+
+  const width = dimensions[0].replace(/x.*/, '')
+  const height = dimensions[0].replace(/.*x/, '')
+
+  const alt = caption[0]?.plain_text.replace(/\[\d+x\d+\]/, '').trim()
+
+  if (!alt) {
+    throw new Error('Image caption must end with alt text.')
+  }
+
+  return { alt, width, height }
 }
