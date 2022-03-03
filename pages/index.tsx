@@ -11,7 +11,7 @@ const seo = {
   url: 'https://michaeluloth.com',
   title: 'Hey 👋',
   description:
-    "Hi! I'm Michael. I'm a web developer and opera singer living in Toronto.",
+    "Hi! I'm Michael. I'm a web developer and opera singer living in Hamilton, Ontario.",
 }
 
 export default function Home({ timelineByYear }) {
@@ -27,12 +27,12 @@ export default function Home({ timelineByYear }) {
       <header>
         <Header
           title="Hey, I'm Michael"
-          summary="I'm a web developer and opera singer living in Toronto. I'm currently building a React-based ecommerce website at ecobee."
+          summary="I'm a web developer and opera singer living in Hamilton, Ontario. I'm currently building a React-based ecommerce website at ecobee."
         />
 
-        <div className="flex flex-col md:flex-row md:items-center md:justify-center space-y-2 md:space-y-0 md:space-x-4 mt-8">
+        <div className="flex flex-col mt-8 space-y-2 md:flex-row md:items-center md:justify-center md:space-y-0 md:space-x-4">
           <Link href="/about">
-            <a className="shadow-md rounded bg-blue-600 py-3 px-6 text-center text-sm font-semibold text-gray-200">
+            <a className="px-6 py-3 text-sm font-semibold text-center text-gray-200 bg-blue-600 rounded shadow-md">
               More about me
             </a>
           </Link>
@@ -40,7 +40,7 @@ export default function Home({ timelineByYear }) {
             href="https://twitter.com/ooloth"
             target="_blank"
             rel="noopener noreferrer"
-            className="shadow-md rounded bg-gray-800 hover:bg-gray-700 py-3 px-6 text-center text-sm font-semibold"
+            className="px-6 py-3 text-sm font-semibold text-center bg-gray-800 rounded shadow-md hover:bg-gray-700"
           >
             Follow me on Twitter
           </a>

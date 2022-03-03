@@ -16,7 +16,7 @@
           "typescript",
           "yaml"
         ],
-        "plugins": ["copy-to-clipboard", "line-numbers", "show-language"],
+        "plugins": ["copy-to-clipboard", "line-numbers"],
         "theme": "tomorrow",
         "css": true
       }
