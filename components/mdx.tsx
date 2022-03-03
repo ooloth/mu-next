@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import NextLink from 'next/link'
-import NextImage from 'next/image'
 import { ReactNode } from 'react'
 // import Tweet from 'react-tweet-embed'
 
