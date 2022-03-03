@@ -73,12 +73,13 @@ pre {
 
 /* Inline code */
 .prose p code,
-.prose li code {
-  @apply shadow-md rounded bg-gray-900 p-1 font-normal text-pink-500 dark:text-pink-400;
+.prose li code,
+.prose blockquote code {
+  @apply p-1 font-normal text-pink-500 bg-gray-900 rounded shadow-md dark:text-pink-400;
 }
 
 /* .remark-code-title { */
-/*   @apply text-gray-800 dark:text-gray-200 px-5 py-3 border border-b-0 border-gray-200 dark:border-gray-700 rounded-t bg-gray-200 dark:bg-gray-800 text-sm font-mono font-extrabold; */
+/*   @apply px-5 py-3 font-mono text-sm font-extrabold text-gray-800 bg-gray-200 border border-b-0 border-gray-200 rounded-t dark:text-gray-200 dark:border-gray-700 dark:bg-gray-800; */
 /* } */
 
 /* .remark-code-title + pre { */
