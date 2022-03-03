@@ -31,7 +31,9 @@ export default function About({ bio, projects, articles }) {
         <img
           src={transformCloudinaryImage(bio.frontMatter.featuredImage, 624)}
           alt="Michael smiling into the camera."
-          className="flex shadow-md rounded bg-gray-900"
+          className="flex bg-gray-900 rounded shadow-md"
+          width={2883}
+          height={2058}
         />
       </header>
 
@@ -79,7 +81,7 @@ function Writing({ articles }) {
 
       <ol reversed>
         {articles.map(article => (
-          <li key={article.slug} className="space-y-1 mt-8 leading-relaxed">
+          <li key={article.slug} className="mt-8 space-y-1 leading-relaxed">
             <Link href={`/${article.slug}`}>
               <a className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline">
                 {article.title}
