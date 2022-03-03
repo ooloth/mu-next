@@ -71,7 +71,7 @@ module.exports = {
               '&::after': { content: '""' },
             },
             blockquote: {
-              borderLeftColor: theme('colors.gray.700'),
+              borderLeftColor: theme('colors.pink.500'),
               color: theme('colors.gray.300'),
             },
             'h2,h3,h4': {

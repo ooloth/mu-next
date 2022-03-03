@@ -1,4 +1,4 @@
-import Image from 'next/image'
+/* eslint-disable @next/next/no-img-element */
 import Link from 'next/link'
 import { MDXRemote } from 'next-mdx-remote'
 import { NextSeo } from 'next-seo'
@@ -7,6 +7,7 @@ import { format } from 'timeago.js'
 import addImagePlaceholderToMdxFrontMatter from 'lib/mdx/addImagePlaceholderToMdxFrontMatter'
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 import Outer from 'layouts/outer'
+import { transformCloudinaryImage } from 'lib/cloudinary/utils'
 
 const seo = {
   url: 'https://michaeluloth.com/about',
@@ -27,15 +28,12 @@ export default function About({ bio, projects, articles }) {
 
       <header>
         <h1 className="sr-only">About</h1>
-        <Image
+        <img
+          src={transformCloudinaryImage(bio.frontMatter.featuredImage, 624)}
           alt="Michael smiling into the camera."
-          src={bio.frontMatter.featuredImage}
-          placeholder="blur"
-          blurDataURL={bio.frontMatter.featuredImagePlaceholder}
+          className="flex bg-gray-900 rounded shadow-md"
           width={2883}
           height={2058}
-          priority
-          className="flex mt-8 shadow-md rounded bg-gray-900"
         />
       </header>
 
@@ -83,7 +81,7 @@ function Writing({ articles }) {
 
       <ol reversed>
         {articles.map(article => (
-          <li key={article.slug} className="space-y-1 mt-8 leading-relaxed">
+          <li key={article.slug} className="mt-8 space-y-1 leading-relaxed">
             <Link href={`/${article.slug}`}>
               <a className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline">
                 {article.title}

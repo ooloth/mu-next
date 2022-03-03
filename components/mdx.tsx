@@ -1,5 +1,5 @@
+/* eslint-disable @next/next/no-img-element */
 import NextLink from 'next/link'
-import NextImage from 'next/image'
 import { ReactNode } from 'react'
 // import Tweet from 'react-tweet-embed'
 
@@ -44,7 +44,7 @@ function BlockLink({ icon, href, children }) {
   return (
     <Link
       href={href}
-      className="inline-flex mb-3 mr-3 shadow-md rounded bg-gray-800 hover:bg-gray-700 py-3 px-5 text-center text-sm font-semibold"
+      className="inline-flex px-5 py-3 mb-3 mr-3 text-sm font-semibold text-center bg-gray-800 rounded shadow-md hover:bg-gray-700"
       style={{ textDecoration: 'none', color: 'rgb(228, 228, 231)' }}
     >
       {icon && <Emoji picture={icon} className="pr-2" />}
@@ -57,39 +57,26 @@ interface ImageProps {
   alt: string
   imageUrl: string
   blurDataURL?: string
-  width: number
-  height: number
+  width?: number
+  height?: number
   priority?: boolean
   className?: string
 }
 
-const Image = ({
-  alt,
-  imageUrl,
-  blurDataURL,
-  width,
-  height,
-  priority = false,
-  className,
-}: ImageProps) => {
+const Image = ({ alt, imageUrl, width, height, className }: ImageProps) => {
   return (
-    <NextImage
-      alt={alt}
+    // eslint-disable-next-line @next/next/no-img-element
+    <img
       src={imageUrl}
+      alt={alt || '""'}
       width={width}
       height={height}
-      priority={priority}
-      layout="responsive"
-      // placeholder={blurDataURL ? 'blur' : 'empty'}
-      // blurDataURL={blurDataURL || ''}
-      placeholder="blur"
-      blurDataURL={blurDataURL}
       className={`rounded bg-gray-900  ${className || ''}`}
     />
   )
 }
 
-const Figure = ({
+export const Figure = ({
   caption,
   alt,
   imageUrl,
@@ -108,7 +95,7 @@ const Figure = ({
         height={height}
         priority={priority}
       />
-      <figcaption className="text-center text-sm">{caption}</figcaption>
+      <figcaption className="text-sm text-center">{caption}</figcaption>
     </figure>
   )
 }
@@ -118,8 +105,8 @@ const Step = ({ icon, heading, date, children }) => {
     <li className="flex mb-12">
       <p className="flex-none w-6 text-lg">{icon}</p>
 
-      <div className="ml-2 w-full">
-        <p className="text-lg leading-normal font-semibold">{heading}</p>
+      <div className="w-full ml-2">
+        <p className="text-lg font-semibold leading-normal">{heading}</p>
         <p className="mt-2 text-gray-500">{date}</p>
         <p className="mt-4 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg dark:text-gray-400">
           {children}
@@ -131,7 +118,6 @@ const Step = ({ icon, heading, date, children }) => {
 
 const Card = ({
   imageUrl,
-  imagePlaceholder, // injected dynamically
   imageWidth = 1600,
   imageHeight = 900,
   title,
@@ -139,23 +125,23 @@ const Card = ({
   href,
 }) => {
   return (
-    <div className="relative shadow-md rounded bg-gray-900">
+    <div className="relative bg-gray-900 rounded shadow-md">
       <Link href={href} ariaLabel={title} className="absolute inset-0 z-10" />
 
       {imageUrl && (
-        <Image
-          imageUrl={imageUrl}
-          blurDataURL={imagePlaceholder}
+        <img
+          src={imageUrl}
           alt=""
           width={imageWidth}
           height={imageHeight}
           className="rounded-b-none"
+          style={{ marginTop: 0, marginBottom: 0 }}
         />
       )}
 
       <div className="p-3">
         <p
-          className="leading-normal font-medium dark:text-gray-200"
+          className="font-medium leading-normal dark:text-gray-200"
           style={{ margin: 0 }}
         >
           {title}
@@ -173,7 +159,7 @@ const Card = ({
 
 function Project({ name, url, children }) {
   return (
-    <li key={name} className="space-y-1 mt-8 leading-relaxed">
+    <li key={name} className="mt-8 space-y-1 leading-relaxed">
       <Link
         href={url}
         className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline"

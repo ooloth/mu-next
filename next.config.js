@@ -3,15 +3,7 @@ module.exports = {
     strictPostcssConfiguration: true,
   },
   images: {
-    domains: [
-      'image.tmdb.org',
-      'is1-ssl.mzstatic.com',
-      'is2-ssl.mzstatic.com',
-      'is3-ssl.mzstatic.com',
-      'is4-ssl.mzstatic.com',
-      'is5-ssl.mzstatic.com',
-      'media.giphy.com',
-    ],
+    loader: 'cloudinary',
   },
   reactStrictMode: true,
   async redirects() {

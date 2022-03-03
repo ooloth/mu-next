@@ -1,4 +1,5 @@
 import type { AppProps } from 'next/app'
+import 'prismjs'
 import 'what-input'
 import { DefaultSeo } from 'next-seo'
 import { MDXProvider } from '@mdx-js/react'
