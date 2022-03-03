@@ -209,7 +209,7 @@ function parsePostProperties(post) {
     : post.frontMatter.description
 
   const featuredImage = post?.properties
-    ? post.properties['Featured image'].url
+    ? post.properties['Featured image']?.url
     : post.frontMatter.featuredImage
 
   const date = post?.properties
