@@ -27,7 +27,7 @@ export default function Home({ timelineByYear }) {
       <header>
         <Header
           title="Hey, I'm Michael"
-          summary="I'm a web developer and opera singer living in Hamilton, Ontario. I'm currently building a React-based ecommerce website at ecobee."
+          summary="I'm a web developer living in Hamilton, Ontario. I'm currently building the GraphQL API that powers ecobee's mobile and web apps."
         />
 
         <div className="flex flex-col mt-8 space-y-2 md:flex-row md:items-center md:justify-center md:space-y-0 md:space-x-4">
