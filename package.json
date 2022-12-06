@@ -20,7 +20,7 @@
   },
   "dependencies": {
     "@mapbox/rehype-prism": "^0.6.0",
-    "@notionhq/client": "^0.1.9",
+    "@notionhq/client": "^2.2.2",
     "babel-plugin-prismjs": "^2.1.0",
     "date-fns": "^2.22.1",
     "gray-matter": "^4.0.3",
