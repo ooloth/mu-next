@@ -107,7 +107,6 @@ export default function Article({ article }) {
  */
 function NotionBlocks({ blocks }) {
   const blocksToRender = getBlocksToRender(blocks)
-  console.log('blockToRender', blocksToRender)
 
   return blocksToRender.map(block => <Block key={block.id} block={block} />)
 }
