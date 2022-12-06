@@ -100,20 +100,21 @@ function Subtopic({ heading, bookmarks }) {
       <h2>{heading}</h2>
       <ul>
         {bookmarks.map(({ properties }) => {
-          const url = properties['URL'].url
-          const emojiPicture = emoji[properties['Format'].select.name]
-          const title = properties['Title'].title[0].plain_text
-          const description = properties['Description'].rich_text[0].plain_text
+          const url = properties['URL']?.url
+          const emojiPicture = emoji[properties['Format']?.select?.name]
+          const title = properties['Name']?.title?.[0]?.plain_text
+          const description = properties['Description']?.rich_text?.[0]?.plain_text
+          const creator = properties['Creator'].select.name
 
-          return (
+          return url && emojiPicture && title && creator ? (
             <li key={url}>
               <Emoji picture={emojiPicture} />
               {` `}
               <Link href={url}>{title}</Link>
               {` • `}
-              {description}
+              {description ?? creator}
             </li>
-          )
+          ) : null
         })}
       </ul>
     </section>
@@ -122,9 +123,11 @@ function Subtopic({ heading, bookmarks }) {
 
 const emoji = {
   Article: '✍️',
+  'Code snippet': '👩‍💻',
   Course: '🧑‍🏫',
   Podcast: '🎧',
   Reference: '📖',
   Tool: '🧰',
+  Tweet: '🐦',
   Video: '📺',
 }

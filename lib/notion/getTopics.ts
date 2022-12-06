@@ -1,9 +1,8 @@
-import { topicsDbId } from './constants'
 import getDatabase from './getDatabase'
 
 export default async function getTopics(): Promise<any[]> {
   const topics = await getDatabase({
-    databaseId: topicsDbId,
+    databaseId: process.env.NOTION_DB_ID_TOPICS,
     filter: {
       and: [
         {
@@ -25,13 +24,7 @@ export default async function getTopics(): Promise<any[]> {
           },
         },
         {
-          property: 'Subtopics',
-          relation: {
-            is_not_empty: true,
-          },
-        },
-        {
-          property: 'Bookmarks',
+          property: 'Research',
           relation: {
             is_not_empty: true,
           },
