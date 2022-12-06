@@ -32,8 +32,8 @@ export default async function getBookmarkedResearchByIds(researchIds: string[]):
           },
         },
         {
-          property: 'Creator',
-          select: {
+          property: 'Creators',
+          multi_select: {
             is_not_empty: true,
           },
         },

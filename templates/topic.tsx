@@ -32,11 +32,7 @@ export default function Topic({ topic, bookmarks }) {
         <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
           {/* TODO: render general subtopic first (create an array of subtopic names and sort them here?) */}
           {Object.entries(bookmarks).map(([subtopicName, subtopicBookmarks]) => (
-            <Subtopic
-              key={subtopicName}
-              heading={subtopicName}
-              bookmarks={subtopicBookmarks}
-            />
+            <Subtopic key={subtopicName} heading={subtopicName} bookmarks={subtopicBookmarks} />
           ))}
         </div>
       </article>
@@ -104,15 +100,17 @@ function Subtopic({ heading, bookmarks }) {
           const emojiPicture = emoji[properties['Format']?.select?.name]
           const title = properties['Name']?.title?.[0]?.plain_text
           const description = properties['Description']?.rich_text?.[0]?.plain_text
-          const creator = properties['Creator'].select.name
+          const creators = properties['Creators']?.multi_select
+            ?.map(creator => creator.name)
+            .join(', ')
 
-          return url && emojiPicture && title && creator ? (
+          return url && emojiPicture && title && creators ? (
             <li key={url}>
               <Emoji picture={emojiPicture} />
               {` `}
               <Link href={url}>{title}</Link>
               {` • `}
-              {description ?? creator}
+              {description ?? creators}
             </li>
           ) : null
         })}
