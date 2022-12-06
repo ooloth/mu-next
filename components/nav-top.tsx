@@ -42,8 +42,7 @@ export default function TopNav() {
 }
 
 function TopNavItem({ href, text, active = false, className }: NavItem) {
-  const baseClasses =
-    'mx-0.5 inline-flex rounded py-2 px-4 sm:px-7 text-sm font-semibold'
+  const baseClasses = 'mx-0.5 inline-flex rounded py-2 px-4 sm:px-7 text-sm font-semibold'
 
   const activeColors = 'bg-blue-600 bg-opacity-20 text-blue-400'
   const inactiveColors =
@@ -53,8 +52,8 @@ function TopNavItem({ href, text, active = false, className }: NavItem) {
 
   return (
     <li className="leading-none">
-      <Link href={href}>
-        <a className={classNames([baseClasses, colorClasses, className])}>{text}</a>
+      <Link href={href} className={classNames([baseClasses, colorClasses, className])}>
+        {text}
       </Link>
     </li>
   )

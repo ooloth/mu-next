@@ -31,10 +31,11 @@ export default function Bookmarks({ topics }) {
 
               return (
                 <li key={path} className="space-y-1 mb-8 leading-relaxed">
-                  <Link href={path}>
-                    <a className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline">
-                      {name}
-                    </a>
+                  <Link
+                    href={path}
+                    className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline"
+                  >
+                    {name}
                   </Link>
                   <p className="clamp-2">{description}</p>
                   <p className="text-sm text-gray-700 dark:text-gray-500">Updated {lastEdited}</p>

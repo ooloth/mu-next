@@ -14,9 +14,7 @@ export default function BottomNavItems() {
         <BottomNavItem
           href="/bookmarks"
           text="/bookmarks"
-          className={
-            notCurrentPage(pathname, '/bookmarks') ? 'block sm:hidden' : 'hidden'
-          }
+          className={notCurrentPage(pathname, '/bookmarks') ? 'block sm:hidden' : 'hidden'}
         />
 
         {bottomNavItems
@@ -40,8 +38,8 @@ const bottomNavItems: NavItem[] = [
 function BottomNavItem({ href, text, className }: NavItem) {
   return (
     <li className={classNames(['mx-2', className])}>
-      <Link href={href}>
-        <a className="text-gray-400 hover:text-gray-200 text-sm">{text}</a>
+      <Link href={href} className="text-gray-400 hover:text-gray-200 text-sm">
+        {text}
       </Link>
     </li>
   )

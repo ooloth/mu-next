@@ -30,10 +30,11 @@ export default function Home({ timelineByYear }) {
         />
 
         <div className="flex flex-col mt-8 space-y-2 md:flex-row md:items-center md:justify-center md:space-y-0 md:space-x-4">
-          <Link href="/about">
-            <a className="px-6 py-3 text-sm font-semibold text-center text-gray-200 bg-blue-600 rounded shadow-md">
-              More about me
-            </a>
+          <Link
+            href="/about"
+            className="px-6 py-3 text-sm font-semibold text-center text-gray-200 bg-blue-600 rounded shadow-md"
+          >
+            More about me
           </Link>
           <a
             href="https://twitter.com/ooloth"
@@ -58,11 +59,7 @@ function Timeline({ years }) {
     <section className="mt-24 divide-y divide-gray-300 divide-opacity-20">
       <h2 className="sr-only">Timeline</h2>
       {years.map(({ frontMatter, mdxSource }) => (
-        <TimelineYear
-          key={frontMatter.year}
-          year={frontMatter.year}
-          steps={mdxSource}
-        />
+        <TimelineYear key={frontMatter.year} year={frontMatter.year} steps={mdxSource} />
       ))}
     </section>
   )
