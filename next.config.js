@@ -1,10 +1,4 @@
 module.exports = {
-  future: {
-    strictPostcssConfiguration: true,
-  },
-  images: {
-    loader: 'cloudinary',
-  },
   reactStrictMode: true,
   async redirects() {
     return [
@@ -60,7 +54,6 @@ module.exports = {
       },
     ]
   },
-  target: 'serverless',
   webpack: (config, { isServer }) => {
     if (isServer) {
       require('./scripts/generate-rss')
