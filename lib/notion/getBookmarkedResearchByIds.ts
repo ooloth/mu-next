@@ -1,14 +1,18 @@
 import getDatabase from './getDatabase'
 
-export default async function getBookmarkedResearchByIds(
-  researchIds: string[],
-): Promise<any[]> {
+export default async function getBookmarkedResearchByIds(researchIds: string[]): Promise<any[]> {
   if (!researchIds.length) return []
 
   const bookmarkedResearch = await getDatabase({
     databaseId: process.env.NOTION_DB_ID_RESEARCH,
     filter: {
       and: [
+        {
+          property: 'Status',
+          status: {
+            equals: 'Bookmarked',
+          },
+        },
         {
           property: 'Name',
           title: {
@@ -63,9 +67,7 @@ export default async function getBookmarkedResearchByIds(
     ],
   })
 
-  const matchingResearch = bookmarkedResearch.filter(research =>
-    researchIds.includes(research.id),
-  )
+  const matchingResearch = bookmarkedResearch.filter(research => researchIds.includes(research.id))
 
   return matchingResearch
 }
