@@ -1,4 +1,3 @@
-import { MDXRemote } from 'next-mdx-remote'
 import { NextSeo, ArticleJsonLd } from 'next-seo'
 import { format } from 'timeago.js'
 
@@ -68,8 +67,7 @@ const ArticleSeo = ({ title, slug, description, featuredImage, date }) => {
 }
 
 export default function Article({ article }) {
-  const { type, title, slug, description, featuredImage, date } =
-    parsePostProperties(article)
+  const { type, title, slug, description, featuredImage, date } = parsePostProperties(article)
 
   return (
     <Outer narrow>
@@ -92,17 +90,11 @@ export default function Article({ article }) {
               </>
             )}
           </h1>
-          <p className="mt-3 text-sm text-gray-700 dark:text-gray-500">
-            Updated {format(date)}
-          </p>
+          <p className="mt-3 text-sm text-gray-700 dark:text-gray-500">Updated {format(date)}</p>
         </header>
 
         <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
-          {article?.mdxSource ? (
-            <MDXRemote {...article.mdxSource} />
-          ) : (
-            <NotionBlocks blocks={article.blocks} />
-          )}
+          <NotionBlocks blocks={article.blocks} />
         </div>
       </article>
     </Outer>
@@ -115,6 +107,7 @@ export default function Article({ article }) {
  */
 function NotionBlocks({ blocks }) {
   const blocksToRender = getBlocksToRender(blocks)
+  console.log('blockToRender', blocksToRender)
 
   return blocksToRender.map(block => <Block key={block.id} block={block} />)
 }
@@ -131,8 +124,7 @@ function getBlocksToRender(blocks: any[]) {
 
   // Parse the remaining blocks to make lists easier to render
   return supportedBlocks.reduce((blocksToRender, block) => {
-    const previousBlock =
-      blocksToRender.length && blocksToRender[blocksToRender.length - 1]
+    const previousBlock = blocksToRender.length && blocksToRender[blocksToRender.length - 1]
     const currentBlock = createParsedNotionBlock(block)
 
     // If the current block is part of a list, append it to the existing list block
@@ -189,32 +181,15 @@ function areRelated(previous: any, current: any) {
 }
 
 /**
- * Parses the post metadata, regardless of whether it comes from Notion or MDX.
+ * Parses the Notion post metadata
  */
 function parsePostProperties(post) {
-  const type = post?.properties
-    ? post.properties['Type'].select.name
-    : post.frontMatter.type
-
-  const title = post.properties
-    ? post.properties['Title'].title[0].plain_text
-    : post.frontMatter.title
-
-  const slug = post?.properties
-    ? post.properties['Slug'].rich_text[0].plain_text
-    : post.frontMatter.slug
-
-  const description = post?.properties
-    ? post.properties['Description'].rich_text[0].plain_text
-    : post.frontMatter.description
-
-  const featuredImage = post?.properties
-    ? post.properties['Featured image']?.url
-    : post.frontMatter.featuredImage
-
-  const date = post?.properties
-    ? post.properties['First published'].date.start
-    : post.frontMatter.dateUpdated || post.frontMatter.datePublished
+  const type = post.properties['Type'].select.name
+  const title = post.properties['Title'].title[0].plain_text
+  const slug = post.properties['Slug'].rich_text[0].plain_text
+  const description = post.properties['Description'].rich_text[0].plain_text
+  const featuredImage = post.properties['Featured image']?.url
+  const date = post.properties['First published'].date.start
 
   return { type, title, slug, description, featuredImage, date }
 }
