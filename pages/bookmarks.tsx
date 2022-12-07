@@ -58,8 +58,15 @@ const seo = {
 export async function getStaticProps() {
   const topics = await getTopics()
 
+  // Only list topics with at least one research item with a status of "Bookmarked"
+  const topicsWithBookmarks = topics.filter(topic =>
+    topic.properties['Research Status'].rollup.array.some(
+      status => status.status.name === 'Bookmarked',
+    ),
+  )
+
   return {
-    props: { topics },
+    props: { topics: topicsWithBookmarks },
     revalidate: 86400, // refetch data for this route once per day without requiring a new build
   }
 }
