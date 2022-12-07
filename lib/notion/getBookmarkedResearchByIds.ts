@@ -32,12 +32,6 @@ export default async function getBookmarkedResearchByIds(researchIds: string[]):
           },
         },
         {
-          property: 'Creators',
-          multi_select: {
-            is_not_empty: true,
-          },
-        },
-        {
           property: 'Format',
           select: {
             is_not_empty: true,
@@ -48,6 +42,22 @@ export default async function getBookmarkedResearchByIds(researchIds: string[]):
           url: {
             is_not_empty: true,
           },
+        },
+        {
+          or: [
+            {
+              property: 'Creators',
+              multi_select: {
+                is_not_empty: true,
+              },
+            },
+            {
+              property: 'Description',
+              rich_text: {
+                is_not_empty: true,
+              },
+            },
+          ],
         },
       ],
     },

@@ -104,7 +104,7 @@ function Subtopic({ heading, bookmarks }) {
             ?.map(creator => creator.name)
             .join(', ')
 
-          return url && emojiPicture && title && creators ? (
+          return url && emojiPicture && title && (creators || description) ? (
             <li key={url}>
               <Emoji picture={emojiPicture} />
               {` `}
