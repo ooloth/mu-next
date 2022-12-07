@@ -82,7 +82,8 @@ export async function getStaticProps() {
   const timelineByYear = await Promise.all(
     timelineFilesFrontmatter.map(async metadata => {
       const fileContents = await getFileContents('timeline', metadata.year)
-      return await addImagePlaceholdersToMdxSource(fileContents)
+      return fileContents
+      // return await addImagePlaceholdersToMdxSource(fileContents)
     }),
   )
 
