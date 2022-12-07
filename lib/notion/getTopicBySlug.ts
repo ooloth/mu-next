@@ -5,10 +5,20 @@ export default async function getTopicBySlug(slug: string): Promise<any> {
   const topics = await getDatabase({
     databaseId: topicsDbId,
     filter: {
-      property: 'Path',
-      rich_text: {
-        equals: slug,
-      },
+      and: [
+        {
+          property: 'Path',
+          rich_text: {
+            equals: slug,
+          },
+        },
+        {
+          property: 'Research',
+          relation: {
+            is_not_empty: true,
+          },
+        },
+      ],
     },
   })
 

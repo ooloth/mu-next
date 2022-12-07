@@ -28,11 +28,9 @@ export default function SocialLinks() {
 function SocialLink({ platform, href, text }: SocialNavItem) {
   return (
     <li className="mx-3">
-      <Link href={href}>
-        <a className="text-2xl text-gray-400 hover:text-gray-100">
-          <span className="sr-only">{text}</span>
-          {getIcon(platform)}{' '}
-        </a>
+      <Link href={href} className="text-2xl text-gray-400 hover:text-gray-100">
+        <span className="sr-only">{text}</span>
+        {getIcon(platform)}{' '}
       </Link>
     </li>
   )

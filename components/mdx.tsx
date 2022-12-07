@@ -18,10 +18,8 @@ const Link = ({ href, children, ariaLabel, className, style }: LinkProps) => {
 
   if (isInternalLink) {
     return (
-      <NextLink href={href}>
-        <a aria-label={ariaLabel || null} className={className} style={style}>
-          {children}
-        </a>
+      <NextLink href={href} aria-label={ariaLabel || null} className={className} style={style}>
+        {children}
       </NextLink>
     )
   }
@@ -116,14 +114,7 @@ const Step = ({ icon, heading, date, children }) => {
   )
 }
 
-const Card = ({
-  imageUrl,
-  imageWidth = 1600,
-  imageHeight = 900,
-  title,
-  blurb,
-  href,
-}) => {
+const Card = ({ imageUrl, imageWidth = 1600, imageHeight = 900, title, blurb, href }) => {
   return (
     <div className="relative bg-gray-900 rounded shadow-md">
       <Link href={href} ariaLabel={title} className="absolute inset-0 z-10" />
@@ -140,16 +131,10 @@ const Card = ({
       )}
 
       <div className="p-3">
-        <p
-          className="font-medium leading-normal dark:text-gray-200"
-          style={{ margin: 0 }}
-        >
+        <p className="font-medium leading-normal dark:text-gray-200" style={{ margin: 0 }}>
           {title}
         </p>
-        <p
-          className="pt-1 mb-0 leading-relaxed dark:text-gray-400"
-          style={{ margin: 0 }}
-        >
+        <p className="pt-1 mb-0 leading-relaxed dark:text-gray-400" style={{ margin: 0 }}>
           {blurb}
         </p>
       </div>

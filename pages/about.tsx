@@ -82,10 +82,11 @@ function Writing({ articles }) {
       <ol reversed>
         {articles.map(article => (
           <li key={article.slug} className="mt-8 space-y-1 leading-relaxed">
-            <Link href={`/${article.slug}`}>
-              <a className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline">
-                {article.title}
-              </a>
+            <Link
+              href={`/${article.slug}`}
+              className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline"
+            >
+              {article.title}
             </Link>
             <p className="clamp-2">{article.description}</p>
             <p className="text-sm text-gray-700 dark:text-gray-400">
@@ -95,15 +96,17 @@ function Writing({ articles }) {
         ))}
       </ol>
 
-      <Link href="/writing">
-        <a className="flex mt-8 font-semibold text-blue-500 dark:text-blue-400 hover:underline">
-          See all posts &rarr;
-        </a>
+      <Link
+        href="/writing"
+        className="flex mt-8 font-semibold text-blue-500 dark:text-blue-400 hover:underline"
+      >
+        See all posts &rarr;
       </Link>
-      <Link href="/rss.xml">
-        <a className="flex mt-4 font-semibold text-blue-500 dark:text-blue-400 hover:underline">
-          Subscribe via RSS &rarr;
-        </a>
+      <Link
+        href="/rss.xml"
+        className="flex mt-4 font-semibold text-blue-500 dark:text-blue-400 hover:underline"
+      >
+        Subscribe via RSS &rarr;
       </Link>
     </section>
   )
@@ -118,9 +121,7 @@ export async function getStaticProps() {
   const unsortedArticles = await getAllFilesFrontMatter('articles')
   const lastFiveArticles = unsortedArticles
     .sort((a, b) =>
-      (b.dateUpdated || b.datePublished).localeCompare(
-        a.dateUpdated || a.datePublished,
-      ),
+      (b.dateUpdated || b.datePublished).localeCompare(a.dateUpdated || a.datePublished),
     )
     .slice(0, 5)
 

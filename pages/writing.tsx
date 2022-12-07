@@ -43,21 +43,20 @@ function Articles({ posts }) {
 
         return (
           <li key={slug} className="space-y-1 mb-8 leading-relaxed">
-            <Link href={`/${slug}`}>
-              <a className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline">
-                {title}
-                {type === '🔖' && (
-                  <>
-                    &nbsp;
-                    <Emoji picture={type} />
-                  </>
-                )}
-              </a>
+            <Link
+              href={`/${slug}`}
+              className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline"
+            >
+              {title}
+              {type === '🔖' && (
+                <>
+                  &nbsp;
+                  <Emoji picture={type} />
+                </>
+              )}
             </Link>
             <p className="clamp-2">{description}</p>
-            <p className="text-sm text-gray-700 dark:text-gray-500">
-              Updated {format(date)}
-            </p>
+            <p className="text-sm text-gray-700 dark:text-gray-500">Updated {format(date)}</p>
           </li>
         )
       })}
@@ -71,13 +70,9 @@ function Articles({ posts }) {
 function parsePostProperties(post) {
   const type = post?.properties ? post.properties['Type'].select.name : post.type
 
-  const title = post?.properties
-    ? post.properties['Title'].title[0].plain_text
-    : post.title
+  const title = post?.properties ? post.properties['Title'].title[0].plain_text : post.title
 
-  const slug = post?.properties
-    ? post.properties['Slug'].rich_text[0].plain_text
-    : post.slug
+  const slug = post?.properties ? post.properties['Slug'].rich_text[0].plain_text : post.slug
 
   const description = post?.properties
     ? post.properties['Description'].rich_text[0].plain_text

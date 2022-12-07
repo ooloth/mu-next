@@ -19,28 +19,28 @@ export default function Block({ block }: BlockProps) {
     case 'paragraph':
       return (
         <p>
-          <Text text={value.text} />
+          <Text text={value.rich_text} />
         </p>
       )
 
     case 'heading_1':
       return (
         <h1>
-          <Text text={value.text} />
+          <Text text={value.rich_text} />
         </h1>
       )
 
     case 'heading_2':
       return (
         <h2>
-          <Text text={value.text} />
+          <Text text={value.rich_text} />
         </h2>
       )
 
     case 'heading_3':
       return (
         <h3>
-          <Text text={value.text} />
+          <Text text={value.rich_text} />
         </h3>
       )
 
@@ -51,7 +51,7 @@ export default function Block({ block }: BlockProps) {
         <ul>
           {block.items.map((item, index) => (
             <li key={index}>
-              <Text text={item[type].text} />
+              <Text text={item[type].rich_text} />
             </li>
           ))}
         </ul>
@@ -62,7 +62,7 @@ export default function Block({ block }: BlockProps) {
         <ol>
           {block.items.map((item, index) => (
             <li key={index}>
-              <Text text={item[type].text} />
+              <Text text={item[type].rich_text} />
             </li>
           ))}
         </ol>
@@ -71,7 +71,7 @@ export default function Block({ block }: BlockProps) {
     case 'quote':
       return (
         <blockquote>
-          <Text text={value.text} />
+          <Text text={value.rich_text} />
         </blockquote>
       )
 
@@ -79,7 +79,7 @@ export default function Block({ block }: BlockProps) {
       return (
         <pre className={`language-${value.language}`}>
           <code className={`language-${value.language}`}>
-            <Text text={value.text} />
+            <Text text={value.rich_text} />
           </code>
         </pre>
       )
@@ -87,7 +87,7 @@ export default function Block({ block }: BlockProps) {
     case 'toggle':
       return (
         <details>
-          <summary>{value.text}</summary>
+          <summary>{value.rich_text}</summary>
           {value.children?.map(block => (
             <Fragment key={block.id}>{Block(block)}</Fragment>
           ))}
@@ -97,7 +97,7 @@ export default function Block({ block }: BlockProps) {
     case 'child_page':
       return (
         <p>
-          <Text text={value.text} />
+          <Text text={value.rich_text} />
         </p>
       )
 
@@ -157,9 +157,7 @@ function parseImageCaption(caption) {
   const dimensions = caption[0].plain_text.match(/\d+x\d+/)
 
   if (!dimensions) {
-    throw new Error(
-      'Image caption must start with valid dimensions: [<width>x<height>]',
-    )
+    throw new Error('Image caption must start with valid dimensions: [<width>x<height>]')
   }
 
   const width = dimensions[0].replace(/x.*/, '')

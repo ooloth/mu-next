@@ -23,9 +23,7 @@ export default function Text({ text }) {
       >
         {text.link ? (
           text.link.url.includes('michaeluloth.com') ? (
-            <Link href={text.link.url.replace('https://michaeluloth.com', '')}>
-              <a>{text.content}</a>
-            </Link>
+            <Link href={text.link.url.replace('https://michaeluloth.com', '')}>{text.content}</Link>
           ) : (
             <a href={text.link.url} rel="noreferrer">
               {text.content}

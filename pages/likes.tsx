@@ -24,13 +24,7 @@ interface LikesProps {
   podcasts: iTunesItem[]
 }
 
-export default function LikesPage({
-  tvShows,
-  movies,
-  books,
-  albums,
-  podcasts,
-}: LikesProps) {
+export default function LikesPage({ tvShows, movies, books, albums, podcasts }: LikesProps) {
   return (
     <Outer>
       <NextSeo
@@ -73,33 +67,27 @@ function Category({ heading, items, info }: LikesCategory) {
               href={item.link || 'https://youtu.be/dQw4w9WgXcQ'}
               aria-label={`Visit the ${info} page for "${item.title}" in a new window.`}
             >
-              <a>
-                <img
-                  src={item.imageUrl}
-                  alt="" // decorative, so hide from screen readers
-                  width={300}
-                  height={
-                    heading === 'Albums' || heading === 'Podcasts' ? 300 : 435
-                  }
-                  className="shadow-lg rounded bg-gray-900"
-                />
+              <img
+                src={item.imageUrl}
+                alt="" // decorative, so hide from screen readers
+                width={300}
+                height={heading === 'Albums' || heading === 'Podcasts' ? 300 : 435}
+                className="shadow-lg rounded bg-gray-900"
+              />
 
-                <p className="mt-2 leading-snug sm:leading-tight text-center font-semibold">
-                  {item.title}
+              <p className="mt-2 leading-snug sm:leading-tight text-center font-semibold">
+                {item.title}
+              </p>
+
+              {'artist' in item && item.artist && (
+                <p className="mt-1 text-sm text-center font-semibold">{item.artist}</p>
+              )}
+
+              {item.date && (
+                <p className="mt-1 text-sm text-center font-semibold">
+                  ({new Date(item.date).getFullYear()})
                 </p>
-
-                {'artist' in item && item.artist && (
-                  <p className="mt-1 text-sm text-center font-semibold">
-                    {item.artist}
-                  </p>
-                )}
-
-                {item.date && (
-                  <p className="mt-1 text-sm text-center font-semibold">
-                    ({new Date(item.date).getFullYear()})
-                  </p>
-                )}
-              </a>
+              )}
             </Link>
           </li>
         ))}
