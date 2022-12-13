@@ -97,7 +97,8 @@ function Subtopic({ heading, bookmarks }) {
       <ul>
         {bookmarks.map(({ properties }) => {
           const url = properties['URL']?.url
-          const emojiPicture = emoji[properties['Format']?.select?.name]
+          const emojiPicture = properties['Format']?.select?.name
+          const emojiLabel = emoji[emojiPicture]
           const title = properties['Name']?.title?.[0]?.plain_text
           const description = properties['Description']?.rich_text?.[0]?.plain_text
           const creators = properties['Creators']?.multi_select
@@ -106,7 +107,7 @@ function Subtopic({ heading, bookmarks }) {
 
           return url && emojiPicture && title && (creators || description) ? (
             <li key={url}>
-              <Emoji picture={emojiPicture} />
+              <Emoji picture={emojiPicture} label={emojiLabel} />
               {` `}
               <Link href={url}>{title}</Link>
               {` • `}
@@ -120,12 +121,13 @@ function Subtopic({ heading, bookmarks }) {
 }
 
 const emoji = {
-  Article: '✍️',
-  'Code snippet': '👩‍💻',
-  Course: '🧑‍🏫',
-  Podcast: '🎧',
-  Reference: '📖',
-  Tool: '🧰',
-  Tweet: '🐦',
-  Video: '📺',
+  '✍️': 'Article',
+  '👩‍💻': 'Code snippet',
+  '🧑‍🏫': 'Course',
+  '🎧': 'Podcast',
+  '📖': 'Book',
+  '📚': 'Reference',
+  '🧰': 'Tool',
+  '🐦': 'Tweet',
+  '📺': 'Video',
 }
