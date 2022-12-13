@@ -14,19 +14,17 @@ const emojiLabel = {
 
 export type EmojiPicture = keyof typeof emojiLabel
 
-export interface EmojiProps {
+export type EmojiProps = {
   picture: EmojiPicture
+  label?: string
   className?: string
 }
 
-export default function Emoji({ picture, className, ...props }: EmojiProps) {
+export default function Emoji({ picture, label, className, ...props }: EmojiProps) {
+  const ariaLabel = label ?? emojiLabel[picture] ?? ''
+
   return (
-    <span
-      role="img"
-      aria-label={emojiLabel[picture]}
-      className={`flex-none ${className || ''}`}
-      {...props}
-    >
+    <span role="img" aria-label={ariaLabel} className={`flex-none ${className || ''}`} {...props}>
       {picture}
     </span>
   )
