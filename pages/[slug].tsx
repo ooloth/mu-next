@@ -63,7 +63,7 @@ export async function getStaticProps({ params }) {
 
   const topic = await getTopicBySlug(params.slug)
 
-  if (!topic) return
+  if (!topic) return { props: {} }
 
   const topicResearchIds = topic.properties['Research'].relation.map(research => research.id)
 
