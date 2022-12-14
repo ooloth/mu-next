@@ -46,17 +46,16 @@ export async function getStaticPaths() {
 }
 
 export async function getStaticProps({ params }) {
-  // Prefer the Notion version of a post to the MDX version by looking for it first
-  const notionPosts = await getPosts()
-  const notionPost = notionPosts.find(
+  const allPosts = await getPosts()
+  const post = allPosts.find(
     post => post.properties['Slug'].rich_text[0].plain_text === params.slug,
   )
 
-  if (notionPost) {
-    const notionPostBlocks = await getBlockChildren(notionPost.id)
+  if (post) {
+    const postBlocks = await getBlockChildren(post.id)
     return {
       props: {
-        article: { properties: notionPost.properties, blocks: notionPostBlocks },
+        article: { properties: post.properties, blocks: postBlocks },
       },
     }
   }
