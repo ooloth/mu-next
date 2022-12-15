@@ -17,6 +17,7 @@
 @import 'tailwindcss/components';
 
 @import './components/hide-scrollbar.css';
+@import './components/mdx.css';
 @import './components/syntax-highlighting.css';
 
 /** 

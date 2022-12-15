@@ -1,0 +1,4 @@
+/* prevent unwanted margin nested p elements created by MDX parser  */
+a > p {
+  margin: 0 !important;
+}
