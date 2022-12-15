@@ -9,7 +9,7 @@ import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 const seo = {
   url: 'https://michaeluloth.com',
   title: 'Hey 👋',
-  description: "Hi! I'm Michael. I'm a web developer living in Hamilton, Ontario.",
+  description: "Hi! I'm Michael. I'm a web developer living in Dundas, Ontario.",
 }
 
 export default function Home({ timelineByYear }) {
@@ -25,7 +25,7 @@ export default function Home({ timelineByYear }) {
       <header>
         <Header
           title="Hey, I'm Michael"
-          summary="I'm a web developer living in Hamilton, Ontario. I'm currently helping biologists discover life-saving drugs at Recursion."
+          summary="I'm a web developer living in Dundas, Ontario. I'm currently helping scientists hunt for new life-saving drugs at Recursion."
         />
 
         <div className="flex flex-col mt-8 space-y-2 md:flex-row md:items-center md:justify-center md:space-y-0 md:space-x-4">
