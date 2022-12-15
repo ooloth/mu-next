@@ -6,9 +6,7 @@ export default async function getImagePlaceholderForEnv(
 ): Promise<string> {
   // Validate size argument
   if ((size && size < 4) || (size && size > 64)) {
-    throw Error(
-      '[getImagePlaceholderForEnv]: size argument must be an integer between 4 and 64',
-    )
+    throw Error('[getImagePlaceholderForEnv]: size argument must be an integer between 4 and 64')
   }
 
   if (process.env.NODE_ENV === 'production') {

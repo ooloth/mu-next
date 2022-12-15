@@ -1,6 +1,6 @@
 ---
 title: Functional Programming
-description: A programming paradigm that prefers composing pure functions and avoiding shared state, mutable data and side-effects. 
+description: A programming paradigm that prefers composing pure functions and avoiding shared state, mutable data and side-effects.
 dateUpdated: '2021-03-07'
 ---
 
@@ -8,7 +8,7 @@ dateUpdated: '2021-03-07'
 
 1. Write reusable pure functions
 2. Use composition to pipe data through those functions
-3. Specify behaviour declaratively 
+3. Specify behaviour declaratively
 4. Isolate side effects at the top level of the program
 5. Use immutable data structures
 
@@ -67,7 +67,7 @@ const compact = xs => xs.filter(x => x !== null && x !== undefined);
 6. They're easier to reason about because their referential transparency allows their calls to be simplified
 7. They can be run in parallel since they ignore the current system state and have no race conditions (bc no side effects)
 
-> The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana... and the entire jungle. 
+> The problem with object-oriented languages is they’ve got all this implicit environment that they carry around with them. You wanted a banana but what you got was a gorilla holding the banana... and the entire jungle.
 >
 > &mdash; Joe Armstrong, creator of Erlang
 
@@ -75,30 +75,30 @@ const compact = xs => xs.filter(x => x !== null && x !== undefined);
 
 ```js
 // Impure
-let minimum = 21; // may change
-const checkAge = age => age >= minimum;
+let minimum = 21 // may change
+const checkAge = age => age >= minimum
 
 // Pure
-const checkAge = (age) => {
-  const minimum = 21; // will not change
-  return age >= minimum;
-};
+const checkAge = age => {
+  const minimum = 21 // will not change
+  return age >= minimum
+}
 ```
 
 ### 👨‍💻 Example: making a function portable by injecting all of its dependencies as arguments
 
 ```js
 // Impure (global dependencies)
-const signUp = (attrs) => {
-  const user = saveUser(attrs); // uses Db
-  welcomeUser(user); // uses Email
-};
+const signUp = attrs => {
+  const user = saveUser(attrs) // uses Db
+  welcomeUser(user) // uses Email
+}
 
 // Pure (all dependencies injected)
 const signUp = (Db, Email, attrs) => () => {
-  const user = saveUser(Db, attrs);
-  welcomeUser(Email, user);
-};
+  const user = saveUser(Db, attrs)
+  welcomeUser(Email, user)
+}
 ```
 
 ### References
@@ -122,15 +122,15 @@ const signUp = (Db, Email, attrs) => () => {
 const add = (x, y) => x + y
 
 // After currying
-const add = x => y => x + y;
+const add = x => y => x + y
 
 // Calling with first arg returns a function that remembers that arg
-const increment = add(1); // y => 1 + y
-const addTen = add(10); // y => 10 + y
+const increment = add(1) // y => 1 + y
+const addTen = add(10) // y => 10 + y
 
 // Calling with final arg returns a value
-increment(2); // 3
-addTen(2); // 12
+increment(2) // 3
+addTen(2) // 12
 ```
 
 ### 👨‍💻 Example: currying a function with ramda
@@ -149,30 +149,30 @@ const add = R.curry((x, y) => x + y)
 
 ```js
 // Curried helpers (with data as final arg)
-const match = curry((what, s) => s.match(what));
-const filter = curry((f, xs) => xs.filter(f));
-const replace = curry((what, replacement, s) => s.replace(what, replacement));
-const map = curry((f, xs) => xs.map(f));
+const match = curry((what, s) => s.match(what))
+const filter = curry((f, xs) => xs.filter(f))
+const replace = curry((what, replacement, s) => s.replace(what, replacement))
+const map = curry((f, xs) => xs.map(f))
 
 // Calling match() with all args
-match(/r/g, 'hello world'); // [ 'r' ]
+match(/r/g, 'hello world') // [ 'r' ]
 
 // Partially applying match() as hasLetterR()
-const hasLetterR = match(/r/g); // x => x.match(/r/g)
-hasLetterR('hello world'); // [ 'r' ]
-hasLetterR('just j and s and t etc'); // null
+const hasLetterR = match(/r/g) // x => x.match(/r/g)
+hasLetterR('hello world') // [ 'r' ]
+hasLetterR('just j and s and t etc') // null
 
 // Calling filter() with all args
-filter(hasLetterR, ['rock and roll', 'smooth jazz']); // ['rock and roll']
+filter(hasLetterR, ['rock and roll', 'smooth jazz']) // ['rock and roll']
 
 // Partially applying filter() as removeStringsWithoutRs()
-const removeStringsWithoutRs = filter(hasLetterR); // xs => xs.filter(x => x.match(/r/g))
-removeStringsWithoutRs(['rock and roll', 'smooth jazz', 'drum circle']); // ['rock and roll', 'drum circle']
+const removeStringsWithoutRs = filter(hasLetterR) // xs => xs.filter(x => x.match(/r/g))
+removeStringsWithoutRs(['rock and roll', 'smooth jazz', 'drum circle']) // ['rock and roll', 'drum circle']
 
 // Partially applying replace() as noVowels() and censored()
-const noVowels = replace(/[aeiou]/ig); // (r,x) => x.replace(/[aeiou]/ig, r)
-const censored = noVowels('*'); // x => x.replace(/[aeiou]/ig, '*')
-censored('Chocolate Rain'); // 'Ch*c*l*t* R**n'
+const noVowels = replace(/[aeiou]/gi) // (r,x) => x.replace(/[aeiou]/ig, r)
+const censored = noVowels('*') // x => x.replace(/[aeiou]/ig, '*')
+censored('Chocolate Rain') // 'Ch*c*l*t* R**n'
 ```
 
 ### References
@@ -192,10 +192,10 @@ censored('Chocolate Rain'); // 'Ch*c*l*t* R**n'
 
 ```js
 // Not pointfree (we mention the data: word)
-const snakeCase = word => word.toLowerCase().replace(/\s+/ig, '_')
+const snakeCase = word => word.toLowerCase().replace(/\s+/gi, '_')
 
 // Pointfree
-const snakeCase = compose(replace(/\s+/ig, '_'), toLowerCase)
+const snakeCase = compose(replace(/\s+/gi, '_'), toLowerCase)
 ```
 
 ```js
@@ -213,7 +213,7 @@ const match = curry((what, s) => s.match(what))
 const filterQs = xs => filter(x => x.match(/q/i), xs)
 
 // Pointfree
-const filterQs = filter(match(/q/i)); // after
+const filterQs = filter(match(/q/i)) // after
 ```
 
 ```js
@@ -235,7 +235,7 @@ const max = reduce(keepHighest, -Infinity)
 1. Composition connects functions together like a series of pipes the data will flow through
 2. Composition is the most important design principle in FP because it keeps the app logic simple and reasonable
 3. Composing multiple functions creates a new function
-4. The data flows through a composition from right to left 
+4. The data flows through a composition from right to left
 5. All composed functions must take one input only (use partial application to achieve this if necessary)
 6. A common mistake is to compose something like map (which takes two arguments) without first partially applying it, so be careful!
 7. To debug a composition, use the impure `trace()` function to view the data any any point in a composition and reveal if an unexpected input type is being passed into a function.
@@ -243,52 +243,52 @@ const max = reduce(keepHighest, -Infinity)
 ### 👨‍💻 Examples: composing two functions
 
 ```js
-const compose = (f, g) => x => f(g(x));
-const toUpperCase = x => x.toUpperCase();
-const exclaim = x => `${x}!`;
+const compose = (f, g) => x => f(g(x))
+const toUpperCase = x => x.toUpperCase()
+const exclaim = x => `${x}!`
 
-const shout = x => exclaim(toUpperCase(x)); // without helper
-const shout = compose(exclaim, toUpperCase); // with helper
+const shout = x => exclaim(toUpperCase(x)) // without helper
+const shout = compose(exclaim, toUpperCase) // with helper
 
-shout('send in the clowns'); // "SEND IN THE CLOWNS!"
+shout('send in the clowns') // "SEND IN THE CLOWNS!"
 ```
 
 ```js
-const compose = (f, g) => x => f(g(x));
-const head = x => x[0];
-const reverse = reduce((acc, x) => [x].concat(acc), []);
+const compose = (f, g) => x => f(g(x))
+const head = x => x[0]
+const reverse = reduce((acc, x) => [x].concat(acc), [])
 
-const last = compose(head, reverse); // reverse, then head
+const last = compose(head, reverse) // reverse, then head
 
-last(['jumpkick', 'roundhouse', 'uppercut']); // 'uppercut'
+last(['jumpkick', 'roundhouse', 'uppercut']) // 'uppercut'
 ```
 
 ```js
-const compose = (f, g) => x => f(g(x));
-const f = x => x === 4;
-const g = x => x.length;
+const compose = (f, g) => x => f(g(x))
+const f = x => x === 4
+const g = x => x.length
 
-const isFourLetterWord = compose(f, g);
+const isFourLetterWord = compose(f, g)
 ```
 
 ### 👨‍💻 Examples: composing more than two functions as two functions using multiple compose() calls
 
 ```js
 // Composition is associative, so the groupings don't matter
-compose(f, compose(g, h)) === compose(compose(f, g), h);
+compose(f, compose(g, h)) === compose(compose(f, g), h)
 ```
 
 ```js
-const compose = (f, g) => x => f(g(x));
-const toUpperCase = x => x.toUpperCase();
-const head = x => x[0];
-const reverse = reduce((acc, x) => [x].concat(acc), []);
+const compose = (f, g) => x => f(g(x))
+const toUpperCase = x => x.toUpperCase()
+const head = x => x[0]
+const reverse = reduce((acc, x) => [x].concat(acc), [])
 
 // This...
 compose(toUpperCase, compose(head, reverse))
 
 // is identical to this
-compose(compose(toUpperCase, head), reverse);
+compose(compose(toUpperCase, head), reverse)
 ```
 
 ### 👨‍💻 Examples: composing any number of functions
@@ -296,34 +296,34 @@ compose(compose(toUpperCase, head), reverse);
 ```js
 import { compose } from 'ramda'
 
-const toUpperCase = x => x.toUpperCase();
-const exclaim = x => `${x}!`;
-const head = x => x[0];
-const reverse = reduce((acc, x) => [x].concat(acc), []);
+const toUpperCase = x => x.toUpperCase()
+const exclaim = x => `${x}!`
+const head = x => x[0]
+const reverse = reduce((acc, x) => [x].concat(acc), [])
 
 /**
  * Because ramda's compose() accepts any number of functions and
  * compose() is associative, we can pass compose as many fn's as we
  * like and let compose() decide how it groups them under the hood.
  */
-const arg = ['jumpkick', 'roundhouse', 'uppercut'];
+const arg = ['jumpkick', 'roundhouse', 'uppercut']
 
-const lastUpper = compose(toUpperCase, head, reverse);
-const loudLastUpper = compose(exclaim, toUpperCase, head, reverse);
+const lastUpper = compose(toUpperCase, head, reverse)
+const loudLastUpper = compose(exclaim, toUpperCase, head, reverse)
 
-lastUpper(arg); // 'UPPERCUT'
-loudLastUpper(arg); // 'UPPERCUT!'
-
-// -- or --
-
-const last = R.compose(head, reverse);
-const loudLastUpper = R.compose(exclaim, toUpperCase, last);
+lastUpper(arg) // 'UPPERCUT'
+loudLastUpper(arg) // 'UPPERCUT!'
 
 // -- or --
 
-const last = compose(head, reverse);
-const angry = compose(exclaim, toUpperCase);
-const loudLastUpper = compose(angry, last);
+const last = R.compose(head, reverse)
+const loudLastUpper = R.compose(exclaim, toUpperCase, last)
+
+// -- or --
+
+const last = compose(head, reverse)
+const angry = compose(exclaim, toUpperCase)
+const loudLastUpper = compose(angry, last)
 
 // We can compose into as many reusable mini-helpers as we like...
 ```
@@ -333,20 +333,20 @@ const loudLastUpper = compose(angry, last);
 ```js
 import { compose } from 'ramda'
 
-const toUpperCase = x => x.toUpperCase();
-const exclaim = x => `${x}!`;
-const reverse = reduce((acc, x) => [x].concat(acc), []);
-const angry = compose(exclaim, toUpperCase);
+const toUpperCase = x => x.toUpperCase()
+const exclaim = x => `${x}!`
+const reverse = reduce((acc, x) => [x].concat(acc), [])
+const angry = compose(exclaim, toUpperCase)
 
 // Broken! Angry gets an array (instead of a string) and we partially applied map with who knows what
-const latin = compose(map, angry, reverse);
+const latin = compose(map, angry, reverse)
 
-latin(['frog', 'eyes']); // error
+latin(['frog', 'eyes']) // error
 
 // Fixed! Each function gets 1 argument of the expected type
-const latin = compose(map(angry), reverse);
+const latin = compose(map(angry), reverse)
 
-latin(['frog', 'eyes']); // ['EYES!', 'FROG!'])
+latin(['frog', 'eyes']) // ['EYES!', 'FROG!'])
 ```
 
 ### 👨‍💻 Examples: refactoring imperative functions to use composition
@@ -365,10 +365,10 @@ latin(['frog', 'eyes']); // ['EYES!', 'FROG!'])
 import { compose, prop } from 'ramda'
 
 // Rewrite as a composition
-const isLastInStock = (cars) => {
-  const lastCar = last(cars);
-  return prop('in_stock', lastCar);
-};
+const isLastInStock = cars => {
+  const lastCar = last(cars)
+  return prop('in_stock', lastCar)
+}
 
 // Composed version
 const isLastInStock = compose(prop('in_stock'), last)
@@ -378,13 +378,13 @@ const isLastInStock = compose(prop('in_stock'), last)
 import { compose, prop } from 'ramda'
 
 // Helper
-const average = xs => reduce(add, 0, xs) / xs.length;
+const average = xs => reduce(add, 0, xs) / xs.length
 
 // Rewrite as a composition using average()
-const averageDollarValue = (cars) => {
-  const dollarValues = map(c => c.dollar_value, cars);
-  return average(dollarValues);
-};
+const averageDollarValue = cars => {
+  const dollarValues = map(c => c.dollar_value, cars)
+  return average(dollarValues)
+}
 
 // Composed version
 const averageDollarValue = compose(average, map(prop('dollar_value')))
@@ -394,14 +394,19 @@ const averageDollarValue = compose(average, map(prop('dollar_value')))
 import { append, compose, prop } from 'ramda'
 
 // Rewrite as a composition using append()
-const fastestCar = (cars) => {
-  const sorted = sortBy(car => car.horsepower, cars);
-  const fastest = last(sorted);
-  return concat(fastest.name, ' is the fastest');
-};
+const fastestCar = cars => {
+  const sorted = sortBy(car => car.horsepower, cars)
+  const fastest = last(sorted)
+  return concat(fastest.name, ' is the fastest')
+}
 
 // Composed version
-const fastestCar = compose(append(' is the fastest'), prop('name'), last, sortBy(prop('horsepower')))
+const fastestCar = compose(
+  append(' is the fastest'),
+  prop('name'),
+  last,
+  sortBy(prop('horsepower')),
+)
 ```
 
 ### 👨‍💻 Example: log data at any point in a composition with trace()
@@ -409,8 +414,8 @@ const fastestCar = compose(append(' is the fastest'), prop('name'), last, sortBy
 ```js
 // Definition
 const trace = curry((tag, x) => {
-  console.log(tag, x);
-  return x;
+  console.log(tag, x)
+  return x
 })
 
 // Usage
@@ -419,14 +424,9 @@ trace('after split')
 
 ```js
 // Composition that isn't working
-const dasherize = compose(
-  intercalate('-'),
-  toLower,
-  split(' '),
-  replace(/\s{2,}/ig, ' '),
-);
+const dasherize = compose(intercalate('-'), toLower, split(' '), replace(/\s{2,}/gi, ' '))
 
-dasherize('The world is a vampire');
+dasherize('The world is a vampire')
 // TypeError: Cannot read property 'apply' of undefined
 
 // Same composition using trace() to inspect the data after split()
@@ -435,21 +435,16 @@ const dasherize = compose(
   toLower,
   trace('after split'),
   split(' '),
-  replace(/\s{2,}/ig, ' '),
-);
+  replace(/\s{2,}/gi, ' '),
+)
 
-dasherize('The world is a vampire');
+dasherize('The world is a vampire')
 // after split [ 'The', 'world', 'is', 'a', 'vampire' ]
 
 // Solution: we need to wrap toLower in a map since it's working on an array
-const dasherize = compose(
-  intercalate('-'),
-  map(toLower),
-  split(' '),
-  replace(/\s{2,}/ig, ' '),
-);
+const dasherize = compose(intercalate('-'), map(toLower), split(' '), replace(/\s{2,}/gi, ' '))
 
-dasherize('The world is a vampire'); // 'the-world-is-a-vampire'
+dasherize('The world is a vampire') // 'the-world-is-a-vampire'
 ```
 
 ### References
@@ -470,27 +465,27 @@ dasherize('The world is a vampire'); // 'the-world-is-a-vampire'
 
 ```js
 // Imperative (create a new array, then a counter, then increment the counter, then push to the array sequentially)
-const makes = [];
+const makes = []
 for (let i = 0; i < cars.length; i += 1) {
-  makes.push(cars[i].make);
+  makes.push(cars[i].make)
 }
 
 // Declarative (car makes, please)
-const makes = cars.map(car => car.make);
+const makes = cars.map(car => car.make)
 ```
 
 ```js
 import { compose } from 'ramda'
 
 // Imperative (to authenticate, call toUser first, then call logIn)
-const authenticate = (form) => {
-  const user = toUser(form);
-  return logIn(user);
-};
+const authenticate = form => {
+  const user = toUser(form)
+  return logIn(user)
+}
 
 // Declarative (authentication is the composition of toUser and logIn)
 // In cases where the call order doesn't matter (it does here), this version would be free to parallelize
-const authenticate = compose(logIn, toUser);
+const authenticate = compose(logIn, toUser)
 ```
 
 ### 👨‍💻 Example: a declarative example app that displays Flickr images
@@ -498,36 +493,39 @@ const authenticate = compose(logIn, toUser);
 ```js
 // A declarative specification of what things are, not how they come to be
 
-const CDN = s => `https://cdnjs.cloudflare.com/ajax/libs/${s}`;
-const ramda = CDN('ramda/0.21.0/ramda.min');
-const jquery = CDN('jquery/3.0.0-rc1/jquery.min');
+const CDN = s => `https://cdnjs.cloudflare.com/ajax/libs/${s}`
+const ramda = CDN('ramda/0.21.0/ramda.min')
+const jquery = CDN('jquery/3.0.0-rc1/jquery.min')
 
-requirejs.config({ paths: { ramda, jquery } });
+requirejs.config({ paths: { ramda, jquery } })
 require(['jquery', 'ramda'], ($, { compose, curry, map, prop }) => {
   // Utils
   const Impure = {
-    trace: curry((tag, x) => { console.log(tag, x); return x; }), // eslint-disable-line no-console
+    trace: curry((tag, x) => {
+      console.log(tag, x)
+      return x
+    }), // eslint-disable-line no-console
     getJSON: curry((callback, url) => $.getJSON(url, callback)),
     setHtml: curry((sel, html) => $(sel).html(html)),
-  };
+  }
 
   // Pure
-  const host = 'api.flickr.com';
-  const path = '/services/feeds/photos_public.gne';
-  const query = t => `?tags=${t}&format=json&jsoncallback=?`;
-  const url = t => `https://${host}${path}${query(t)}`;
+  const host = 'api.flickr.com'
+  const path = '/services/feeds/photos_public.gne'
+  const query = t => `?tags=${t}&format=json&jsoncallback=?`
+  const url = t => `https://${host}${path}${query(t)}`
 
-  const img = src => $('<img />', { src });
-  const mediaUrl = compose(prop('m'), prop('media'));
-  const mediaToImg = compose(img, mediaUrl);
-  const images = compose(map(mediaToImg), prop('items'));
+  const img = src => $('<img />', { src })
+  const mediaUrl = compose(prop('m'), prop('media'))
+  const mediaToImg = compose(img, mediaUrl)
+  const images = compose(map(mediaToImg), prop('items'))
 
   // Impure
-  const render = compose(Impure.setHtml('#js-main'), images);
-  const app = compose(Impure.getJSON(render), url);
+  const render = compose(Impure.setHtml('#js-main'), images)
+  const app = compose(Impure.getJSON(render), url)
 
-  app('cats');
-});
+  app('cats')
+})
 ```
 
 ### References
@@ -557,7 +555,7 @@ require(['jquery', 'ramda'], ($, { compose, curry, map, prop }) => {
 5. Replace `Maybe` with `Either` if you want to provide feedback when things go wrong
 
 > Our application's job is to retrieve, transform, and map its data along in the safety of a container until it's time to say goodbye and spit out a side effect. A common error is to remove a value from Maybe too early. We must remember it may be on a branch of code in which its value can't be computed. The data, much like Schrödinger's cat, is in two states at once and should maintain that awareness until the final function. Maybe gives our code a linear flow despite the logical branching.
-> 
+>
 > &mdash; Brian Lonsdorf, Professor Frisby's Mostly Adequate Guide to Functional Programming
 
 ### 👨‍💻 Example: A Maybe type with of(), map() and inspect()
@@ -566,50 +564,50 @@ require(['jquery', 'ramda'], ($, { compose, curry, map, prop }) => {
 import { prop } from 'ramda'
 
 /**
-  * Maybe looks a lot like Container with one minor change: it will 
-  * first check to see if it has a value before calling the supplied 
-  * function. This has the effect of side stepping those pesky nulls 
-  * as we map. (Note: this is a simplified implementation.)
-  */
+ * Maybe looks a lot like Container with one minor change: it will
+ * first check to see if it has a value before calling the supplied
+ * function. This has the effect of side stepping those pesky nulls
+ * as we map. (Note: this is a simplified implementation.)
+ */
 
 class Maybe {
   static of(x) {
-    return new Maybe(x);
+    return new Maybe(x)
   }
 
   get isNothing() {
-    return this.$value === null || this.$value === undefined;
+    return this.$value === null || this.$value === undefined
   }
 
   constructor(x) {
-    this.$value = x;
+    this.$value = x
   }
 
   map(fn) {
-    return this.isNothing ? this : Maybe.of(fn(this.$value));
+    return this.isNothing ? this : Maybe.of(fn(this.$value))
   }
 
   inspect() {
-    return this.isNothing ? 'Nothing' : `Just(${inspect(this.$value)})`;
+    return this.isNothing ? 'Nothing' : `Just(${inspect(this.$value)})`
   }
 }
 
 /**
- * Notice the app doesn't explode with errors as we map functions over our 
- * null values. This is because Maybe will take care to check for a value 
+ * Notice the app doesn't explode with errors as we map functions over our
+ * null values. This is because Maybe will take care to check for a value
  * each and every time it applies a function.
  */
 
-Maybe.of('Malkovich Malkovich').map(match(/a/ig));
+Maybe.of('Malkovich Malkovich').map(match(/a/gi))
 // Just(True)
 
-Maybe.of(null).map(match(/a/ig));
+Maybe.of(null).map(match(/a/gi))
 // Nothing
 
-Maybe.of({ name: 'Boris' }).map(prop('age')).map(add(10));
+Maybe.of({ name: 'Boris' }).map(prop('age')).map(add(10))
 // Nothing
 
-Maybe.of({ name: 'Dinah', age: 14 }).map(prop('age')).map(add(10));
+Maybe.of({ name: 'Dinah', age: 14 }).map(prop('age')).map(add(10))
 // Just(24)
 ```
 
@@ -619,15 +617,15 @@ Maybe.of({ name: 'Dinah', age: 14 }).map(prop('age')).map(add(10));
 import { compose, map, prop } from 'ramda'
 
 // [a] -> Maybe(a) - a safer version of head()
-const safeHead = xs => Maybe.of(xs[0]);
+const safeHead = xs => Maybe.of(xs[0])
 
 // streetName :: Object -> Maybe String
-const streetName = compose(map(prop('street')), safeHead, prop('addresses'));
+const streetName = compose(map(prop('street')), safeHead, prop('addresses'))
 
-streetName({ addresses: [] });
+streetName({ addresses: [] })
 // Nothing
 
-streetName({ addresses: [{ street: 'Shady Ln.', number: 4201 }] });
+streetName({ addresses: [{ street: 'Shady Ln.', number: 4201 }] })
 // Just('Shady Ln.')
 ```
 
@@ -637,35 +635,36 @@ streetName({ addresses: [{ street: 'Shady Ln.', number: 4201 }] });
 import { curry } from 'ramda'
 
 /**
- * Instead of Just('..'), withdraw() will explicitly return Nothing if we're 
+ * Instead of Just('..'), withdraw() will explicitly return Nothing if we're
  * low on cash. This signals failure and intentionally skips the remaining
- * computations (namely finishTransaction) since the remaining mapped functions 
- * won't be run once a Nothing is received. This is the intended behaviour as 
- * we'd prefer not to update our ledger or show a new balance if we couldn't 
+ * computations (namely finishTransaction) since the remaining mapped functions
+ * won't be run once a Nothing is received. This is the intended behaviour as
+ * we'd prefer not to update our ledger or show a new balance if we couldn't
  * successfully withdraw funds.
  */
 
 // withdraw :: Number -> Account -> Maybe(Account)
 const withdraw = curry((amount, { balance }) =>
-  Maybe.of(balance >= amount ? { balance: balance - amount } : null));
+  Maybe.of(balance >= amount ? { balance: balance - amount } : null),
+)
 
 // This function is hypothetical, not implemented here... nor anywhere else.
-// updateLedger :: Account -> Account 
-const updateLedger = account => account;
+// updateLedger :: Account -> Account
+const updateLedger = account => account
 
 // remainingBalance :: Account -> String
-const remainingBalance = ({ balance }) => `Your balance is $${balance}`;
+const remainingBalance = ({ balance }) => `Your balance is $${balance}`
 
 // finishTransaction :: Account -> String
-const finishTransaction = compose(remainingBalance, updateLedger);
+const finishTransaction = compose(remainingBalance, updateLedger)
 
 // getTwenty :: Account -> Maybe(String)
-const getTwenty = compose(map(finishTransaction), withdraw(20));
+const getTwenty = compose(map(finishTransaction), withdraw(20))
 
-getTwenty({ balance: 200.00 }); 
+getTwenty({ balance: 200.0 })
 // Just('Your balance is $180')
 
-getTwenty({ balance: 10.00 });
+getTwenty({ balance: 10.0 })
 // Nothing
 ```
 
@@ -675,29 +674,29 @@ getTwenty({ balance: 10.00 });
 import { compose } from 'ramda'
 
 /**
- * getTwenty() will now return either a static value (of the same type that 
- * finishTransaction returns) or continue finishing up the transaction sans 
- * Maybe. With maybe(), we are witnessing the equivalent of an if/else 
- * statement, whereas with map(), the imperative analog would be: 
+ * getTwenty() will now return either a static value (of the same type that
+ * finishTransaction returns) or continue finishing up the transaction sans
+ * Maybe. With maybe(), we are witnessing the equivalent of an if/else
+ * statement, whereas with map(), the imperative analog would be:
  * if (x !== null) { return f(x) }.
  */
 
 // maybe :: b -> (a -> b) -> Maybe a -> b
 const maybe = curry((v, f, m) => {
   if (m.isNothing) {
-    return v;
+    return v
   }
 
-  return f(m.$value);
-});
+  return f(m.$value)
+})
 
 // getTwenty :: Account -> String
-const getTwenty = compose(maybe('You\'re broke!', finishTransaction), withdraw(20));
+const getTwenty = compose(maybe("You're broke!", finishTransaction), withdraw(20))
 
-getTwenty({ balance: 200.00 }); 
+getTwenty({ balance: 200.0 })
 // 'Your balance is $180.00'
 
-getTwenty({ balance: 10.00 }); 
+getTwenty({ balance: 10.0 })
 // 'You\'re broke!'
 ```
 
@@ -725,7 +724,7 @@ const initial = compose(map(head), safeProp('name'))
 2. Use `Either` and its subtypes `Right` and `Left` to respond to errors with a message instead
 3. `Right` works like `Identity`, while `Left` ignores all operations and passes its value straight down
 4. We could use `Nothing` to signal failure and branch our program; however, that won't tell us why it failed
-5. The advantage of `Either` over `Maybe` is its ability to embed an error message within the `Left` 
+5. The advantage of `Either` over `Maybe` is its ability to embed an error message within the `Left`
 6. `Either` is great for casual errors like validation as well as more serious "stop the show" errors like missing files or broken sockets
 7. Try replacing some of the `Maybe` examples with `Either` so they provide better feedback
 
@@ -738,7 +737,7 @@ const initial = compose(map(head), safeProp('name'))
 1. The goal is to contain side effects and run them in a controlled way
 2. Use IO to place side effects in a container that let's us map over them without actually triggering them
 3. Compute the side effect's value using pure functions
-4. Run the resulting side effect in the impure calling function 
+4. Run the resulting side effect in the impure calling function
 5. Push impure functions as close to the outer edges of the program as possible
 
 > There will always be an end of the line; some effecting function that sends JSON along, or prints to the screen, or alters our filesystem, etc. We cannot deliver the output with return; we must run a function to send it out into the world.
@@ -773,26 +772,26 @@ const initial = compose(map(head), safeProp('name'))
 
 ## Glossary
 
-* **`associativity`:** the result of an expression is the same regardless of how the items are grouped
-* **`composition`: ...**
-* **`currying`: ...**
-* **`declarative programming`:** writing expressions that specify what we want without providing step-by-step instructions for how to get it
-* **`equational reasoning`:** understanding code by substituting "equals for equals" (by leveraging `referential transparency`)
-* **`function`:** a special relationship between values in which each possible input value maps to one output value (picture a table of input/output pairs)
-* **`functor`:** a container type that implements `map` and obeys some laws:
-	* identity: `map(id) === id`
-	* composition: `compose(map(f), map(g)) === map(compose(f, g))`
-* **`generic function`:** a function named for its high-level concept with its arguments named vaguely to allow reuse with other data
-* **`higher order function`:** a function that takes or returns a function
-* **`imperative programming`: writing step-by-step instructions that tell the computer how to produce what we want**
-* **`lifting`:** transforming a non-functory function into a functory one
-* **`monad`: ...**
-* **`monoid`: ...**
-* **`parametric function`:** a function that acts on all types in a uniform manner
-* **`partial application`:** giving a function fewer arguments than it expects in order to return a new function that remembers those values
-* **`pointed functor`:** a functor with an `of` method
-* **`pointfree`:** a style in which, thanks to first class functions, currying and composition, functions can drop their final argument in order to avoid specifying the data they operate on
-* **`pure function`:** a function that, given the same input, will always return the same output and has no observable side effects
-* **`referential transparency`:** when a function call can be substituted for its output without changing the program's behaviour
-* **`side effect`:** any interaction with the world outside of a function (e.g. mutating a variable, changing the file system, inserting a record into a database, making an http call, printing to the screen, logging, obtaining user input, querying the DOM, accessing system state)
-* **`unary function`:** a function that accepts only one argument
+- **`associativity`:** the result of an expression is the same regardless of how the items are grouped
+- **`composition`: ...**
+- **`currying`: ...**
+- **`declarative programming`:** writing expressions that specify what we want without providing step-by-step instructions for how to get it
+- **`equational reasoning`:** understanding code by substituting "equals for equals" (by leveraging `referential transparency`)
+- **`function`:** a special relationship between values in which each possible input value maps to one output value (picture a table of input/output pairs)
+- **`functor`:** a container type that implements `map` and obeys some laws:
+  - identity: `map(id) === id`
+  - composition: `compose(map(f), map(g)) === map(compose(f, g))`
+- **`generic function`:** a function named for its high-level concept with its arguments named vaguely to allow reuse with other data
+- **`higher order function`:** a function that takes or returns a function
+- **`imperative programming`: writing step-by-step instructions that tell the computer how to produce what we want**
+- **`lifting`:** transforming a non-functory function into a functory one
+- **`monad`: ...**
+- **`monoid`: ...**
+- **`parametric function`:** a function that acts on all types in a uniform manner
+- **`partial application`:** giving a function fewer arguments than it expects in order to return a new function that remembers those values
+- **`pointed functor`:** a functor with an `of` method
+- **`pointfree`:** a style in which, thanks to first class functions, currying and composition, functions can drop their final argument in order to avoid specifying the data they operate on
+- **`pure function`:** a function that, given the same input, will always return the same output and has no observable side effects
+- **`referential transparency`:** when a function call can be substituted for its output without changing the program's behaviour
+- **`side effect`:** any interaction with the world outside of a function (e.g. mutating a variable, changing the file system, inserting a record into a database, making an http call, printing to the screen, logging, obtaining user input, querying the DOM, accessing system state)
+- **`unary function`:** a function that accepts only one argument

@@ -1,11 +1,4 @@
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useContext,
-  useEffect,
-  useState,
-} from 'react'
+import { createContext, Dispatch, SetStateAction, useContext, useEffect, useState } from 'react'
 
 interface ColorModeProviderValue {
   colorMode: string
@@ -31,9 +24,7 @@ export default function ColorModeProvider({ children }) {
       return
     }
 
-    const activeColorMode = document
-      .querySelector('html')
-      .classList.contains('dark')
+    const activeColorMode = document.querySelector('html').classList.contains('dark')
       ? 'dark'
       : 'light'
 
@@ -64,7 +55,5 @@ export default function ColorModeProvider({ children }) {
     setColorMode,
   }
 
-  return (
-    <ColorModeContext.Provider value={value}>{children}</ColorModeContext.Provider>
-  )
+  return <ColorModeContext.Provider value={value}>{children}</ColorModeContext.Provider>
 }

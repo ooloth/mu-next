@@ -57,10 +57,7 @@ export async function getAllFilesFrontMatter(type: ContentType) {
   const fileNames = await getFileNames(type)
 
   return fileNames.reduce((allFrontMatter, fileName) => {
-    const source = fs.readFileSync(
-      path.join(root, 'content', type, fileName),
-      'utf8',
-    )
+    const source = fs.readFileSync(path.join(root, 'content', type, fileName), 'utf8')
 
     const { data } = matter(source)
 

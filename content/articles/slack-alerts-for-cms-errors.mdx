@@ -141,9 +141,7 @@ We also created a helper, called `logError`, to decide whether each error messag
 if (context === 'PRODUCTION') {
   const prodImpact = 'The live site will not update until this issue is resolved.'
 
-  const prodMessage = formatMessage(
-    `🚨 PRODUCTION ERROR 🚨\n\n${message}\n\n${prodImpact}`,
-  )
+  const prodMessage = formatMessage(`🚨 PRODUCTION ERROR 🚨\n\n${message}\n\n${prodImpact}`)
 
   postToSlack(prodMessage).then(() => {
     throw new Error(prodMessage)
@@ -152,12 +150,9 @@ if (context === 'PRODUCTION') {
 
 // If this is staging, report the issue and continue the build
 if (context === 'STAGING') {
-  const stagingImpact =
-    'The staging site will continue to update while this issue gets resolved.'
+  const stagingImpact = 'The staging site will continue to update while this issue gets resolved.'
 
-  const stagingMessage = formatMessage(
-    `⚠️ STAGING ERROR ⚠️\n\n${message}\n\n${stagingImpact}`,
-  )
+  const stagingMessage = formatMessage(`⚠️ STAGING ERROR ⚠️\n\n${message}\n\n${stagingImpact}`)
 
   postToSlack(stagingMessage)
   console.error(stagingMessage)
@@ -254,12 +249,7 @@ function detectFieldInvalidity(
 Then, we have a single place where we call our `logError` helper as many times as necessary:
 
 ```ts
-const isInvalidReason = detectFieldInvalidity(
-  rules,
-  contentTypeId,
-  fieldName,
-  entry[fieldName],
-)
+const isInvalidReason = detectFieldInvalidity(rules, contentTypeId, fieldName, entry[fieldName])
 
 if (isInvalidReason) {
   const contentTypeName = startCase(contentTypeId)
