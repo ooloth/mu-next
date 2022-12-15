@@ -4,7 +4,6 @@ import { MDXRemote } from 'next-mdx-remote'
 
 import Header from 'components/header'
 import Outer from 'layouts/outer'
-import addImagePlaceholdersToMdxSource from 'lib/mdx/addImagePlaceholdersToMdxSource'
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 
 const seo = {
