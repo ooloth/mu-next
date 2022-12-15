@@ -83,10 +83,10 @@ export default function Article({ article }) {
         <header>
           <h1 className="mb-0 text-4xl font-extrabold leading-tight">
             {title}
-            {type === '🔖' && (
+            {type === 'link post' && (
               <>
                 &nbsp;
-                <Emoji picture={type} />
+                <Emoji picture="🔖" />
               </>
             )}
           </h1>

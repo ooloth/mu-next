@@ -5,7 +5,6 @@ import { format } from 'timeago.js'
 import Outer from 'layouts/outer'
 import Header from 'components/header'
 
-import { getAllFilesFrontMatter } from 'lib/mdx/mdx'
 import getPosts from 'lib/notion/getPosts'
 import Emoji from 'components/emoji'
 
@@ -48,10 +47,10 @@ function Articles({ posts }) {
               className="text-lg font-semibold text-blue-500 dark:text-blue-400 hover:underline"
             >
               {title}
-              {type === '🔖' && (
+              {type === 'link post' && (
                 <>
                   &nbsp;
-                  <Emoji picture={type} />
+                  <Emoji picture="🔖" />
                 </>
               )}
             </Link>
