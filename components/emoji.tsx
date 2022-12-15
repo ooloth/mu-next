@@ -10,6 +10,7 @@ const emojiLabel = {
   '🎉': 'An emoji of confetti flying out of a striped party decoration.',
   '☀️': 'An emoji of a sun.',
   '🌙️': 'An emoji of a crescent moon.',
+  '🔖': 'An emoji of a bookmark.',
 }
 
 export type EmojiPicture = keyof typeof emojiLabel
