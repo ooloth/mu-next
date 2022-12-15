@@ -67,7 +67,7 @@ function Articles({ posts }) {
  * Parses the Notion post properties
  */
 function parsePostProperties(post) {
-  const type = post.properties['Type'].select.name
+  const type = post.properties['Type'].select?.name
   const title = post.properties['Title'].title[0].plain_text
   const slug = post.properties['Slug'].rich_text[0].plain_text
   const description = post.properties['Description'].rich_text[0].plain_text
