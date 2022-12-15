@@ -65,69 +65,23 @@ function Articles({ posts }) {
 }
 
 /**
- * Parses the post metadata, regardless of whether it comes from Notion or MDX.
+ * Parses the Notion post properties
  */
 function parsePostProperties(post) {
-  const type = post?.properties ? post.properties['Type'].select.name : post.type
-
-  const title = post?.properties ? post.properties['Title'].title[0].plain_text : post.title
-
-  const slug = post?.properties ? post.properties['Slug'].rich_text[0].plain_text : post.slug
-
-  const description = post?.properties
-    ? post.properties['Description'].rich_text[0].plain_text
-    : post.description
-
-  const date = post?.properties
-    ? post.properties['First published'].date.start
-    : post.dateUpdated || post.datePublished
+  const type = post.properties['Type'].select.name
+  const title = post.properties['Title'].title[0].plain_text
+  const slug = post.properties['Slug'].rich_text[0].plain_text
+  const description = post.properties['Description'].rich_text[0].plain_text
+  const date = post.properties['First published'].date.start
 
   return { type, title, slug, description, date }
 }
 
 export async function getStaticProps() {
-  const notionPosts = await getPosts()
-  // Stop querying note frontmatter after all posts are migrated to Notion
-  const unsortedMdxArticles = await getAllFilesFrontMatter('articles')
-
-  // Prefer Notion version of duplicate posts by putting them first before deduping
-  const allPosts = [...notionPosts, ...unsortedMdxArticles]
-
-  const deduplicatedPosts = getUniquePosts(allPosts)
-
-  const posts = deduplicatedPosts.sort((a, b) => {
-    const aDatePublished = a?.properties
-      ? a.properties['First published'].date.start // Notion post
-      : a.datePublished // MDX article
-
-    const bDatePublished = b?.properties
-      ? b.properties['First published'].date.start // Notion post
-      : b.datePublished // MDX article
-
-    return bDatePublished.localeCompare(aDatePublished)
-  })
+  const posts = await getPosts()
 
   return {
     props: { posts },
     revalidate: 86400, // refetch data for this route once per day without requiring a new build
   }
-}
-
-function getUniquePosts(posts: any[]) {
-  let uniquePostSlugs = new Set()
-
-  const uniquePosts = posts.reduce((allUniquePosts, post) => {
-    const postSlug = post?.properties
-      ? post.properties['Slug'].rich_text[0].plain_text // Notion post
-      : post.slug // MDX article
-
-    if (uniquePostSlugs.has(postSlug)) {
-      return allUniquePosts
-    } else {
-      uniquePostSlugs.add(postSlug)
-      return [...allUniquePosts, post]
-    }
-  }, [])
-
-  return uniquePosts
 }
