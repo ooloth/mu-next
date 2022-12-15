@@ -7,12 +7,7 @@ type FetchArgs = {
   start_cursor?: string
 }
 
-async function fetch100Rows({
-  databaseId,
-  filter,
-  sorts,
-  start_cursor,
-}: FetchArgs) {
+async function fetch100Rows({ databaseId, filter, sorts, start_cursor }: FetchArgs) {
   const response = await notion.databases.query({
     database_id: databaseId,
     filter,

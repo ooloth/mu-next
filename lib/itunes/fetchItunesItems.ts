@@ -62,9 +62,7 @@ export default async function fetchItunesItems(
         }
 
         const resultID: number = result.collectionId || result.trackId
-        const matchingItem: iTunesListItem | undefined = items.find(
-          item => item.id === resultID,
-        )
+        const matchingItem: iTunesListItem | undefined = items.find(item => item.id === resultID)
 
         if (!matchingItem) {
           console.log('No matching item...')
@@ -101,9 +99,7 @@ export default async function fetchItunesItems(
       }),
     )
 
-    return formattedResults
-      .filter(Boolean)
-      .sort((a, b) => b.date.localeCompare(a.date))
+    return formattedResults.filter(Boolean).sort((a, b) => b.date.localeCompare(a.date))
   } catch (error) {
     console.log('fetchItunesItems error:', error)
     return []

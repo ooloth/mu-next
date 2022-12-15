@@ -12,11 +12,7 @@ export default function Outer({ narrow, children }: OuterProps) {
   return (
     <>
       <TopNav />
-      <div
-        className={`flex flex-col pt-28 px-6 min-h-screen ${
-          narrow ? 'mx-auto max-w-2xl' : ''
-        }`}
-      >
+      <div className={`flex flex-col pt-28 px-6 min-h-screen ${narrow ? 'mx-auto max-w-2xl' : ''}`}>
         <div className="flex-auto">{children}</div>
         <Footer />
       </div>

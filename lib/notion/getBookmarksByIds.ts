@@ -1,9 +1,7 @@
 import { bookmarksDbId } from './constants'
 import getDatabase from './getDatabase'
 
-export default async function getBookmarksByIds(
-  bookmarkIds: string[],
-): Promise<any[]> {
+export default async function getBookmarksByIds(bookmarkIds: string[]): Promise<any[]> {
   const bookmarks = await getDatabase({
     databaseId: bookmarksDbId,
     filter: {
@@ -68,9 +66,7 @@ export default async function getBookmarksByIds(
     ],
   })
 
-  const matchingBookmarks = bookmarks.filter(bookmark =>
-    bookmarkIds.includes(bookmark.id),
-  )
+  const matchingBookmarks = bookmarks.filter(bookmark => bookmarkIds.includes(bookmark.id))
 
   return matchingBookmarks
 }

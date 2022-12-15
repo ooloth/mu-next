@@ -11,9 +11,7 @@ export default function Note({ note: { mdxSource, frontMatter } }) {
 
       <article>
         <header>
-          <h1 className="mb-0 leading-tight font-extrabold text-4xl">
-            {frontMatter.title}
-          </h1>
+          <h1 className="mb-0 leading-tight font-extrabold text-4xl">{frontMatter.title}</h1>
           <p className="mt-3 text-sm text-gray-700 dark:text-gray-500">
             Updated {format(frontMatter.dateUpdated || frontMatter.datePublished)}
           </p>
