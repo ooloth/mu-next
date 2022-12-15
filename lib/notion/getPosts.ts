@@ -1,20 +1,25 @@
-import { postsDbId } from './constants'
 import getDatabase from './getDatabase'
 
 export default async function getPosts(): Promise<any[]> {
   const posts = await getDatabase({
-    databaseId: postsDbId,
+    databaseId: process.env.NOTION_DB_ID_WRITING,
     filter: {
       and: [
         {
-          property: 'Title',
-          title: {
-            is_not_empty: true,
+          property: 'Destination',
+          multi_select: {
+            contains: 'blog',
           },
         },
         {
-          property: 'Type',
-          select: {
+          property: 'Status',
+          status: {
+            equals: 'Published',
+          },
+        },
+        {
+          property: 'Title',
+          title: {
             is_not_empty: true,
           },
         },
@@ -25,17 +30,18 @@ export default async function getPosts(): Promise<any[]> {
           },
         },
         {
-          property: 'Author',
-          select: {
+          property: 'Description',
+          rich_text: {
             is_not_empty: true,
           },
         },
-        {
-          property: 'Status',
-          select: {
-            equals: 'Published',
-          },
-        },
+        // NOTE: link posts don't have featured images atm
+        // {
+        //   property: 'Featured image',
+        //   url: {
+        //     is_not_empty: true,
+        //   },
+        // },
         {
           property: 'First published',
           date: {
