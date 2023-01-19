@@ -1,4 +1,4 @@
-/* prevent unwanted margin nested p elements created by MDX parser  */
-a > p {
+/* prevent unwanted margin on nested p elements created by MDX parser  */
+.blocklink > p {
   margin: 0 !important;
 }

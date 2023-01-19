@@ -5,8 +5,9 @@ import Topic from 'templates/topic'
 import getPosts from 'lib/notion/getPosts'
 import getBlockChildren from 'lib/notion/getBlockChildren'
 import getBookmarkedResearchByIds from 'lib/notion/getBookmarkedResearchByIds'
+import getRelationPropertyValueIds from 'lib/notion/getRelationPropertyValueIds'
 
-export default function DynamicRoute({ article, note, topic, bookmarks }) {
+export default function DynamicRoute({ article, topic, bookmarks }) {
   if (article) {
     return <Article article={article} />
   }
@@ -64,11 +65,14 @@ export async function getStaticProps({ params }) {
 
   if (!topic) return { props: {} }
 
-  const topicResearchIds = topic.properties['Research'].relation.map(research => research.id)
+  const topicResearchIds = await getRelationPropertyValueIds({
+    pageId: topic.id,
+    relationPropertyId: topic.properties['Research'].id,
+  })
 
   const topicBookmarkedResearch = await getBookmarkedResearchByIds(topicResearchIds)
 
-  const bookmarkedResearchBySubtopic = topicBookmarkedResearch.reduce(
+  const bookmarkedResearchBySubtopic: Record<string, any[]> = topicBookmarkedResearch.reduce(
     (researchBySubtopic, research) => {
       const researchSubtopics = research.properties['Subtopics'].multi_select
 
@@ -88,11 +92,82 @@ export async function getStaticProps({ params }) {
     {},
   )
 
+  type SubtopicBookmarks = {
+    subtopic: string
+    bookmarks: Bookmark[]
+  }
+
+  const bookmarksBySubtopic: SubtopicBookmarks[] = Object.entries(
+    bookmarkedResearchBySubtopic,
+  ).reduce((subtopicsArray: SubtopicBookmarks[], [subtopic, bookmarks]) => {
+    const subtopicBookmarks = {
+      subtopic,
+      bookmarks: getParsedBookmarks(bookmarks),
+    }
+
+    if (subtopic === 'General' || subtopic === 'Introduction') {
+      // Sort "Introduction" and "General" to the top of the page
+      subtopicsArray.unshift(subtopicBookmarks)
+    } else {
+      subtopicsArray.push(subtopicBookmarks)
+    }
+
+    return subtopicsArray
+  }, [])
+
   return {
     props: {
       topic,
-      bookmarks: bookmarkedResearchBySubtopic,
+      bookmarks: bookmarksBySubtopic,
     },
     revalidate: 86400, // refetch data for this route once per day without requiring a new build
   }
+}
+
+type Bookmark = {
+  url: string
+  emoji: {
+    picture: string
+    label: string
+  }
+  title: string
+  description?: string
+  creators?: string
+}
+
+function getParsedBookmarks(notionBookmarks: any[]): Bookmark[] {
+  return notionBookmarks.map(getParsedBookmark).filter(Boolean)
+}
+
+function getParsedBookmark(notionBookmark: any): Bookmark {
+  const { properties } = notionBookmark
+
+  const title = properties['Name']?.title?.[0]?.plain_text
+  const description = properties['Description']?.rich_text?.[0]?.plain_text ?? null
+  const creators =
+    properties['Creators']?.multi_select?.map(creator => creator.name).join(', ') ?? null
+  const url = properties['URL']?.url
+
+  const emojiPicture = properties['Format']?.select?.name
+  const emojiLabel = emojiLabels[emojiPicture]
+  const emoji = { picture: emojiPicture, label: emojiLabel }
+
+  // TODO: log which properties were missing?
+  if (title && url && emoji.picture && emoji.label && (creators || description)) {
+    return { title, url, emoji, creators, description }
+  } else {
+    return null
+  }
+}
+
+const emojiLabels = {
+  '✍️': 'Article',
+  '👩‍💻': 'Code snippet',
+  '🧑‍🏫': 'Course',
+  '🎧': 'Podcast',
+  '📖': 'Book',
+  '📚': 'Reference',
+  '🧰': 'Tool',
+  '🐦': 'Tweet',
+  '📺': 'Video',
 }

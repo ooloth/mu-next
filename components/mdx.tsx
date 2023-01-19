@@ -42,7 +42,7 @@ function BlockLink({ icon, href, children }) {
   return (
     <Link
       href={href}
-      className="inline-flex px-5 py-3 mb-3 mr-3 text-sm font-semibold text-center bg-gray-800 rounded shadow-md hover:bg-gray-700"
+      className="blocklink inline-flex px-5 py-3 mb-3 mr-3 text-sm font-semibold text-center bg-gray-800 rounded shadow-md hover:bg-gray-700"
       style={{ textDecoration: 'none', color: 'rgb(228, 228, 231)' }}
     >
       {icon && <Emoji picture={icon} className="pr-2" />}
