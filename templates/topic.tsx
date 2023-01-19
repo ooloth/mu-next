@@ -31,8 +31,12 @@ export default function Topic({ topic, bookmarks }) {
 
         <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
           {/* TODO: render general subtopic first (create an array of subtopic names and sort them here?) */}
-          {Object.entries(bookmarks).map(([subtopicName, subtopicBookmarks]) => (
-            <Subtopic key={subtopicName} heading={subtopicName} bookmarks={subtopicBookmarks} />
+          {bookmarks.map(bookmarksSubtopic => (
+            <Subtopic
+              key={bookmarksSubtopic.subtopic}
+              heading={bookmarksSubtopic.subtopic}
+              bookmarks={bookmarksSubtopic.bookmarks}
+            />
           ))}
         </div>
       </article>
@@ -95,39 +99,16 @@ function Subtopic({ heading, bookmarks }) {
     <section>
       <h2>{heading}</h2>
       <ul>
-        {bookmarks.map(({ properties }) => {
-          const url = properties['URL']?.url
-          const emojiPicture = properties['Format']?.select?.name
-          const emojiLabel = emoji[emojiPicture]
-          const title = properties['Name']?.title?.[0]?.plain_text
-          const description = properties['Description']?.rich_text?.[0]?.plain_text
-          const creators = properties['Creators']?.multi_select
-            ?.map(creator => creator.name)
-            .join(', ')
-
-          return url && emojiPicture && title && (creators || description) ? (
-            <li key={url}>
-              <Emoji picture={emojiPicture} label={emojiLabel} />
-              {` `}
-              <Link href={url}>{title}</Link>
-              {` • `}
-              {description ?? creators}
-            </li>
-          ) : null
-        })}
+        {bookmarks.map(({ url, emoji, title, description, creators }) => (
+          <li key={url}>
+            <Emoji picture={emoji.picture} label={emoji.label} />
+            {` `}
+            <Link href={url}>{title}</Link>
+            {` • `}
+            {description ?? creators}
+          </li>
+        ))}
       </ul>
     </section>
   )
-}
-
-const emoji = {
-  '✍️': 'Article',
-  '👩‍💻': 'Code snippet',
-  '🧑‍🏫': 'Course',
-  '🎧': 'Podcast',
-  '📖': 'Book',
-  '📚': 'Reference',
-  '🧰': 'Tool',
-  '🐦': 'Tweet',
-  '📺': 'Video',
 }
