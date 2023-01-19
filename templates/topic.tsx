@@ -30,7 +30,6 @@ export default function Topic({ topic, bookmarks }) {
         </header>
 
         <div className="mt-8 prose dark:prose-dark lg:prose-lg dark:lg:prose-lg">
-          {/* TODO: render general subtopic first (create an array of subtopic names and sort them here?) */}
           {bookmarks.map(bookmarksSubtopic => (
             <Subtopic
               key={bookmarksSubtopic.subtopic}
