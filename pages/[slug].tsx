@@ -5,6 +5,7 @@ import Topic from 'templates/topic'
 import getPosts from 'lib/notion/getPosts'
 import getBlockChildren from 'lib/notion/getBlockChildren'
 import getBookmarkedResearchByIds from 'lib/notion/getBookmarkedResearchByIds'
+import getRelationPropertyValueIds from 'lib/notion/getRelationPropertyValueIds'
 
 export default function DynamicRoute({ article, note, topic, bookmarks }) {
   if (article) {
@@ -64,7 +65,10 @@ export async function getStaticProps({ params }) {
 
   if (!topic) return { props: {} }
 
-  const topicResearchIds = topic.properties['Research'].relation.map(research => research.id)
+  const topicResearchIds = await getRelationPropertyValueIds({
+    pageId: topic.id,
+    relationPropertyId: topic.properties['Research'].id,
+  })
 
   const topicBookmarkedResearch = await getBookmarkedResearchByIds(topicResearchIds)
 
