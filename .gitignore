@@ -7,3 +7,6 @@ public/rss.xml
 public/sitemap.xml
 .vercel
 tsconfig.tsbuildinfo
+
+# Markdown editor app settings
+*.plist
