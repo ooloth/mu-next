@@ -7,7 +7,7 @@ import Outer from 'layouts/outer'
 import { getAllFilesFrontMatter, getFileContents } from 'lib/mdx/mdx'
 
 const CURRENT_ROLE =
-  "I'm a software engineer helping scientists search for life-saving drugs at Recursion."
+  "I'm a software engineer helping scientists discover new medicines at Recursion."
 
 const seo = {
   url: 'https://michaeluloth.com',
