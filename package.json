@@ -1,6 +1,5 @@
 {
-  "name": "michaeluloth.com",
-  "private": true,
+  "name": "mu-next",
   "browserslist": [
     "defaults",
     "not ie 11",
